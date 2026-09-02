@@ -1,0 +1,820 @@
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Penn Medicine Cancer Registry — Webinar & Conference Catalog</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #f0f2f7; color: #1a1a2e; min-height: 100vh; }
+
+  .header { background: #1a1a2e; color: #fff; padding: 28px 32px 22px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.25); }
+  .header-inner { max-width: 1140px; margin: 0 auto; }
+  .header-eyebrow { font-size: 10px; letter-spacing: 2.5px; color: #6b82b8; text-transform: uppercase; margin-bottom: 5px; }
+  .header-title { font-size: 22px; font-weight: 700; color: #e8edf8; }
+  .header-meta { color: #6b82b8; font-size: 12px; margin-top: 4px; }
+
+  .btn-export { background: #059669; color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 600; cursor: pointer; font-size: 13px; white-space: nowrap; transition: background .15s; }
+  .btn-export:hover { background: #047857; }
+  .btn-add { background: #3b82f6; color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 600; cursor: pointer; font-size: 13px; white-space: nowrap; transition: background .15s; }
+  .btn-add:hover { background: #2563eb; }
+  .btn-pw { background: transparent; color: #6b82b8; border: 1px solid #2d3f6b; border-radius: 6px; padding: 5px 10px; font-weight: 500; cursor: pointer; font-size: 11px; white-space: nowrap; transition: all .15s; }
+  .btn-pw:hover { background: #2d3f6b; color: #e8edf8; }
+
+  .search-bar { margin-top: 18px; position: relative; }
+  .search-bar input { width: 100%; padding: 11px 16px 11px 40px; border-radius: 8px; border: 1.5px solid #2d3f6b; background: #0f1629; color: #e8edf8; font-size: 14px; outline: none; transition: border-color .15s; }
+  .search-bar input:focus { border-color: #3b82f6; }
+  .search-bar input::placeholder { color: #4a5a80; }
+  .search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: #4a5a80; font-size: 15px; pointer-events: none; }
+
+  .view-toggle { display: flex; gap: 8px; margin-top: 14px; }
+  .view-btn { background: transparent; color: #8b9ec7; border: 1.5px solid #2d3f6b; border-radius: 6px; padding: 5px 14px; cursor: pointer; font-size: 12px; font-weight: 500; transition: all .15s; }
+  .view-btn.active { background: #3b82f6; color: #fff; border-color: #3b82f6; }
+
+  .filter-bar { background: #fff; border-bottom: 1px solid #e2e8f0; padding: 10px 32px; overflow-x: auto; }
+  .filter-inner { max-width: 1140px; margin: 0 auto; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .filter-label { font-size: 10px; font-weight: 700; color: #94a3b8; letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap; margin-right: 4px; }
+  .tag-btn { padding: 3px 11px; border-radius: 20px; border: 1.5px solid #e2e8f0; background: transparent; color: #475569; font-size: 11px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: all .12s; }
+  .tag-btn:hover { border-color: #94a3b8; color: #1a1a2e; }
+  .tag-btn.active { color: #fff; }
+  .tag-clear { padding: 3px 11px; border-radius: 20px; border: 1.5px solid #fca5a5; background: #fee2e2; color: #dc2626; font-size: 11px; font-weight: 600; cursor: pointer; }
+
+  .main { max-width: 1140px; margin: 0 auto; padding: 24px 32px 48px; }
+
+  .add-form { background: #fff; border-bottom: 1px solid #e2e8f0; padding: 24px 32px; display: none; }
+  .add-form.open { display: block; }
+  .add-form h3 { font-size: 15px; margin-bottom: 16px; color: #1a1a2e; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .form-group label { font-size: 11px; font-weight: 700; color: #475569; letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 5px; }
+  .form-group input, .form-group select { width: 100%; padding: 8px 12px; border-radius: 6px; border: 1.5px solid #cbd5e1; font-size: 13px; color: #1a1a2e; outline: none; transition: border-color .15s; }
+  .form-group input:focus { border-color: #3b82f6; }
+  .topic-rows { margin-bottom: 12px; }
+  .topic-row { display: grid; grid-template-columns: 180px 1fr 36px; gap: 8px; margin-bottom: 8px; }
+  .topic-row input { padding: 8px 12px; border-radius: 6px; border: 1.5px solid #cbd5e1; font-size: 13px; outline: none; }
+  .topic-row input:focus { border-color: #3b82f6; }
+  .btn-remove { background: #fee2e2; color: #dc2626; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 16px; }
+  .btn-add-row { background: #f1f5f9; border: 1.5px dashed #cbd5e1; border-radius: 6px; padding: 6px 14px; cursor: pointer; font-size: 13px; color: #475569; transition: background .12s; }
+  .btn-add-row:hover { background: #e2e8f0; }
+  .form-actions { margin-top: 16px; display: flex; gap: 10px; }
+  .btn-save { background: #3b82f6; color: #fff; border: none; border-radius: 8px; padding: 10px 24px; font-weight: 600; cursor: pointer; font-size: 14px; }
+  .btn-save:hover { background: #2563eb; }
+
+  .meeting-card { position: relative; background: #fff; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.05); transition: box-shadow .15s; }
+  .meeting-card:hover { box-shadow: 0 3px 10px rgba(0,0,0,.08); }
+  .btn-edit-meeting { position: absolute; top: 12px; right: 58px; background: #dbeafe; border: 1px solid #93c5fd; cursor: pointer; font-size: 14px; color: #1d4ed8; padding: 4px 8px; border-radius: 6px; transition: all .15s; line-height: 1; }
+  .btn-edit-meeting:hover { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
+  .btn-delete-meeting { position: absolute; top: 12px; right: 14px; background: #fee2e2; border: 1px solid #fca5a5; cursor: pointer; font-size: 14px; color: #dc2626; padding: 4px 8px; border-radius: 6px; transition: all .15s; line-height: 1; }
+  .btn-delete-meeting:hover { background: #dc2626; color: #fff; border-color: #dc2626; }
+  .edit-panel { border-top: 2px solid #3b82f6; background: #f8faff; padding: 16px 18px; }
+  .edit-panel-title { font-size: 13px; font-weight: 700; color: #1d4ed8; margin-bottom: 12px; }
+  .edit-panel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-bottom: 10px; }
+  .edit-field label { font-size: 11px; font-weight: 700; color: #475569; letter-spacing: .5px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .edit-field input { width: 100%; padding: 7px 10px; border-radius: 6px; border: 1.5px solid #cbd5e1; font-size: 13px; outline: none; transition: border-color .15s; }
+  .edit-field input:focus { border-color: #3b82f6; }
+  .edit-panel-actions { display: flex; gap: 8px; margin-top: 12px; }
+  .btn-save-edit { background: #3b82f6; color: #fff; border: none; border-radius: 6px; padding: 8px 18px; font-weight: 600; font-size: 13px; cursor: pointer; }
+  .btn-save-edit:hover { background: #2563eb; }
+  .btn-cancel-edit { background: #f1f5f9; color: #475569; border: 1.5px solid #e2e8f0; border-radius: 6px; padding: 8px 18px; font-weight: 600; font-size: 13px; cursor: pointer; }
+  .btn-cancel-edit:hover { background: #e2e8f0; }
+
+  .meeting-header { width: 100%; background: none; border: none; padding: 14px 18px; cursor: pointer; display: flex; align-items: center; gap: 14px; text-align: left; }
+  .meeting-badge { background: #1a1a2e; color: #8b9ec7; border-radius: 6px; padding: 4px 10px; font-size: 10px; font-weight: 700; white-space: nowrap; letter-spacing: .5px; }
+  .meeting-info { flex: 1; min-width: 0; }
+  .meeting-title { font-weight: 600; color: #1a1a2e; font-size: 14px; margin-bottom: 2px; }
+  .meeting-presenter { font-size: 12px; color: #64748b; margin-bottom: 5px; }
+  .meeting-links { display: flex; gap: 6px; margin-top: 7px; flex-wrap: wrap; }
+  .mlink { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; text-decoration: none; font-weight: 600; border: none; border-radius: 6px; padding: 5px 12px; transition: opacity .12s; white-space: nowrap; cursor: pointer; }
+  .mlink:hover { opacity: .8; }
+  .mlink-slides { background: #ede9fe; color: #5b21b6; }
+  .tag-pills { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
+  .tag-pill { font-size: 10px; border-radius: 20px; padding: 1px 8px; font-weight: 500; }
+  .chevron { color: #94a3b8; font-size: 14px; flex-shrink: 0; }
+
+  .meeting-body { border-top: 1px solid #f1f5f9; display: none; }
+  .meeting-body.open { display: block; }
+  .topic-row-display { display: grid; grid-template-columns: 155px 1fr; gap: 12px; padding: 10px 18px; border-bottom: 1px solid #f8fafc; }
+  .topic-row-display:last-child { border-bottom: none; }
+  .topic-tag-cell { padding-top: 1px; }
+  .topic-tag { font-size: 11px; border-radius: 20px; padding: 2px 10px; font-weight: 600; display: inline-block; }
+  .topic-text { font-size: 13px; color: #334155; line-height: 1.65; }
+
+  .topic-group { margin-bottom: 24px; }
+  .topic-group-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; cursor: pointer; user-select: none; }
+  .topic-group-bar { width: 4px; height: 22px; border-radius: 2px; flex-shrink: 0; }
+  .topic-group-name { font-size: 16px; font-weight: 700; }
+  .topic-group-count { font-size: 12px; color: #94a3b8; }
+  .topic-group-chevron { font-size: 11px; margin-left: auto; flex-shrink: 0; }
+  .topic-entry { background: #fff; border-radius: 8px; border: 1px solid #e2e8f0; padding: 11px 16px; margin-bottom: 6px; display: grid; grid-template-columns: 160px 1fr auto; gap: 12px; align-items: start; }
+  .topic-entry-date { font-size: 11px; color: #64748b; font-weight: 500; padding-top: 1px; }
+  .topic-entry-text { font-size: 13px; color: #334155; line-height: 1.65; }
+  .topic-entry-link { display: flex; flex-direction: column; gap: 4px; }
+
+  .no-results { text-align: center; color: #94a3b8; padding: 56px 0; font-size: 15px; }
+
+  .import-box { background: #f0fdf4; border: 1.5px solid #6ee7b7; border-radius: 10px; padding: 14px 16px; margin-bottom: 4px; }
+  .import-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .import-title { font-size: 13px; font-weight: 700; color: #065f46; }
+  .import-toggle { background: none; border: none; color: #6b7280; font-size: 12px; cursor: pointer; text-decoration: underline; }
+  .import-instructions { font-size: 12px; color: #374151; margin-bottom: 8px; line-height: 1.6; }
+  .import-instructions code { background: #e5e7eb; padding: 1px 5px; border-radius: 4px; font-family: monospace; font-size: 12px; }
+  .paste-divider { display: flex; align-items: center; gap: 10px; color: #94a3b8; font-size: 12px; margin: 10px 0 8px; }
+  .paste-divider::before, .paste-divider::after { content: ''; flex: 1; border-top: 1px solid #e2e8f0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-top" style="align-items:flex-start;">
+      <div style="display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;width:100%;">
+        <!-- Left: branding + animated stats ticker -->
+        <div style="min-width:180px;">
+          <div class="header-eyebrow">Penn Medicine Cancer Registry</div>
+          <div class="header-title">Webinar &amp; Conference Catalog</div>
+          <div class="header-meta" id="meta-line">0 presentations · 0 topics indexed</div>
+          <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px;">
+            <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(167,139,250,0.3);border-radius:10px;padding:10px 16px;">
+              <div style="font-size:10px;color:#a78bfa;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">Presentations</div>
+              <div id="ticker-meetings" style="font-size:28px;font-weight:700;color:#fff;line-height:1;">0</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(167,139,250,0.3);border-radius:10px;padding:10px 16px;">
+              <div style="font-size:10px;color:#a78bfa;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">Topics Indexed</div>
+              <div id="ticker-topics" style="font-size:28px;font-weight:700;color:#fff;line-height:1;">0</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(167,139,250,0.3);border-radius:10px;padding:10px 16px;">
+              <div style="font-size:10px;color:#a78bfa;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">Sources</div>
+              <div id="ticker-years" style="font-size:28px;font-weight:700;color:#fff;line-height:1;">0</div>
+            </div>
+          </div>
+        </div>
+        <!-- Right: buttons + instructions -->
+        <div style="flex:1;text-align:right;">
+          <div style="display:flex;gap:8px;margin-bottom:6px;justify-content:flex-end;">
+            <button class="btn-export" onclick="exportCatalog()">⬇ Export &amp; Save</button>
+            <button class="btn-add" id="toggle-add-btn" onclick="toggleAddForm()">+ Add Presentation</button>
+          </div>
+          <div style="text-align:right;margin-bottom:4px;">
+            <button class="btn-pw" onclick="changePassword()">🔑 Change Password</button>
+          </div>
+          <div style="font-size:11px;color:#a78bfa;text-align:right;margin-bottom:6px;font-style:italic;">
+            🔒 Edit &amp; Delete buttons are password protected
+          </div>
+          <div style="font-size:12px;color:#f0e6ff;line-height:2;text-align:left;background:#3a2060;border:1.5px solid #a78bfa;border-radius:8px;padding:12px 16px;margin-top:2px;">
+            <strong style="color:#c4b5fd;font-size:13px;">📋 To add a new presentation:</strong><br>
+            1. Upload slides to SharePoint <em style="color:#a78bfa">CORP Cancer Registry &gt; Documents &gt; Webinars &amp; Conferences</em><br>
+            2. Copy the share link for the slides file<br>
+            3. Click <em style="color:#a78bfa">+ Add Presentation</em> → fill in title, date, presenter, source, and slides link<br>
+            4. Add topics using the Import Topics box (Category | Description format)<br>
+            5. Click <em style="color:#a78bfa">⬇ Import Topics</em> then <em style="color:#a78bfa">Save</em><br>
+            6. Click <em style="color:#a78bfa">⬇ Export &amp; Save</em> → upload new file to GitHub
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" placeholder="Search topics, presenters, primary sites…" oninput="render()">
+    </div>
+    <div class="view-toggle">
+      <button class="view-btn active" id="btn-timeline" onclick="setView('timeline')">📅 By Date</button>
+      <button class="view-btn" id="btn-topic" onclick="setView('topic')">🏷 By Topic</button>
+    </div>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-inner" id="filter-inner">
+    <span class="filter-label">Filter</span>
+  </div>
+</div>
+
+<div class="add-form" id="add-form">
+  <h3>➕ Add New Presentation</h3>
+  <div class="form-grid">
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" id="f-title" placeholder="Webinar or presentation title">
+    </div>
+    <div class="form-group">
+      <label>Date</label>
+      <input type="date" id="f-date">
+    </div>
+    <div class="form-group">
+      <label>Presenter</label>
+      <input type="text" id="f-presenter" placeholder="Name, credentials">
+    </div>
+    <div class="form-group">
+      <label>Source / Organization</label>
+      <input type="text" id="f-source" placeholder="e.g. Omega Healthcare, NAACCR, NCRA, PACR">
+    </div>
+    <div class="form-group" style="grid-column:1/-1">
+      <label>📊 Slides URL</label>
+      <input type="url" id="f-slides" placeholder="https://pennmedicine.sharepoint.com/…">
+    </div>
+  </div>
+
+  <div class="import-box">
+    <div class="import-header">
+      <span class="import-title">📋 Import Topics from Claude</span>
+      <button class="import-toggle" onclick="toggleImport()">hide</button>
+    </div>
+    <div id="import-body">
+      <div class="import-instructions">
+        Ask Claude to summarize the presentation topics in pipe format:<br>
+        <code>Category | Description of topic covered</code>
+      </div>
+      <textarea id="import-textarea" class="recap-textarea" placeholder="Paste topics here, one per line:&#10;Coding | How to code XYZ&#10;Staging | AJCC 9th edition updates for lung&#10;Primary Site | Thyroid anatomy and coding rules"></textarea>
+      <div style="margin-top:8px;">
+        <button class="btn-save" onclick="importTopics()" style="background:#059669;">⬇ Import Topics</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:14px;">
+    <div class="topics-label" style="font-size:11px;font-weight:700;color:#475569;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Topics</div>
+    <div class="topic-rows" id="topic-rows"></div>
+    <button class="btn-add-row" onclick="addTopicRow()">+ Add Topic Row</button>
+  </div>
+  <div class="form-actions">
+    <button class="btn-save" onclick="savePresentation()">Save Presentation</button>
+    <button class="btn-save" style="background:#374151" onclick="toggleAddForm()">Cancel</button>
+  </div>
+</div>
+
+<div class="main" id="main-content"></div>
+
+<script>
+var ADMIN_PW = 'cgjk1720';
+
+// ── TAG COLOR MAP ──
+var TAG_COLORS = {
+  'Coding':          '#b45309',
+  'Staging':         '#0369a1',
+  'Primary Site':    '#047857',
+  'Histology':       '#6d28d9',
+  'SSDI':            '#0891b2',
+  'Solid Tumor Rules':'#9333ea',
+  'Treatment':       '#b91c1c',
+  'Follow-Up':       '#0284c7',
+  'Case Finding':    '#c2410c',
+  'KACI':            '#4f46e5',
+  'Accreditation':   '#b91c1c',
+  'QA':              '#be123c',
+  'Policy':          '#6b21a8',
+  'Registry Standards':'#374151',
+  'New Fields':      '#7e22ce',
+  'Hematopoietic':   '#1d4ed8',
+  'GYN':             '#db2777',
+  'Prostate':        '#0f766e',
+  'Bladder':         '#0369a1',
+  'Kidney':          '#047857',
+  'Thyroid':         '#b45309',
+  'Lung':            '#374151',
+  'Breast':          '#9333ea',
+};
+
+function tc(tag) {
+  return TAG_COLORS[tag] || '#64748b';
+}
+
+// ── DATA ──
+var meetings = [
+  {
+    "id": 1,
+    "title": "Tumor Talk: Thyroid Cancer",
+    "label": "May 28, 2025",
+    "date": "2025-05-28",
+    "presenter": "Janet Vogel, ODS",
+    "source": "Omega Healthcare",
+    "slideUrl": "",
+    "topics": [
+      {"tag":"Primary Site","text":"Thyroid anatomy and gland structure; distinguishing thyroid lobes, isthmus, and surrounding structures for accurate primary site coding"},
+      {"tag":"Histology","text":"Papillary, follicular, medullary, and anaplastic thyroid carcinoma — key histologic distinctions and ICD-O-3 codes"},
+      {"tag":"Staging","text":"AJCC staging for differentiated and undifferentiated thyroid cancers; T, N, M category definitions; age-stratified staging for DTC"},
+      {"tag":"SSDI","text":"Thyroid-specific SSDIs: extrathyroidal extension, LN size, LN laterality, number of LNs positive and examined"},
+      {"tag":"Treatment","text":"Surgical approaches (total vs. partial thyroidectomy), radioactive iodine (RAI), and targeted therapy considerations for coding"}
+    ]
+  },
+  {
+    "id": 2,
+    "title": "What's New for 2025",
+    "label": "April 30, 2025",
+    "date": "2025-04-30",
+    "presenter": "Louanne Currence, ODS-C; Denise Harrison, BS, ODS-C",
+    "source": "Omega Healthcare (ODM Webinar)",
+    "slideUrl": "",
+    "topics": [
+      {"tag":"New Fields","text":"New SSDIs for 2025: PD-L1 (Lung V9) — rationale for checkpoint inhibitor therapy guidance; PTLD field added for applicable schemas"},
+      {"tag":"New Fields","text":"Pediatric Data Collection System (PDCS) new SSDIs: Chromosome 1p/1q/16q status, B symptoms, S Category Clinical/Pathological, BRAF Mutational Analysis, EWSR1-FLI1 Fusion, FOXO1 Gene Rearrangements"},
+      {"tag":"Registry Standards","text":"2 Category A CE hours. Annual update webinar covering SSDI additions and modifications effective January 1, 2025"}
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Tumor Talk: GYN Malignancy",
+    "label": "March 2025",
+    "date": "2025-03-25",
+    "presenter": "Janet Vogel, ODS-C",
+    "source": "Omega Healthcare",
+    "slideUrl": "",
+    "topics": [
+      {"tag":"GYN","text":"GYN malignancy overview: cervix, uterus, ovary, fallopian tube, vagina, and vulva — anatomy, reportability, and primary site coding rules"},
+      {"tag":"Histology","text":"Common GYN histologies: endometrioid, serous, clear cell, mucinous carcinomas; squamous cell vs. adenocarcinoma for cervix"},
+      {"tag":"Staging","text":"AJCC and FIGO staging for GYN cancers; how FIGO stage maps to AJCC; clinical vs. pathologic staging nuances"},
+      {"tag":"SSDI","text":"GYN-specific SSDIs: peritoneal cytology, omentum involvement, residual tumor, myometrial invasion, lymph-vascular invasion"},
+      {"tag":"Treatment","text":"Surgery coding for GYN: hysterectomy types, bilateral salpingo-oophorectomy, lymph node dissection, and debulking procedures"}
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Tumor Talk: What's New in 2025",
+    "label": "February 26, 2025",
+    "date": "2025-02-26",
+    "presenter": "Janet Vogel, ODS-C",
+    "source": "Omega Healthcare",
+    "slideUrl": "",
+    "topics": [
+      {"tag":"Registry Standards","text":"Annual review of 2025 coding changes: new histology codes, updated ICD-O-3.2 Annotated List, and schema-specific rule changes effective Jan 1, 2025"},
+      {"tag":"SSDI","text":"New and modified SSDIs for 2025 across multiple schemas; emphasis on which fields changed vs. carried forward from 2024"},
+      {"tag":"Solid Tumor Rules","text":"Solid Tumor Rule updates for 2025; any clarifications or errata issued since 2024 implementation"},
+      {"tag":"Coding","text":"Common 2025 coding pitfalls highlighted; guidance on ambiguous terminology, reportability edge cases, and documentation standards"}
+    ]
+  },
+  {
+    "id": 5,
+    "title": "V25 Update: Solid Tumor Rules, SSDI, Grade and More!",
+    "label": "December 13, 2024",
+    "date": "2024-12-13",
+    "presenter": "Lois Dickie, ODS-C, BA, BS (NCI SEER); NAACCR",
+    "source": "NAACCR",
+    "slideUrl": "",
+    "topics": [
+      {"tag":"Solid Tumor Rules","text":"V25 Solid Tumor Rule updates: new rules, clarifications, and format changes; preview of upcoming ICD-O-4 and new Solid Tumor Rules format"},
+      {"tag":"Registry Standards","text":"No ICD-O update for 2025 — continue using 2024 ICD-O-3.2 Annotated List; next update will be for 2026"},
+      {"tag":"SSDI","text":"V25 SSDI changes across multiple schemas; new fields, retired fields, and code value changes"},
+      {"tag":"Coding","text":"Grade coding updates for V25; implementation guidelines and transition rules for cases diagnosed 2025+"}
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Tumor Talk: Interpreting Complex AJCC Concepts",
+    "label": "November 20, 2024",
+    "date": "2024-11-20",
+    "presenter": "Janet Vogel, ODS-C",
+    "source": "Omega Healthcare",
+    "slideUrl": "",
+    "topics": [
+      {"tag":"Staging","text":"Interpreting complex AJCC staging concepts: clinical vs. pathologic vs. post-neoadjuvant staging; when each applies and how to document"},
+      {"tag":"Staging","text":"T, N, M suffix rules: m (multiple tumors), r (recurrence), y (post-treatment), is (in situ) — when to use and common errors"},
+      {"tag":"Coding","text":"Ambiguous AJCC scenarios: unknown T or N values, borderline size measurements, microscopic vs. gross invasion — how to code each"},
+      {"tag":"Staging","text":"Prognostic stage group vs. anatomic stage group: when both are required, which takes precedence, and documentation tips"}
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Tumor Talk: Interpreting Complex AJCC Concepts (Handouts version)",
+    "label": "November 20, 2024",
+    "date": "2024-11-20",
+    "presenter": "Janet Vogel, ODS-C",
+    "source": "Omega Healthcare",
+    "slideUrl": "",
+    "topics": [
+      {"tag":"Staging","text":"Companion handout to the AJCC Complex Concepts webinar; printed reference for T/N/M suffix rules, stage group tables, and ambiguous scenario guidance"},
+      {"tag":"Coding","text":"Quick-reference coding tables for clinical, pathologic, and post-neoadjuvant staging across multiple primary sites"}
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Hematopoietic & Lymphocytic Neoplasms 2022",
+    "label": "April 14, 2022",
+    "date": "2022-04-14",
+    "presenter": "Denise Harrison, BS, CTR; Louanne Currence, RHIT, CTR",
+    "source": "Omega Healthcare / NCRA",
+    "slideUrl": "",
+    "topics": [
+      {"tag":"Hematopoietic","text":"Hematopoietic database rules: how to navigate the heme DB for histology, primary site, and diagnostic confirmation coding"},
+      {"tag":"Histology","text":"2022 WHO 5th Edition hematopoietic histology updates; new codes, reclassifications, and changes from WHO 4th Edition"},
+      {"tag":"Coding","text":"Diagnostic confirmation codes for heme neoplasms: when to use code 3 (Histo PLUS); immunophenotyping and genetic testing rules"},
+      {"tag":"Hematopoietic","text":"Multiple primary rules for heme neoplasms: transformation scenarios, same vs. different primaries, timing rules"},
+      {"tag":"Treatment","text":"First course of treatment for heme neoplasms: stem cell transplants, DLI, re-induction therapy, and tandem transplants — what counts as first course"},
+      {"tag":"Staging","text":"Mets at Dx coding for lymphomas in extranodal sites vs. lymph nodes; RISS stage for plasma cell myeloma; SSDI coding for heme schemas"}
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Hematopoietic & Lymphocytic Neoplasms Q&A",
+    "label": "April 14, 2022",
+    "date": "2022-04-14",
+    "presenter": "Denise Harrison, BS, CTR; Louanne Currence, RHIT, CTR",
+    "source": "Omega Healthcare / NCRA",
+    "slideUrl": "",
+    "topics": [
+      {"tag":"Hematopoietic","text":"Q&A companion document: diagnostic confirmation code 3 clarifications, ambiguous immunophenotyping, follicular lymphoma transformation to DLBCL, primary site for lymphomas with nodal + organ involvement"},
+      {"tag":"Coding","text":"CNS/brain reportability for /0 and /1 behavior codes; aspirin coding for ET; coding BCL2/MYC rearrangements in double-hit lymphoma"},
+      {"tag":"Treatment","text":"Stem cell transplant timeline for first course; re-induction therapy classification; donor leukocyte infusion (DLI) coding reference"}
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Focused Abstracting: Prostate",
+    "label": "2024",
+    "date": "2024-01-01",
+    "presenter": "Lauren Vincent, BS, ODS-C",
+    "source": "PACR",
+    "slideUrl": "",
+    "topics": [
+      {"tag":"Prostate","text":"Prostate anatomy and physiology review; incidence statistics; screening guidelines (PSA, DRE) and diagnosis workup"},
+      {"tag":"Histology","text":"Prostate histology: adenocarcinoma variants, Gleason grading system, Grade Group 1–5, and ICD-O-3 histology codes"},
+      {"tag":"Staging","text":"AJCC staging for prostate cancer: T categories (clinical vs. pathologic), N and M staging; PSA and Grade Group incorporated into prognostic stage group"},
+      {"tag":"SSDI","text":"Prostate SSDIs: PSA at diagnosis, Gleason score on biopsy and surgical specimen, Grade Group, number of cores positive/examined, tumor size on BX"},
+      {"tag":"Treatment","text":"Prostate treatment coding: radical prostatectomy approaches, radiation types (EBRT, brachytherapy, SBRT), hormone therapy, active surveillance vs. watchful waiting"}
+    ]
+  },
+  {
+    "id": 11,
+    "title": "NAACCR v26 Updates",
+    "label": "2025",
+    "date": "2025-01-01",
+    "presenter": "NAACCR",
+    "source": "NAACCR",
+    "slideUrl": "",
+    "topics": [
+      {"tag":"Registry Standards","text":"NAACCR v26 data item changes: new fields, retired fields, modified code sets, and layout changes effective for 2025+ diagnoses"},
+      {"tag":"New Fields","text":"New data items added in v26; updated field definitions and permissible values"},
+      {"tag":"Coding","text":"v26 implementation guidance: transition rules for cases spanning the v25/v26 changeover, submission requirements"}
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Tumor Talk: Kidney Cancer",
+    "label": "December 10, 2025",
+    "date": "2025-12-10",
+    "presenter": "Janet Vogel, ODS",
+    "source": "Omega Healthcare",
+    "slideUrl": "",
+    "topics": [
+      {"tag":"Kidney","text":"Kidney anatomy and histology: renal cell carcinoma subtypes (clear cell, papillary, chromophobe), renal pelvis vs. parenchyma coding distinctions"},
+      {"tag":"Histology","text":"ICD-O-3 histology codes for kidney primaries; WHO classification updates for renal tumors; benign vs. malignant distinctions"},
+      {"tag":"Staging","text":"AJCC 8th edition kidney staging: T size thresholds, adrenal gland involvement, renal vein vs. IVC extension, N and M categories"},
+      {"tag":"SSDI","text":"Kidney SSDIs: tumor size, vein involvement (renal vein, IVC above/below diaphragm), ipsilateral adrenal involvement, percent necrosis"},
+      {"tag":"Treatment","text":"Nephrectomy types (radical, partial, laparoscopic), ablation techniques, targeted therapy and immunotherapy for metastatic disease"}
+    ]
+  },
+  {
+    "id": 13,
+    "title": "Tumor Talk: Bladder Cancer",
+    "label": "September 24, 2025",
+    "date": "2025-09-24",
+    "presenter": "Janet Vogel, ODS",
+    "source": "Omega Healthcare",
+    "slideUrl": "",
+    "topics": [
+      {"tag":"Bladder","text":"Bladder anatomy: trigone, dome, lateral walls, ureteral orifices; ICD-O-3 topography coding for bladder subsite vs. bladder NOS"},
+      {"tag":"Histology","text":"Bladder histology: urothelial carcinoma (transitional cell), squamous cell, adenocarcinoma, small cell; papillary vs. flat lesions; WHO grading (low vs. high)"},
+      {"tag":"Staging","text":"AJCC bladder staging: T categories (Ta, Tis, T1–T4), muscle-invasive vs. non-muscle-invasive disease; N and M staging"},
+      {"tag":"SSDI","text":"Bladder SSDIs: number of tumors, tumor size, lymphovascular invasion, BCG treatment response"},
+      {"tag":"Treatment","text":"Bladder cancer treatment coding: TURBT, cystectomy (partial/radical), BCG intravesical therapy (code 8 for BCG-alone instillation), chemotherapy, immunotherapy"}
+    ]
+  }
+];
+
+var currentView = 'timeline';
+var selectedTags = [];
+var tickerAnimated = false;
+
+function animateTicker(id, target, duration){
+  var el = document.getElementById(id);
+  if(!el) return;
+  var start = 0, step = Math.ceil(target / (duration / 16));
+  var timer = setInterval(function(){
+    start = Math.min(start + step, target);
+    el.textContent = start.toLocaleString();
+    if(start >= target) clearInterval(timer);
+  }, 16);
+}
+
+function updateTicker(){
+  var totalTopics = meetings.reduce(function(n,m){ return n+m.topics.length; }, 0);
+  var sources = Array.from(new Set(meetings.map(function(m){ return m.source ? m.source.split('/')[0].trim() : null; }).filter(Boolean))).length;
+  if(!tickerAnimated){
+    tickerAnimated = true;
+    animateTicker("ticker-meetings", meetings.length, 800);
+    animateTicker("ticker-topics", totalTopics, 900);
+    animateTicker("ticker-years", sources, 600);
+  } else {
+    var me = document.getElementById("ticker-meetings"); if(me) me.textContent = meetings.length;
+    var to = document.getElementById("ticker-topics"); if(to) to.textContent = totalTopics.toLocaleString();
+    var yr = document.getElementById("ticker-years"); if(yr) yr.textContent = sources;
+  }
+}
+
+function render(){
+  var q = document.getElementById("search-input").value.toLowerCase();
+  var filtered = meetings.filter(function(m){
+    var matchSearch = !q || m.label.toLowerCase().includes(q) || m.title.toLowerCase().includes(q)
+      || (m.presenter||'').toLowerCase().includes(q) || (m.source||'').toLowerCase().includes(q)
+      || m.topics.some(function(t){ return t.tag.toLowerCase().includes(q) || t.text.toLowerCase().includes(q); });
+    var matchTags = selectedTags.length === 0 || selectedTags.some(function(tag){ return m.topics.some(function(t){ return t.tag === tag; }); });
+    return matchSearch && matchTags;
+  });
+
+  var totalTopics = meetings.reduce(function(n,m){ return n+m.topics.length; }, 0);
+  document.getElementById("meta-line").textContent = meetings.length + " presentations · " + totalTopics + " topics indexed";
+  updateTicker();
+
+  // Build filter bar
+  var allTags = new Set();
+  meetings.forEach(function(m){ m.topics.forEach(function(t){ allTags.add(t.tag); }); });
+  var sortedTags = Array.from(allTags).sort();
+  var fi = document.getElementById("filter-inner");
+  fi.innerHTML = '<span class="filter-label">Filter</span>';
+  sortedTags.forEach(function(tag){
+    var btn = document.createElement("button");
+    btn.className = "tag-btn" + (selectedTags.includes(tag) ? " active" : "");
+    btn.textContent = tag;
+    if(selectedTags.includes(tag)) btn.style.background = tc(tag);
+    btn.onclick = function(){
+      var idx = selectedTags.indexOf(tag);
+      if(idx === -1) selectedTags.push(tag); else selectedTags.splice(idx,1);
+      render();
+    };
+    fi.appendChild(btn);
+  });
+  if(selectedTags.length > 0){
+    var clr = document.createElement("button");
+    clr.className = "tag-clear";
+    clr.textContent = "✕ Clear";
+    clr.onclick = function(){ selectedTags = []; render(); };
+    fi.appendChild(clr);
+  }
+
+  var main = document.getElementById("main-content");
+  main.innerHTML = "";
+
+  if(currentView === 'timeline'){
+    if(filtered.length === 0){ main.innerHTML = '<div class="no-results">No presentations match your search.</div>'; return; }
+    var sorted = filtered.slice().sort(function(a,b){ return b.date.localeCompare(a.date); });
+    sorted.forEach(function(m){
+      var badge = m.date ? (function(){
+        var d = new Date(m.date+"T12:00:00"); var mo = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+        return mo[d.getMonth()] + " " + d.getFullYear();
+      })() : "—";
+
+      var slidesHtml = '';
+      if(m.slideUrl) slidesHtml += '<a class="mlink mlink-slides" href="'+m.slideUrl+'" target="_blank">📊 Slides</a>';
+
+      var seenTags = {};
+      var pillsHtml = m.topics.filter(function(t){
+        if(seenTags[t.tag]) return false; seenTags[t.tag] = true; return true;
+      }).map(function(t){
+        return '<span class="tag-pill" style="background:'+tc(t.tag)+'18;color:'+tc(t.tag)+'">'+t.tag+'</span>';
+      }).join("");
+
+      var card = document.createElement("div");
+      card.className = "meeting-card";
+      card.innerHTML =
+        '<button class="meeting-header" onclick="toggleBody(this)">' +
+          '<div class="meeting-badge">'+badge+'</div>' +
+          '<div class="meeting-info">' +
+            '<div class="meeting-title">'+m.label+' — '+m.title+'</div>' +
+            '<div class="meeting-presenter">'+m.presenter+(m.source?' &nbsp;·&nbsp; <em>'+m.source+'</em>':'')+'</div>' +
+            (slidesHtml ? '<div class="meeting-links" onclick="event.stopPropagation()">'+slidesHtml+'</div>' : '') +
+            '<div class="tag-pills">'+pillsHtml+'</div>' +
+          '</div>' +
+          '<span class="chevron">▼</span>' +
+        '</button>' +
+        '<button class="btn-edit-meeting" title="Edit" onclick="editMeeting('+m.id+',event)">✏️</button>' +
+        '<button class="btn-delete-meeting" title="Delete" onclick="deleteMeeting('+m.id+',event)">🗑</button>' +
+        '<div id="edit-panel-'+m.id+'" class="edit-panel" style="display:none;">' +
+          '<div class="edit-panel-title">Edit Presentation Details</div>' +
+          '<div class="edit-panel-grid">' +
+            '<div class="edit-field"><label>Title</label><input type="text" id="ep-title-'+m.id+'"></div>' +
+            '<div class="edit-field"><label>Display Label</label><input type="text" id="ep-label-'+m.id+'"></div>' +
+            '<div class="edit-field"><label>Presenter</label><input type="text" id="ep-presenter-'+m.id+'"></div>' +
+            '<div class="edit-field"><label>Source</label><input type="text" id="ep-source-'+m.id+'"></div>' +
+          '</div>' +
+          '<div class="edit-panel-grid">' +
+            '<div class="edit-field" style="grid-column:1/-1"><label>📊 Slides URL</label><input type="url" id="ep-slides-'+m.id+'" placeholder="https://…"></div>' +
+          '</div>' +
+          '<div class="edit-panel-actions">' +
+            '<button class="btn-save-edit" onclick="saveEdit('+m.id+')">Save Changes</button>' +
+            '<button class="btn-cancel-edit" onclick="cancelEdit('+m.id+')">Cancel</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="meeting-body">' +
+          m.topics.map(function(t){
+            return '<div class="topic-row-display">' +
+              '<div class="topic-tag-cell"><span class="topic-tag" style="background:'+tc(t.tag)+'18;color:'+tc(t.tag)+'">'+t.tag+'</span></div>' +
+              '<div class="topic-text">'+t.text+'</div>' +
+            '</div>';
+          }).join("") +
+        '</div>';
+      main.appendChild(card);
+    });
+  } else {
+    // By Topic view
+    var groups = {};
+    filtered.forEach(function(m){
+      m.topics.forEach(function(t){
+        if(!groups[t.tag]) groups[t.tag] = [];
+        groups[t.tag].push({ tag:t.tag, text:t.text, meetingLabel:m.label, meetingDate:m.date, slideUrl:m.slideUrl, presenter:m.presenter, source:m.source });
+      });
+    });
+    var sortedGroupKeys = Object.keys(groups).sort();
+    if(sortedGroupKeys.length === 0){ main.innerHTML = '<div class="no-results">No topics match your search.</div>'; return; }
+    sortedGroupKeys.forEach(function(tag){
+      var entries = groups[tag];
+      var grp = document.createElement("div");
+      grp.className = "topic-group";
+      var hdr = document.createElement("div");
+      hdr.className = "topic-group-header";
+      hdr.innerHTML = '<div class="topic-group-bar" style="background:'+tc(tag)+'"></div>' +
+        '<span class="topic-group-name" style="color:'+tc(tag)+'">'+tag+'</span>' +
+        '<span class="topic-group-count">'+entries.length+' entr'+(entries.length===1?'y':'ies')+'</span>' +
+        '<span class="topic-group-chevron">▼</span>';
+      var body = document.createElement("div");
+      body.className = "topic-group-body";
+      entries.sort(function(a,b){ return b.meetingDate.localeCompare(a.meetingDate); }).forEach(function(e){
+        var entryDiv = document.createElement("div");
+        entryDiv.className = "topic-entry";
+        var linkHtml = e.slideUrl ? '<a class="mlink mlink-slides" style="font-size:11px;padding:3px 8px;" href="'+e.slideUrl+'" target="_blank">📊 Slides</a>' : '';
+        entryDiv.innerHTML =
+          '<div class="topic-entry-date">'+e.meetingLabel+'<br><span style="color:#94a3b8;font-size:10px;">'+e.presenter+'</span></div>' +
+          '<div class="topic-entry-text">'+e.text+'</div>' +
+          '<div class="topic-entry-link">'+linkHtml+'</div>';
+        body.appendChild(entryDiv);
+      });
+      hdr.onclick = function(){
+        var open = body.style.display !== 'none';
+        body.style.display = open ? 'none' : 'block';
+        hdr.querySelector('.topic-group-chevron').textContent = open ? '▶' : '▼';
+      };
+      grp.appendChild(hdr);
+      grp.appendChild(body);
+      main.appendChild(grp);
+    });
+  }
+}
+
+function toggleBody(btn){
+  var body = btn.parentElement.querySelector('.meeting-body');
+  if(body){ body.classList.toggle('open'); var chev = btn.querySelector('.chevron'); if(chev) chev.textContent = body.classList.contains('open') ? '▲' : '▼'; }
+}
+
+function setView(v){
+  currentView = v;
+  document.getElementById('btn-timeline').classList.toggle('active', v==='timeline');
+  document.getElementById('btn-topic').classList.toggle('active', v==='topic');
+  render();
+}
+
+function toggleAddForm(){
+  var f = document.getElementById("add-form");
+  f.classList.toggle("open");
+  document.getElementById("toggle-add-btn").textContent = f.classList.contains("open") ? "✕ Cancel" : "+ Add Presentation";
+  if(f.classList.contains("open") && document.getElementById("topic-rows").children.length === 0) addTopicRow();
+}
+
+function addTopicRow(tag, text){
+  var row = document.createElement("div");
+  row.className = "topic-row";
+  row.innerHTML = '<input type="text" placeholder="Category (e.g. Coding)" value="'+(tag||'')+'">' +
+    '<input type="text" placeholder="Description of topic" value="'+(text||'')+'">' +
+    '<button class="btn-remove" onclick="this.parentElement.remove()">×</button>';
+  document.getElementById("topic-rows").appendChild(row);
+}
+
+function importTopics(){
+  var raw = document.getElementById("import-textarea").value.trim();
+  if(!raw) return;
+  document.getElementById("topic-rows").innerHTML = "";
+  raw.split("\n").forEach(function(line){
+    line = line.trim();
+    if(!line) return;
+    var parts = line.split("|");
+    var tag = parts[0] ? parts[0].trim() : "";
+    var text = parts.slice(1).join("|").trim();
+    if(tag || text) addTopicRow(tag, text);
+  });
+}
+
+function toggleImport(){
+  var body = document.getElementById("import-body");
+  var btn = document.querySelector(".import-toggle");
+  var hidden = body.style.display === "none";
+  body.style.display = hidden ? "" : "none";
+  btn.textContent = hidden ? "hide" : "show";
+}
+
+function savePresentation(){
+  var title = document.getElementById("f-title").value.trim();
+  var dateVal = document.getElementById("f-date").value;
+  var presenter = document.getElementById("f-presenter").value.trim();
+  var source = document.getElementById("f-source").value.trim();
+  var slideUrl = document.getElementById("f-slides").value.trim();
+  if(!title || !dateVal){ alert("Title and date are required."); return; }
+
+  var d = new Date(dateVal+"T12:00:00");
+  var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  var label = months[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
+
+  var topics = [];
+  document.querySelectorAll("#topic-rows .topic-row").forEach(function(row){
+    var inputs = row.querySelectorAll("input");
+    var tag = inputs[0].value.trim(); var text = inputs[1].value.trim();
+    if(tag && text) topics.push({tag:tag, text:text});
+  });
+
+  var maxId = meetings.reduce(function(mx,m){ return Math.max(mx,m.id); }, 0);
+  meetings.unshift({ id: maxId+1, title:title, label:label, date:dateVal, presenter:presenter, source:source, slideUrl:slideUrl, topics:topics });
+
+  document.getElementById("f-title").value = "";
+  document.getElementById("f-date").value = "";
+  document.getElementById("f-presenter").value = "";
+  document.getElementById("f-source").value = "";
+  document.getElementById("f-slides").value = "";
+  document.getElementById("topic-rows").innerHTML = "";
+  document.getElementById("import-textarea").value = "";
+  toggleAddForm();
+  render();
+}
+
+function editMeeting(id, e){
+  e.stopPropagation();
+  var pw = prompt("Enter admin password:");
+  if(pw !== ADMIN_PW){ if(pw !== null) alert("Incorrect password."); return; }
+  var m = meetings.find(function(x){ return x.id === id; });
+  if(!m) return;
+  document.getElementById("ep-title-"+id).value = m.title;
+  document.getElementById("ep-label-"+id).value = m.label;
+  document.getElementById("ep-presenter-"+id).value = m.presenter||"";
+  document.getElementById("ep-source-"+id).value = m.source||"";
+  document.getElementById("ep-slides-"+id).value = m.slideUrl||"";
+  document.getElementById("edit-panel-"+id).style.display = "";
+}
+
+function saveEdit(id){
+  var m = meetings.find(function(x){ return x.id === id; });
+  if(!m) return;
+  m.title = document.getElementById("ep-title-"+id).value.trim();
+  m.label = document.getElementById("ep-label-"+id).value.trim();
+  m.presenter = document.getElementById("ep-presenter-"+id).value.trim();
+  m.source = document.getElementById("ep-source-"+id).value.trim();
+  m.slideUrl = document.getElementById("ep-slides-"+id).value.trim();
+  document.getElementById("edit-panel-"+id).style.display = "none";
+  render();
+}
+
+function cancelEdit(id){
+  document.getElementById("edit-panel-"+id).style.display = "none";
+}
+
+function deleteMeeting(id, e){
+  e.stopPropagation();
+  var pw = prompt("Enter admin password to delete:");
+  if(pw !== ADMIN_PW){ if(pw !== null) alert("Incorrect password."); return; }
+  if(!confirm("Delete this presentation? This cannot be undone.")) return;
+  meetings = meetings.filter(function(m){ return m.id !== id; });
+  render();
+}
+
+function changePassword(){
+  var pw = prompt("Enter current password:");
+  if(pw !== ADMIN_PW){ if(pw !== null) alert("Incorrect password."); return; }
+  var np = prompt("Enter new password:");
+  if(!np) return;
+  var np2 = prompt("Confirm new password:");
+  if(np !== np2){ alert("Passwords do not match."); return; }
+  ADMIN_PW = np;
+  alert("Password changed. Export & Save to keep it.");
+}
+
+function exportCatalog(){
+  var pw = prompt("Enter admin password to export:");
+  if(pw !== ADMIN_PW){ if(pw !== null) alert("Incorrect password."); return; }
+  var meetingsJson = JSON.stringify(meetings, null, 2);
+  var html = document.documentElement.outerHTML;
+
+  // Replace meetings data
+  var marker = "var meetings = ["; var start = html.indexOf(marker);
+  var depth = 0, i = start + marker.length - 1;
+  while(i < html.length){ if(html[i]==='[') depth++; else if(html[i]===']'){ depth--; if(depth===0) break; } i++; }
+  html = html.substring(0, start) + "var meetings = " + meetingsJson + html.substring(i+1);
+
+  // Replace password
+  var pwMarker = "var ADMIN_PW = 'cgjk1720'";
+  var pwStart = html.indexOf(pwMarker);
+  if(pwStart !== -1){
+    var pwEnd = pwStart + pwMarker.length;
+    html = html.substring(0, pwStart) + "var ADMIN_PW = '" + ADMIN_PW + "'" + html.substring(pwEnd);
+  }
+
+  var blob = new Blob([html], { type: 'text/html' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'Webinar_Conference_Catalog.html';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+render();
+</script>
+</body>
+</html>
