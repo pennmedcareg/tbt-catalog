@@ -1,0 +1,2129 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>ODS Treatment Pathways</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Spline+Sans:wght@500;600;700&display=swap">
+<style>
+/* Layout: abstractor's desk reference. Site switcher on top, then three stacked bands per site:
+   expected first course by stage, registry coding tie-ins, red flags. Scanned, not read. */
+:root{
+  --bg:#f3f6f6; --surface:#ffffff; --surface-2:#e8eeee; --line:#d3dcdc;
+  --ink:#15242b; --ink-2:#4b5d64; --accent:#0d6b70; --accent-ink:#ffffff;
+  --miss:#b5462a; --miss-bg:#fbe9e3; --rule:#7a5b00; --rule-bg:#fbf1d6; --trap:#3a5a9b; --trap-bg:#e6edfa;
+  --s-breast:#b04a72; --s-lung:#3d6b8f; --s-prostate:#4a5aa8; --s-crc:#9a6420; --s-rect:#6e4a1c; --s-bladder:#5d7a2e;
+  --s-thyroid:#7b4fa0; --s-kidney:#a5462f; --s-heme:#9b2f45; --s-lymph:#1f7a5c;
+  --s-mel:#5a4a3f; --s-uterus:#b23a8c; --s-hn:#2a7fa8; --s-panc:#8a6d00; --s-liver:#7b3b2f;
+  --s-gi:#2f7a7a; --s-cervix:#c2416b; --s-ovary:#6c4bbf; --s-cns:#46617a;
+  --s-sclc:#2f5573; --s-meso:#5e6b4a; --s-anus:#8c5a3c; --s-appx:#a37b28; --s-net:#3f7f6a;
+  --s-gist:#6b5b8a; --s-sarc:#8b3d5a; --s-testis:#3b5fa0; --s-vulva:#a54a8a; --s-merkel:#6a4c3a;
+  --f-display:"Spline Sans", "Segoe UI", system-ui, sans-serif;
+  --f-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1719; --surface:#162226; --surface-2:#1d2c31; --line:#2b3d43;
+  --ink:#e3ecee; --ink-2:#9fb2b8; --accent:#4fb7bb; --accent-ink:#06191b;
+  --miss:#f0937a; --miss-bg:#3a1f18; --rule:#e8c45e; --rule-bg:#33290f; --trap:#9db8f2; --trap-bg:#1a2640;
+  --s-breast:#e48aac; --s-lung:#86b2d4; --s-prostate:#9ea9ec; --s-crc:#dda463; --s-rect:#c9a77a; --s-bladder:#a6c46f;
+  --s-thyroid:#c3a0e6; --s-kidney:#ec9a82; --s-heme:#ec8fa2; --s-lymph:#6fcfa8;
+  --s-mel:#c9b29f; --s-uterus:#ec8fcf; --s-hn:#8cc8e8; --s-panc:#e3c25c; --s-liver:#e39a86;
+  --s-gi:#7fd0d0; --s-cervix:#f39ab6; --s-ovary:#b8a3f0; --s-cns:#a9c0d6;
+  --s-sclc:#9fc0dd; --s-meso:#c3cf9f; --s-anus:#e2b08f; --s-appx:#e8c97a; --s-net:#8fd6bf;
+  --s-gist:#c4b5e8; --s-sarc:#e79ab8; --s-testis:#a4bff0; --s-vulva:#eba0d6; --s-merkel:#d4b3a0;
+  color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#0f1719; --surface:#162226; --surface-2:#1d2c31; --line:#2b3d43;
+  --ink:#e3ecee; --ink-2:#9fb2b8; --accent:#4fb7bb; --accent-ink:#06191b;
+  --miss:#f0937a; --miss-bg:#3a1f18; --rule:#e8c45e; --rule-bg:#33290f; --trap:#9db8f2; --trap-bg:#1a2640;
+  --s-breast:#e48aac; --s-lung:#86b2d4; --s-prostate:#9ea9ec; --s-crc:#dda463; --s-rect:#c9a77a; --s-bladder:#a6c46f;
+  --s-thyroid:#c3a0e6; --s-kidney:#ec9a82; --s-heme:#ec8fa2; --s-lymph:#6fcfa8;
+  --s-mel:#c9b29f; --s-uterus:#ec8fcf; --s-hn:#8cc8e8; --s-panc:#e3c25c; --s-liver:#e39a86;
+  --s-gi:#7fd0d0; --s-cervix:#f39ab6; --s-ovary:#b8a3f0; --s-cns:#a9c0d6;
+  --s-sclc:#9fc0dd; --s-meso:#c3cf9f; --s-anus:#e2b08f; --s-appx:#e8c97a; --s-net:#8fd6bf;
+  --s-gist:#c4b5e8; --s-sarc:#e79ab8; --s-testis:#a4bff0; --s-vulva:#eba0d6; --s-merkel:#d4b3a0;
+  color-scheme:dark;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px;padding-block:28px 64px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1{font-size:1.9rem;font-weight:700}
+h2{font-size:1.25rem;font-weight:600}
+h3{font-size:1rem;font-weight:600}
+p{margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-2)}
+header.top{display:grid;gap:10px;margin-bottom:22px}
+.lede{color:var(--ink-2);max-width:68ch}
+.notice{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:.88rem;color:var(--ink-2);max-width:900px}
+.notice b{color:var(--ink)}
+.site-index{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+.site-tabs{display:grid;gap:10px}
+.grp{display:grid;grid-template-columns:170px minmax(0,1fr);gap:10px;align-items:start}
+.grp-label{font:500 .72rem var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2);padding-top:7px}
+.grp-pills{display:flex;flex-wrap:wrap;gap:6px}
+nav.sites{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;margin-bottom:18px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+nav.sites label{font:500 .72rem var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2)}
+nav.sites select{font:600 .95rem var(--f-display);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:6px 10px;max-width:100%}
+nav.sites select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.site-tab{--c:var(--accent);font:600 .86rem var(--f-display);background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 9px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.site-tab::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c)}
+.site-tab[aria-pressed="true"]{background:var(--c);color:var(--bg);border-color:var(--c)}
+.site-tab[aria-pressed="true"]::before{background:var(--bg)}
+.site-tab:focus-visible,.jump a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.site-head{display:grid;gap:10px;margin-bottom:8px;border-left:4px solid var(--c);padding-left:14px}
+.site-head h2{font-size:1.6rem}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.85rem;color:var(--ink-2)}
+.meta span b{color:var(--ink);font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--f-mono);font-size:.74rem;background:var(--surface-2);border-radius:4px;padding:2px 7px;color:var(--ink)}
+.jump{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.85rem;margin:14px 0 6px}
+.jump a{color:var(--accent);text-decoration:none;border-bottom:1px solid currentColor}
+section.band{margin-top:30px;display:grid;gap:12px}
+.band-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px;border-bottom:1px solid var(--line);padding-bottom:6px}
+.band-head p{font-size:.85rem;color:var(--ink-2)}
+/* stage rows */
+.stages{display:grid;gap:10px}
+.stage{display:grid;grid-template-columns:150px minmax(0,1fr) minmax(0,1fr);background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.stage .tag{background:var(--surface-2);padding:12px;display:grid;align-content:start;gap:4px;border-right:3px solid var(--c)}
+.stage .tag strong{font-family:var(--f-display);font-size:1rem}
+.stage .tag small{font-size:.78rem;color:var(--ink-2);line-height:1.35}
+.stage .col{padding:12px 14px;min-width:0}
+.stage .col + .col{border-left:1px dashed var(--line)}
+.col h4{margin:0 0 6px;font:500 .7rem var(--f-mono);text-transform:uppercase;letter-spacing:.09em;color:var(--ink-2)}
+ul.tight{margin:0;padding-left:1.1em;display:grid;gap:4px}
+ul.tight li{padding-left:2px}
+.cat{font-family:var(--f-mono);font-size:.7rem;border:1px solid var(--line);border-radius:3px;padding:0 4px;white-space:nowrap;color:var(--ink-2)}
+/* coding */
+.code-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:10px}
+.code-card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;gap:8px;align-content:start}
+.code-card h3{font-size:.95rem}
+.qm{display:grid;gap:8px}
+.qm-row{display:grid;grid-template-columns:86px minmax(0,1fr);gap:10px;font-size:.9rem}
+.qm-row code{font-family:var(--f-mono);font-weight:500;color:var(--c)}
+/* flags */
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:.78rem;color:var(--ink-2)}
+.flags{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:10px}
+.flag{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;gap:6px;align-content:start}
+.pill{justify-self:start;font:500 .68rem var(--f-mono);text-transform:uppercase;letter-spacing:.07em;padding:2px 8px;border-radius:999px}
+.pill.miss{background:var(--miss-bg);color:var(--miss)}
+.pill.rule{background:var(--rule-bg);color:var(--rule)}
+.pill.trap{background:var(--trap-bg);color:var(--trap)}
+.flag h3{font-size:.95rem}
+.flag p{font-size:.9rem;color:var(--ink-2)}
+/* manuals */
+ul.man{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ul.man li{display:grid;gap:2px;padding-top:8px;border-top:1px dashed var(--line)}
+ul.man li:first-child{border-top:0;padding-top:0}
+ul.man a{color:var(--accent);font-weight:600;font-size:.9rem;text-decoration:none}
+ul.man a:hover{text-decoration:underline}
+ul.man span{font-size:.85rem;color:var(--ink-2);line-height:1.45}
+.ask{font-size:.85rem;color:var(--ink-2)}
+.ask a{color:var(--accent)}
+/* notepad */
+.notepad{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.np-bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding:8px 12px;background:var(--surface-2);border-bottom:1px solid var(--line)}
+.np-bar span{font:500 .72rem var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2)}
+.copy{font:600 .82rem var(--f-display);background:var(--accent);color:var(--accent-ink);border:0;border-radius:6px;padding:6px 12px;cursor:pointer}
+.np-body{overflow-x:auto}
+.np-body pre{margin:0;padding:14px 16px;font:400 .82rem/1.65 var(--f-mono);white-space:pre-wrap;word-break:break-word;color:var(--ink);tab-size:2}
+.np-body pre .fld{color:var(--c);font-weight:500}
+.np-tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:10px}
+.np-tips .code-card p{font-size:.88rem;color:var(--ink-2)}
+/* shared rules + sources */
+.shared{margin-top:44px;display:grid;gap:12px}
+.shared-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:10px}
+.sources{margin-top:36px;font-size:.84rem;color:var(--ink-2);display:grid;gap:6px}
+.sources a{color:var(--accent)}
+.sources ul{margin:0;padding-left:1.1em;display:grid;gap:3px}
+@media (max-width:820px){
+  .grp{grid-template-columns:1fr;gap:4px}
+  .grp-label{padding-top:0}
+  .stage{grid-template-columns:1fr}
+  .stage .tag{border-right:0;border-bottom:3px solid var(--c)}
+  .stage .col + .col{border-left:0;border-top:1px dashed var(--line)}
+  h1{font-size:1.55rem}
+}
+@media (prefers-reduced-motion:no-preference){.site-panel{animation:fade .18s ease-out}@keyframes fade{from{opacity:.4}to{opacity:1}}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">ODS desk reference · first course of treatment</span>
+    <h1>ODS Treatment Pathways</h1>
+    <p class="lede">What NCCN expects at each stage for 29 sites, where to find it in the chart, how it lands in registry fields, the misses we see most in QA, and a copy-ready text documentation template for each.</p>
+    <div class="notice"><span aria-hidden="true">ⓘ</span><p><b>A simplified summary, not the guideline.</b> These are plain-language paraphrases of NCCN recommendations for abstracting support. Physicians may deviate for good reasons, so code what was planned and given, not what this page expects. Always check the current version on <a href="https://www.nccn.org/guidelines/category_1" target="_blank" rel="noopener">nccn.org</a> and confirm drug categories in SEER*Rx. Reviewed October 2026.</p></div>
+  </header>
+
+  <section class="site-index" aria-label="Choose a primary site">
+    <div class="site-tabs" id="siteTabs"></div>
+  </section>
+  <nav class="sites" aria-label="Current site">
+    <label for="siteSelect">Viewing</label>
+    <select id="siteSelect"></select>
+  </nav>
+
+  <main id="panel" class="site-panel" role="tabpanel" aria-live="polite"></main>
+
+  <section class="shared" aria-labelledby="sharedH">
+    <div class="band-head"><h2 id="sharedH">Rules that apply to every site</h2><p>STORE and SEER first-course principles</p></div>
+    <div class="shared-grid">
+      <div class="code-card"><h3>First course is the plan, not the calendar</h3><p>Everything in the documented initial treatment plan counts, even if it starts months later (endocrine therapy, adjuvant IO, maintenance BCG). With no documented plan, use the treatment given before disease progression or the STORE time window.</p></div>
+      <div class="code-card"><h3>Recommended but not given</h3><p>If a treatment was recommended and the patient declined, code it as refused rather than "not given." If it was not part of the plan, use the "not recommended" reason. Medical oncology and radiation consult notes are the usual proof.</p></div>
+      <div class="code-card"><h3>Neoadjuvant fields</h3><p>When systemic therapy or radiation comes before surgery, complete Neoadjuvant Therapy, Clinical Response, and Treatment Effect, use yp staging for the post-therapy pathologic stage, and check the Systemic/Surgery and RX Summ–Surg/Rad Seq fields.</p></div>
+      <div class="code-card"><h3>Drug categories</h3><p>Monoclonal antibodies such as trastuzumab and most targeted pills are coded as chemotherapy. Checkpoint inhibitors and BCG are immunotherapy. Anti-androgens and aromatase inhibitors are hormone therapy. Look up anything unfamiliar in SEER*Rx before coding.</p></div>
+      <div class="code-card"><h3>Text that supports every code</h3><p>Every coded field should be traceable to a line of text: date, facility or source, and the finding. Lead each entry with the date, use NAACCR-approved abbreviations, and write "N/A" or "none per [source]" rather than leaving a field blank so reviewers know you looked.</p></div>
+      <div class="code-card"><h3>Document the why</h3><p>When treatment differs from the expected pathway, put the reason in Remarks: refusal, comorbidity, clinical trial, patient preference, or care at another facility. That is what the cancer committee and quality measure reviews need.</p></div>
+    </div>
+  </section>
+
+  <footer class="sources">
+    <span class="eyebrow" id="srcHead">Sources for this site</span>
+    <ul id="srcList"></ul>
+  </footer>
+</div>
+
+<script>
+const SITES = [
+{
+  id:"breast", name:"Breast", color:"var(--s-breast)",
+  version:"NCCN Breast v5.2026",
+  drivers:["ER","PR","HER2 (IHC/ISH)","Ki-67","Grade","Oncotype DX RS","Germline BRCA1/2"],
+  summary:"Subtype drives everything. Identify HR status and HER2 first, then clinical T and N, then decide whether systemic therapy should come before surgery.",
+  stages:[
+    {stage:"Stage 0", sub:"DCIS",
+     expect:["Lumpectomy plus whole-breast radiation, or mastectomy","Radiation may be omitted for select small, low-grade DCIS","Endocrine therapy offered for ER+ DCIS to lower future risk"],
+     look:["Re-excision for close or positive margins (still first course)","Med onc or surgeon note offering tamoxifen or an AI","SLNB normally only with mastectomy"]},
+    {stage:"I–II · HR+/HER2−", sub:"most common pathway",
+     expect:["Surgery first: lumpectomy + RT, or mastectomy","Axillary staging with SLNB; NCCN now allows omitting SLNB for carefully selected early HR+/HER2− patients","Genomic assay (Oncotype) decides whether chemo is added for node-negative and limited node-positive disease","Adjuvant endocrine therapy for 5–10 years; CDK4/6 inhibitor (abemaciclib or ribociclib) added for higher-risk disease","Adjuvant olaparib for high-risk germline BRCA carriers"],
+     look:["Recurrence score in the path addendum or a separate report","Endocrine start date in med onc notes, often after radiation ends","Radiation omission note for older patients on endocrine therapy"]},
+    {stage:"HER2+", sub:"any HR status",
+     expect:["cT2+ or node-positive: neoadjuvant chemo with trastuzumab + pertuzumab, then surgery","Residual disease at surgery: switch to T-DM1 (ado-trastuzumab emtansine)","Complete response: finish a year of HER2-directed therapy","Small node-negative tumors: surgery first, then weekly paclitaxel + trastuzumab","HR+ as well: add endocrine therapy after chemo"],
+     look:["Pre-treatment HER2 IHC/ISH on the core biopsy","ypT/ypN on the surgical path","Switch to T-DM1 documented in med onc plan"]},
+    {stage:"Triple negative", sub:"ER−, PR−, HER2−",
+     expect:["cT2+ or node-positive: neoadjuvant chemo + pembrolizumab, then pembrolizumab continues after surgery","Residual disease: capecitabine, or olaparib if germline BRCA+","Small cT1 N0: surgery first is reasonable, adjuvant chemo by size"],
+     look:["Pembrolizumab across both phases (one first course)","Capecitabine start after surgery","Germline testing result in genetics note"]},
+    {stage:"Stage III", sub:"locally advanced",
+     expect:["Neoadjuvant systemic therapy by subtype","Mastectomy or lumpectomy with axillary surgery","Post-mastectomy or regional nodal radiation","Adjuvant therapy by subtype and residual disease"],
+     look:["Inflammatory features (cT4d) documented clinically","Clinical response on imaging before surgery"]},
+    {stage:"Stage IV", sub:"de novo metastatic",
+     expect:["Systemic therapy guided by HR, HER2, and repeat biomarkers (PIK3CA, ESR1, BRCA, HER2-low)","HR+: endocrine therapy + CDK4/6 inhibitor is the usual first line","HER2+: taxane + trastuzumab + pertuzumab remains preferred first line","Surgery or RT to the primary only for symptom control or select cases"],
+     look:["Bone-modifying agents are supportive care, not first-course treatment","Palliative RT to bone is still radiation; code it"]}
+  ],
+  coding:[
+    {h:"Site-specific data items", t:"ER, PR, HER2 summary (plus IHC/ISH values), Ki-67, Oncotype DX recurrence score and risk level, Grade clinical / pathological / post-therapy, Response to Neoadjuvant Therapy, number of positive axillary level I–II nodes."},
+    {h:"Systemic therapy categories", t:"Chemotherapy: anthracyclines, taxanes, capecitabine, trastuzumab, pertuzumab, T-DM1, CDK4/6 inhibitors, olaparib. Hormone: tamoxifen, AIs, goserelin/leuprolide for ovarian suppression. Immunotherapy: pembrolizumab."},
+    {h:"Surgery and radiation", t:"SLNB vs ALND changes Scope of Regional LN Surgery. Reconstruction is not cancer-directed treatment. Oophorectomy for hormonal suppression goes in the endocrine procedures field, not surgery of primary site."}
+  ],
+  measures:[
+    ["BCSdx","Clinical stage I–III, no neoadjuvant therapy: first therapeutic surgery within 60 days of diagnosis."],
+    ["BneoCT","Age 75 or younger, HER2+ or triple negative with cT >1 or cN+: neoadjuvant chemo and/or IO started within 60 days, or recommended."],
+    ["BnoLN","Age 70+, grade 1–2, HR+/HER2−, ≤2 cm, cN0, lumpectomy: no SLNB or ALND performed."]
+  ],
+  flags:[
+    {k:"miss",h:"Endocrine therapy closed out too early",t:"Hormone therapy often starts after radiation, weeks or months after surgery. Leaving it blank because the abstract was done at discharge is the most common breast miss."},
+    {k:"miss",h:"Post-neoadjuvant escalation",t:"T-DM1, capecitabine, or olaparib after residual disease are part of the first course. Read the first med onc visit after surgery."},
+    {k:"rule",h:"HER2-low is HER2 negative",t:"IHC 1+ or 2+/ISH-negative is coded as HER2 negative even when notes say \"HER2-low\" and the patient later gets trastuzumab deruxtecan."},
+    {k:"rule",h:"No SLNB can be the right answer",t:"For older, small, HR+/HER2− patients, skipping axillary surgery meets BnoLN. Do not query the surgeon as a missing procedure."},
+    {k:"trap",h:"Refusal of endocrine therapy",t:"Patients often decline or stop AIs. If it was recommended and declined, code refused. Stopping early after starting is still \"given.\""},
+    {k:"trap",h:"Grade from the right specimen",t:"Clinical grade comes from the core biopsy; post-therapy grade from the surgical specimen after neoadjuvant treatment. Keep them in separate fields."}
+  ]
+},
+{
+  id:"lung", name:"Lung (NSCLC)", color:"var(--s-lung)",
+  version:"NCCN NSCLC (2026 versions; v7.2025 Insights)",
+  drivers:["PD-L1 (TPS)","EGFR","ALK","ROS1","KRAS G12C","BRAF","MET","RET","NTRK","HER2"],
+  summary:"Stage plus biomarkers decide the path. For anything stage IB and up, NCCN wants EGFR, ALK and PD-L1 known before surgery so the team can choose perioperative immunotherapy or targeted therapy.",
+  stages:[
+    {stage:"Stage IA", sub:"peripheral, node-negative",
+     expect:["Lobectomy, or segmentectomy for small peripheral tumors, with lymph node sampling","SBRT if medically inoperable or the patient declines surgery","Usually no adjuvant therapy"],
+     look:["Mediastinal node sampling in the op note","PFTs or thoracic surgery note explaining SBRT instead of surgery"]},
+    {stage:"IB–IIIA resectable", sub:"≥4 cm or node-positive",
+     expect:["Driver-negative: neoadjuvant chemo + immunotherapy (nivolumab, pembrolizumab or durvalumab regimens), with IO often continued after surgery","Alternative: surgery first, then adjuvant chemo ± atezolizumab or pembrolizumab","EGFR+: surgery, then adjuvant osimertinib (about 3 years) ± chemo","ALK+: surgery, then adjuvant alectinib (about 2 years)"],
+     look:["Invasive mediastinal staging (EBUS or mediastinoscopy) before resection","Biomarker results from the biopsy, not only the resection","IO restarting 4–6 weeks after surgery"]},
+    {stage:"Stage III unresectable", sub:"bulky N2 / N3",
+     expect:["Concurrent chemoradiation","Then a year of consolidation durvalumab for driver-negative disease","EGFR+: osimertinib after chemoradiation instead of durvalumab"],
+     look:["Tumor board note calling it unresectable","Durvalumab starting within weeks of finishing RT"]},
+    {stage:"Stage IV", sub:"metastatic",
+     expect:["Driver mutation present: matching targeted pill as first line (e.g., osimertinib, alectinib, lorlatinib)","No driver: chemo + immunotherapy, or IO alone for high PD-L1","Limited metastases: local RT or surgery to sites may be added","Brain metastases: SRS or WBRT"],
+     look:["NGS panel report (may be a send-out with a later date)","Liquid biopsy results used for treatment decisions"]}
+  ],
+  coding:[
+    {h:"Site-specific data items", t:"Separate Tumor Nodules and Visceral and Parietal Pleural Invasion. PD-L1 and mutation results are not lung SSDIs, but they explain the treatment choice."},
+    {h:"Systemic therapy categories", t:"Chemotherapy: platinum doublets and targeted pills (osimertinib, alectinib, sotorasib and others). Immunotherapy: nivolumab, pembrolizumab, durvalumab, atezolizumab."},
+    {h:"Radiation", t:"SBRT is radiation with a stereotactic modality, not surgery. SRS to brain metastases is coded as radiation to the brain/CNS volume."}
+  ],
+  measures:[
+    ["LCT","Resected NSCLC, pT2 >4 cm, pT3+, or N+: systemic therapy started in the 4 months before surgery or after it, or recommended."]
+  ],
+  flags:[
+    {k:"miss",h:"Perioperative IO split across phases",t:"Neoadjuvant chemo-IO plus adjuvant IO is one plan. Code the IO start date as the first dose before surgery and make sure the adjuvant phase is not mistaken for subsequent treatment."},
+    {k:"miss",h:"Adjuvant targeted therapy",t:"Osimertinib or alectinib started after surgery for EGFR/ALK disease is first course. These are oral and appear in med onc notes, not the infusion record."},
+    {k:"rule",h:"No IO with EGFR or ALK",t:"When a driver is present, immunotherapy is usually not given. Missing IO here is expected, not a gap."},
+    {k:"rule",h:"Multiple nodules",t:"Use the Solid Tumor Rules lung module before deciding one versus multiple primaries, then code Separate Tumor Nodules."},
+    {k:"trap",h:"SBRT recorded as surgery",t:"\"Stereotactic ablation\" is radiation. Surgery of primary site stays 00 with the reason no surgery was done."},
+    {k:"trap",h:"Biomarker date after treatment start",t:"A send-out NGS report can return after chemo-IO began. That explains a later switch to targeted therapy, which may be a new course."}
+  ]
+},
+{
+  id:"prostate", name:"Prostate", color:"var(--s-prostate)",
+  version:"NCCN Prostate v5.2026",
+  drivers:["PSA (pre-biopsy)","Grade Group / Gleason","cT","Cores positive/examined","PSMA PET","Germline testing"],
+  summary:"Risk group decides the path. In 2026 NCCN removed the very-low-risk group and folded it into low risk, and tightened its active surveillance principles.",
+  stages:[
+    {stage:"Low risk", sub:"cT1–T2a, GG1, PSA <10",
+     expect:["Active surveillance is preferred (PSA, exam, MRI, repeat biopsy)","Prostatectomy or radiation only for select patients","Watchful waiting if life expectancy is limited"],
+     look:["Urology note stating \"active surveillance\" as the plan","Confirmatory MRI or biopsy dates"]},
+    {stage:"Favorable intermediate", sub:"one intermediate factor, GG1–2",
+     expect:["Active surveillance for select patients","Radical prostatectomy","Radiation alone (EBRT or brachytherapy), usually without ADT"],
+     look:["Percent positive cores (helps place favorable vs unfavorable)"]},
+    {stage:"Unfavorable intermediate", sub:"GG3, or ≥2 factors, or ≥50% cores",
+     expect:["Radical prostatectomy ± pelvic node dissection","Radiation plus short-term ADT (about 4–6 months)"],
+     look:["ADT injection given by urology before RT starts"]},
+    {stage:"High / very high", sub:"cT3+, GG4–5, or PSA >20",
+     expect:["Radiation plus long-term ADT (18–36 months)","Very high risk: abiraterone may be added to RT + ADT","Prostatectomy with pelvic node dissection is an alternative"],
+     look:["PSMA PET or bone scan staging","Abiraterone plan in med onc or rad onc note"]},
+    {stage:"Regional (N1)", sub:"node-positive, M0",
+     expect:["Radiation to prostate and pelvic nodes plus long-term ADT, often with abiraterone","Prostatectomy with node dissection in select patients"],
+     look:["Nodes positive on imaging vs path"]},
+    {stage:"Metastatic", sub:"castration-sensitive",
+     expect:["ADT plus an intensifier: abiraterone, enzalutamide, apalutamide, or darolutamide, ± docetaxel","Radiation to the prostate for low-volume metastatic disease"],
+     look:["Volume of disease (low vs high) in med onc note","Bilateral orchiectomy as an alternative to injections"]}
+  ],
+  coding:[
+    {h:"Site-specific data items", t:"PSA lab value (the one before biopsy and treatment), Gleason patterns and score clinical and pathological, Grade Group, number of cores positive and examined."},
+    {h:"Active surveillance", t:"Code Treatment Status as active surveillance / watchful waiting with no treatment fields filled. If the patient later progresses and is treated, that is subsequent treatment."},
+    {h:"Hormone therapy and orchiectomy", t:"Leuprolide, degarelix, relugolix, abiraterone, and enzalutamide-class drugs are hormone therapy. Bilateral orchiectomy for prostate cancer goes in the endocrine procedures field. Docetaxel is chemotherapy."}
+  ],
+  measures:[
+    ["PTSRV","Low risk (Gleason ≤6, PSA <10, ≤cT2): active surveillance performed."]
+  ],
+  flags:[
+    {k:"miss",h:"ADT started in the urology office",t:"The first leuprolide shot is often given weeks before RT, in a clinic visit, not the cancer center. It is first-course hormone therapy."},
+    {k:"rule",h:"\"Very low risk\" in older notes",t:"NCCN dropped this group in 2026. Older notes may still use it. It does not change coding, and those patients sit in low risk for PTSRV."},
+    {k:"rule",h:"PSA timing",t:"Use the PSA drawn before the diagnostic biopsy and before any treatment. A PSA after ADT starts is not the staging PSA."},
+    {k:"trap",h:"Surveillance vs watchful waiting",t:"Both use the same Treatment Status code, but they mean different things clinically. Read the plan, especially for older patients, before assuming PTSRV applies."},
+    {k:"trap",h:"Focal therapy",t:"HIFU or cryoablation of part of the gland is coded as surgery (local destruction). NCCN now urges caution with focal therapy at diagnosis, so expect fewer cases."},
+    {k:"trap",h:"Biopsy and prostatectomy grades differ",t:"Clinical and pathological Gleason go in separate fields. Upgrading at prostatectomy is common and expected."}
+  ]
+},
+{
+  id:"colon", name:"Colon", color:"var(--s-crc)",
+  version:"NCCN Colon Cancer (2026 versions)",
+  drivers:["MMR / MSI","KRAS / NRAS","BRAF V600E","HER2","CEA","Tumor side (right vs left)","Tumor deposits"],
+  summary:"Colon cancer is usually surgery first, with adjuvant chemo decided by stage and risk features. MMR status changes the plan at every stage, and node count on the colectomy is a CoC measure.",
+  stages:[
+    {stage:"Malignant polyp", sub:"pT1 in a polyp",
+     expect:["Polypectomy alone if margin is clear and there is no high-grade feature","Colectomy with nodes for positive margin, poor differentiation, LVI, or tumor budding"],
+     look:["Polypectomy margin and depth of invasion on path","GI or surgery note deciding on colectomy"]},
+    {stage:"Stage I", sub:"T1–T2 N0",
+     expect:["Colectomy with at least 12 nodes examined","No adjuvant chemo"],
+     look:["Lymph node count on the colectomy specimen"]},
+    {stage:"Stage II", sub:"T3–T4 N0",
+     expect:["Colectomy","Low risk: observation","High-risk features (T4, <12 nodes, obstruction or perforation, LVI/PNI, positive margin): consider adjuvant fluoropyrimidine ± oxaliplatin","dMMR stage II: fluoropyrimidine alone is not recommended; usually observed"],
+     look:["MMR IHC or MSI on the path","Med onc discussion of risk features"]},
+    {stage:"Stage III", sub:"node-positive",
+     expect:["Colectomy then adjuvant CAPOX or FOLFOX","3 months of CAPOX for lower-risk T1–3 N1; 6 months for T4 or N2","dMMR stage III: FOLFOX plus atezolizumab (ATOMIC trial) is now used","Age, comorbidity or neuropathy: capecitabine or 5-FU alone"],
+     look:["Adjuvant start date (ACT window is 120 days from diagnosis)","Refusal documented in med onc note"]},
+    {stage:"Locally advanced", sub:"bulky cT4b or dMMR",
+     expect:["pMMR cT4b: neoadjuvant FOLFOX or CAPOX is an option before surgery","dMMR: neoadjuvant immunotherapy is an option, with high response rates"],
+     look:["Neoadjuvant start before colectomy","ypT/ypN on the specimen"]},
+    {stage:"Stage IV", sub:"metastatic",
+     expect:["Systemic chemo ± biologic chosen by RAS, BRAF, HER2 and tumor side","dMMR: first-line immunotherapy (pembrolizumab, or nivolumab + ipilimumab)","Resectable liver or lung metastases: resection ± perioperative chemo","Primary resection for obstruction or bleeding"],
+     look:["Metastasectomy is coded in surgery to other sites","Liver-directed therapy (ablation, HAI pump)"]}
+  ],
+  coding:[
+    {h:"Site-specific data items", t:"CEA pretreatment value and interpretation, Circumferential Resection Margin, KRAS, BRAF, Microsatellite Instability, Perineural Invasion, Tumor Deposits."},
+    {h:"Systemic therapy categories", t:"Chemotherapy: 5-FU, capecitabine, oxaliplatin, irinotecan, bevacizumab, cetuximab, panitumumab, encorafenib, trastuzumab + tucatinib. Immunotherapy: atezolizumab, pembrolizumab, nivolumab, ipilimumab."},
+    {h:"Surgery", t:"Polypectomy, segmental resection, hemicolectomy and total colectomy have separate STORE codes. Code the most extensive procedure; a later colectomy after polypectomy is still first course."}
+  ],
+  measures:[
+    ["C12RLN","Colon resection: at least 12 regional nodes removed and examined."],
+    ["ACT","Under 80, resected pathologic stage III colon: adjuvant chemo started within 120 days of diagnosis, or recommended."]
+  ],
+  flags:[
+    {k:"miss",h:"Polypectomy then colectomy",t:"A positive-margin polypectomy followed by colectomy are both first course. Code the most extensive surgery and keep the earlier date as the first surgical date."},
+    {k:"miss",h:"Adjuvant refusal not documented",t:"ACT counts \"recommended\" as compliant. If the patient declined, find the med onc note and code refused so the measure credits the recommendation."},
+    {k:"rule",h:"Tumor deposits are not nodes",t:"Tumor deposits go in their own field and can make an N1c. Do not add them to the positive node count."},
+    {k:"rule",h:"Appendix is a separate schema",t:"Appendix carcinoma uses AJCC Version 9 and its own SSDIs. Do not stage it with the colon chapter."},
+    {k:"trap",h:"Rectosigmoid tumors",t:"Rectosigmoid (C19.9) vs sigmoid (C18.7) vs rectum (C20.9) changes the measure set. Use the documented location and the STR Colon site guidance."},
+    {k:"trap",h:"Synchronous colon tumors",t:"Two tumors in different colon segments are often separate primaries. Run the STR Colon multiple primary rules before combining them."}
+  ]
+},
+{
+  id:"rectum", name:"Rectum", color:"var(--s-rect)",
+  version:"NCCN Rectal Cancer (2026 versions)",
+  drivers:["Pelvic MRI (mrT, mrN, MRF/CRM, EMVI)","Distance from anal verge","MMR / MSI","CEA","KRAS / NRAS / BRAF"],
+  summary:"Pelvic MRI sets the path. Early tumors go to surgery. Locally advanced tumors get treatment before surgery, usually total neoadjuvant therapy, and some patients with a complete response never need surgery. dMMR tumors respond to immunotherapy alone.",
+  stages:[
+    {stage:"Stage I", sub:"T1–T2 N0",
+     expect:["Total mesorectal excision (LAR or APR)","Select T1 tumors: transanal local excision or endoscopic submucosal dissection","Unfavorable path after local excision: TME or chemoRT"],
+     look:["Pelvic MRI staging","Path after local excision (depth, margins, LVI)"]},
+    {stage:"Stage II–III · lower risk", sub:"MRF clear, limited nodes",
+     expect:["Neoadjuvant FOLFOX or CAPOX first","Radiation only if response is poor","Then TME"],
+     look:["Restaging MRI after chemo","Rad onc consult only if needed"]},
+    {stage:"Stage II–III · higher risk", sub:"T4, N2, MRF threatened, EMVI",
+     expect:["Total neoadjuvant therapy: short-course RT (25 Gy/5) or long-course chemoRT (about 50 Gy/28) plus about 4 months of chemo, in either order","Then TME, or watch-and-wait if there is a clinical complete response"],
+     look:["Restaging MRI and endoscopy after TNT","Order of chemo and RT (induction vs consolidation)"]},
+    {stage:"Watch-and-wait", sub:"clinical complete response",
+     expect:["Close surveillance with MRI, endoscopy and exam","TME only if tumor regrows"],
+     look:["Surgeon note documenting cCR and the decision to observe"]},
+    {stage:"dMMR / MSI-H", sub:"stage II–III",
+     expect:["Checkpoint inhibitor (dostarlimab) as initial therapy for about 6 months","Many reach clinical complete response and avoid surgery and radiation"],
+     look:["MMR result before treatment planning"]},
+    {stage:"Stage IV", sub:"metastatic",
+     expect:["Systemic chemo ± biologic chosen by RAS, BRAF, HER2","dMMR: first-line immunotherapy","Pelvic RT and resection of primary and metastases for selected patients"],
+     look:["Metastasectomy coded in surgery to other sites"]}
+  ],
+  coding:[
+    {h:"Site-specific data items", t:"CEA pretreatment value and interpretation, Circumferential Resection Margin, KRAS, BRAF, Microsatellite Instability, Perineural Invasion, Tumor Deposits."},
+    {h:"Radiation", t:"Short-course and long-course RT both go in the radiation phase fields with dose and fractions. Concurrent capecitabine or 5-FU is coded as chemotherapy. Check RX Summ–Surg/Rad Seq and Systemic/Surgery Sequence when treatment comes first."},
+    {h:"Watch-and-wait", t:"Code the TNT or immunotherapy that was given. Surgery of primary site is 00 with the reason that matches the record: not part of the plan after cCR is not a refusal, unless TME was recommended and declined."}
+  ],
+  measures:[
+    ["RCRM","Rectal resection: circumferential margin greater than 1 mm."],
+    ["RneoRT","Resected cT4 or cN2 rectal cancer: neoadjuvant radiation within 9 months before surgery, or recommended."]
+  ],
+  flags:[
+    {k:"miss",h:"Consolidation chemo after RT",t:"In TNT, chemo given after radiation and before surgery is still neoadjuvant. Check that the sequence fields show systemic and radiation before surgery."},
+    {k:"miss",h:"RT omitted by design",t:"Lower-risk patients treated with chemo alone before TME may never get radiation. Document the planned approach; for cT4 or cN2 cases this affects RneoRT."},
+    {k:"rule",h:"12-node rule is colon only",t:"Rectal specimens after neoadjuvant therapy often yield fewer nodes. Do not flag them against C12RLN."},
+    {k:"rule",h:"CRM comes from the path report",t:"RCRM uses the pathologist's measurement on the TME specimen, not the MRI-predicted margin. Record both in text."},
+    {k:"trap",h:"Watch-and-wait is not refusal",t:"When the team chooses observation after a complete response, no-surgery is not a patient refusal. Code the reason accordingly."},
+    {k:"trap",h:"Anal canal and rectosigmoid",t:"Squamous tumors of the anal canal use the Version 9 anus schema. Rectosigmoid tumors may be colon. Confirm the site before starting."}
+  ]
+},
+{
+  id:"bladder", name:"Bladder", color:"var(--s-bladder)",
+  version:"NCCN Bladder (2026 versions)",
+  drivers:["Grade (low / high)","Depth: Ta, T1, Tis, T2+","Muscle in TURBT specimen","Variant histology","FGFR3","Cisplatin eligibility"],
+  summary:"Muscle invasion is the dividing line. Non-muscle-invasive disease is treated through the cystoscope and the bladder. Muscle-invasive disease gets systemic therapy around cystectomy, or bladder-sparing chemoradiation.",
+  stages:[
+    {stage:"Low-grade Ta", sub:"non-muscle-invasive",
+     expect:["Complete TURBT","One immediate dose of intravesical chemo (gemcitabine or mitomycin) within 24 hours","Cystoscopic surveillance"],
+     look:["Op note or MAR for the post-op instillation","Reason it was not given (perforation, extensive resection)"]},
+    {stage:"Intermediate risk", sub:"recurrent or multifocal low grade",
+     expect:["TURBT","Induction intravesical chemo or BCG, sometimes maintenance"],
+     look:["Weekly instillation series in urology clinic notes"]},
+    {stage:"High-grade Ta / T1 / CIS", sub:"high-risk NMIBC",
+     expect:["Repeat TURBT for T1 or when muscle was missing","Induction BCG, then maintenance up to 1–3 years","BCG-unresponsive: cystectomy, or newer bladder-sparing intravesical or IO options"],
+     look:["Re-TURBT path (may upstage to T2)","Maintenance schedule in urology plan"]},
+    {stage:"MIBC · T2–T4a N0", sub:"muscle-invasive",
+     expect:["Cisplatin-eligible: neoadjuvant cisplatin-based chemo (often with durvalumab given before and after surgery), then radical cystectomy + node dissection","Cisplatin-ineligible: perioperative enfortumab vedotin + pembrolizumab is now a major option","Adjuvant nivolumab for high-risk pathology","Bladder preservation: maximal TURBT plus concurrent chemoradiation (trimodality therapy) for selected patients"],
+     look:["Cisplatin ineligibility reason (kidney function, hearing, performance status)","ypT/ypN after neoadjuvant therapy","Urinary diversion type (not cancer-directed)"]},
+    {stage:"Node-positive / metastatic", sub:"N+ or M1",
+     expect:["First line: enfortumab vedotin + pembrolizumab","Select node-only patients may go on to consolidative surgery or RT","FGFR3 alteration: erdafitinib in later lines"],
+     look:["Response imaging before any cystectomy"]}
+  ],
+  coding:[
+    {h:"Histology and behavior", t:"Noninvasive papillary (8130/2) is stage 0a; flat CIS (8120/2) is stage 0is. Grade for bladder uses the low / high grade table. Muscle invasion moves behavior to /3."},
+    {h:"Intravesical treatment", t:"Intravesical gemcitabine or mitomycin is chemotherapy. BCG is immunotherapy. Enfortumab vedotin is chemotherapy (antibody-drug conjugate); pembrolizumab, durvalumab and nivolumab are immunotherapy."},
+    {h:"Multiple primaries", t:"Use the Solid Tumor Rules urinary module. New bladder tumors after the first are usually the same primary, so recurrences after TURBT do not open a new abstract."}
+  ],
+  measures:[
+    ["BLCT1","Low-grade Ta after TURBT: intravesical chemo started within 24 hours, or recommended."]
+  ],
+  flags:[
+    {k:"miss",h:"Post-TURBT instillation",t:"The single dose is often only in the OR or PACU record. Without it, BLCT1 fails even when it was given."},
+    {k:"miss",h:"BCG maintenance",t:"Planned maintenance BCG belongs to the first course. Capture it, and note the date range from the urology plan."},
+    {k:"rule",h:"Repeat TURBT is still first course",t:"A second resection within the planned workup is part of the initial treatment, and its path may change T category."},
+    {k:"rule",h:"Trimodality therapy",t:"TURBT plus chemoradiation is definitive treatment, not palliative. Code the TURBT as surgery and the chemo and RT with their dates."},
+    {k:"trap",h:"Upper tract and urethra",t:"Renal pelvis, ureter, and urethra tumors are separate sites with their own rules. Check imaging and path site before coding as bladder."},
+    {k:"trap",h:"Muscle absent in specimen",t:"\"No muscularis propria present\" means T category may be understaged. Watch for re-TURBT before finalizing stage."}
+  ]
+},
+{
+  id:"thyroid", name:"Thyroid", color:"var(--s-thyroid)",
+  version:"NCCN Thyroid Carcinoma (2026 versions)",
+  drivers:["Histology (papillary, follicular, oncocytic, medullary, anaplastic)","Size","Extrathyroidal extension","Nodes","Age 55 cutoff (AJCC)","BRAF V600E","RET (medullary)","Calcitonin / CEA"],
+  summary:"Histology sets the path. Most differentiated thyroid cancer is surgery, then selective radioactive iodine and TSH suppression. NCCN has steadily moved toward less treatment for low-risk papillary cancer: lobectomy instead of total thyroidectomy, and fewer RAI ablations.",
+  stages:[
+    {stage:"Papillary microcarcinoma", sub:"≤1 cm, no high-risk features",
+     expect:["Active surveillance with ultrasound is an option","Lobectomy if surgery is chosen","No RAI"],
+     look:["Endocrinology or surgery note naming active surveillance","Serial ultrasound reports"]},
+    {stage:"Low-risk DTC", sub:"1–4 cm, N0, no ETE",
+     expect:["Lobectomy or total thyroidectomy","RAI generally not needed after lobectomy; selective after total thyroidectomy","TSH suppression with levothyroxine based on risk"],
+     look:["Final path after lobectomy (may trigger completion thyroidectomy)","Endocrinology decision note on RAI"]},
+    {stage:"Higher-risk DTC", sub:">4 cm, gross ETE, N1, or distant mets",
+     expect:["Total thyroidectomy with central and/or lateral neck dissection for nodal disease","RAI (adjuvant or for known disease) after TSH stimulation","TSH suppression","RAI-refractory progressive disease: lenvatinib or sorafenib; targeted therapy by mutation"],
+     look:["RAI dose (mCi) and date in nuclear medicine report","Post-therapy whole-body scan","Thyrogen (rhTSH) is preparation, not treatment"]},
+    {stage:"Medullary", sub:"C-cell origin",
+     expect:["Total thyroidectomy + central neck dissection; lateral dissection by imaging and calcitonin","No RAI and no TSH suppression role","Advanced disease: selpercatinib or pralsetinib if RET-mutated","Germline RET testing for every patient"],
+     look:["Pre-op calcitonin and CEA","Genetics note (MEN2)"]},
+    {stage:"Anaplastic", sub:"always stage IV",
+     expect:["Urgent BRAF testing; dabrafenib + trametinib if BRAF V600E","Resection only if complete removal is feasible","Radiation ± chemo, or palliative care for many"],
+     look:["Rapid timeline: treatment often starts within days","Goals-of-care documentation"]}
+  ],
+  coding:[
+    {h:"Staging", t:"AJCC thyroid staging depends on age at diagnosis (under 55 vs 55+) and histology. Microscopic ETE no longer changes T category; gross ETE into strap muscles does."},
+    {h:"Treatment categories", t:"RAI (I-131) is radiation, coded as a radioisotope modality. Per STORE, thyroid hormone given to suppress TSH for thyroid cancer is coded as hormone therapy. Lenvatinib, sorafenib, dabrafenib, trametinib and selpercatinib are chemotherapy. Confirm in SEER*Rx."},
+    {h:"Surgery", t:"Completion thyroidectomy after a lobectomy is still first course; code the cumulative procedure. Neck dissections affect Scope of Regional LN Surgery."}
+  ],
+  measures:[["None","No current CoC quality measure for thyroid. Accuracy of RAI and surgery coding still matters for NCDB studies."]],
+  flags:[
+    {k:"rule",h:"NIFTP is not reportable",t:"Noninvasive follicular thyroid neoplasm with papillary-like nuclear features is behavior /1. Do not abstract it as papillary carcinoma."},
+    {k:"miss",h:"RAI weeks after surgery",t:"Ablation waits for TSH stimulation and often happens 6–12 weeks post-op in nuclear medicine. Check before closing the abstract."},
+    {k:"miss",h:"Levothyroxine as hormone therapy",t:"Easy to skip because every thyroidectomy patient takes it. Follow STORE for when to code it and be consistent across the team."},
+    {k:"trap",h:"Diagnostic I-131 scan vs treatment",t:"A low-dose diagnostic whole-body scan is not RAI treatment. Look for the therapeutic dose in mCi."},
+    {k:"trap",h:"Histology from the final specimen",t:"FNA Bethesda categories are cytology, not final histology. Use the resection path, including subtype (e.g., papillary, follicular variant)."},
+    {k:"rule",h:"Multifocal papillary",t:"Multiple foci in one or both lobes are usually a single primary under the Solid Tumor Rules. Check the head and neck module."}
+  ]
+},
+{
+  id:"kidney", name:"Kidney", color:"var(--s-kidney)",
+  version:"NCCN Kidney Cancer (2026 versions)",
+  drivers:["Histology (clear cell vs non-clear cell)","WHO/ISUP grade","Sarcomatoid features","Size","Renal vein / IVC involvement","IMDC risk (metastatic)"],
+  summary:"Size and extent decide surgery type, histology and risk decide systemic therapy. Small masses may be watched or ablated. Clear cell disease at high risk of relapse may get a year of adjuvant pembrolizumab.",
+  stages:[
+    {stage:"cT1a", sub:"≤4 cm",
+     expect:["Partial nephrectomy preferred","Thermal ablation (cryo or RFA) or active surveillance for select patients, especially older or comorbid","Radical nephrectomy only when partial is not feasible"],
+     look:["Renal mass biopsy result before ablation or surveillance","Surgeon note explaining radical vs partial"]},
+    {stage:"cT1b–T2", sub:">4 cm, confined to kidney",
+     expect:["Partial or radical nephrectomy","Surveillance after surgery for most"],
+     look:["Final path size, grade and margins"]},
+    {stage:"T3–T4 / N1", sub:"locally advanced",
+     expect:["Radical nephrectomy ± IVC thrombectomy and node dissection","Clear cell at intermediate-high or high risk: adjuvant pembrolizumab for about 1 year"],
+     look:["Vein involvement in op note and path","Pembrolizumab start, usually within 12 weeks of surgery"]},
+    {stage:"Stage IV", sub:"metastatic",
+     expect:["Clear cell: IO-based combinations (pembrolizumab + axitinib or lenvatinib, nivolumab + cabozantinib, nivolumab + ipilimumab)","Select patients: cytoreductive nephrectomy or metastasectomy","Non-clear cell: options differ by subtype; clinical trial preferred"],
+     look:["IMDC risk group in med onc note","Surgery to metastatic sites coded separately"]}
+  ],
+  coding:[
+    {h:"Site-specific data items", t:"Invasion Beyond Capsule, Ipsilateral Adrenal Gland Involvement, Major Vein Involvement, Sarcomatoid Features; Grade clinical / pathological using the WHO/ISUP table."},
+    {h:"Treatment categories", t:"Axitinib, cabozantinib, lenvatinib, sunitinib and other TKIs are chemotherapy. Pembrolizumab, nivolumab and ipilimumab are immunotherapy. Cryoablation and RFA are surgery (local tumor destruction)."},
+    {h:"Site boundaries", t:"Renal pelvis tumors (usually urothelial) are a separate primary site and follow bladder-like rules, not kidney parenchyma rules."}
+  ],
+  measures:[["KPN","Surgically managed cT1a kidney tumors: partial nephrectomy performed."]],
+  flags:[
+    {k:"miss",h:"Adjuvant pembrolizumab",t:"Started after recovery from nephrectomy and given in med onc, often at a different facility. It is first course."},
+    {k:"rule",h:"Oncocytoma and benign masses",t:"Oncocytoma and angiomyolipoma are not reportable. Wait for path before abstracting a resected renal mass."},
+    {k:"rule",h:"Clinical diagnosis without biopsy",t:"Imaging reported as consistent with RCC can establish diagnosis using reportable ambiguous terms. Watch these when patients go to surveillance."},
+    {k:"trap",h:"Partial vs radical when KPN fails",t:"If a cT1a patient gets a radical nephrectomy, look for the reason (tumor location, solitary kidney concerns). That context helps the cancer committee review."},
+    {k:"trap",h:"Ablation coded as radiation",t:"Cryo and RFA are surgery codes, even when done by interventional radiology."},
+    {k:"trap",h:"Collecting duct and other rare histologies",t:"Non-clear cell types change expected treatment. Code the exact histology from the final path, not \"RCC NOS.\""}
+  ]
+},
+{
+  id:"heme", name:"Heme (leukemia, myeloma, MDS/MPN)", color:"var(--s-heme)",
+  version:"NCCN AML, ALL, CML, Myeloma, MDS, MPN (2026 versions)",
+  drivers:["Bone marrow biopsy","Flow cytometry","Cytogenetics / FISH","Molecular (FLT3, NPM1, IDH1/2, BCR::ABL1, TP53)","Serum/urine protein electrophoresis","JAK2 / CALR / MPL"],
+  summary:"Use the Hematopoietic Database and Manual for every case: it decides reportability, histology, primary site and multiple primaries. Treatment is usually phased (induction, consolidation, maintenance, transplant), and the whole planned sequence is the first course.",
+  stages:[
+    {stage:"AML", sub:"acute myeloid leukemia",
+     expect:["Fit patients: intensive induction (7+3), adding midostaurin for FLT3 or gemtuzumab for favorable-risk","Consolidation chemo, then allogeneic transplant for intermediate or adverse risk","Older or unfit: venetoclax + azacitidine (or decitabine)","APL: ATRA + arsenic trioxide"],
+     look:["Molecular results that came back days after diagnosis","Transplant consult and date"]},
+    {stage:"ALL", sub:"acute lymphoblastic leukemia",
+     expect:["Multi-agent induction, consolidation and long maintenance (2–3 years)","Ph+ ALL: add a BCR::ABL1 TKI","Blinatumomab, inotuzumab, CAR-T for relapsed or MRD-positive disease","CNS prophylaxis with intrathecal chemo"],
+     look:["Intrathecal chemo is still chemotherapy","MRD results that change the plan"]},
+    {stage:"CML", sub:"chronic phase",
+     expect:["Oral TKI: imatinib, dasatinib, nilotinib, bosutinib or asciminib","Monitoring of BCR::ABL1 transcript levels"],
+     look:["Start date in oncology office notes or pharmacy record"]},
+    {stage:"Myeloma", sub:"symptomatic plasma cell myeloma",
+     expect:["Induction with a quadruplet (e.g., daratumumab + bortezomib + lenalidomide + dexamethasone) or triplet","Autologous stem cell transplant for eligible patients","Lenalidomide maintenance","Smoldering myeloma: usually observation; select high-risk patients treated"],
+     look:["Stem cell collection and transplant dates","Bisphosphonates and denosumab are supportive, not first-course treatment"]},
+    {stage:"MDS", sub:"myelodysplastic neoplasms",
+     expect:["Lower risk: supportive care, ESAs, luspatercept, lenalidomide for del(5q)","Higher risk: azacitidine or decitabine; allogeneic transplant if eligible"],
+     look:["IPSS-M or IPSS-R risk in the heme note","Transfusions are supportive care only"]},
+    {stage:"MPN", sub:"PV, ET, myelofibrosis",
+     expect:["PV: phlebotomy + low-dose aspirin; hydroxyurea or interferon for high risk","ET: aspirin ± hydroxyurea by risk","Myelofibrosis: JAK inhibitor (ruxolitinib and others); transplant for higher risk"],
+     look:["Phlebotomy dates","JAK2/CALR/MPL result"]}
+  ],
+  coding:[
+    {h:"Hematopoietic Database (Heme DB)", t:"Look up every histology for reportability, ICD-O code, primary site, grade, and multiple primary calculator. Primary site for most leukemias and myeloma is bone marrow (C42.1)."},
+    {h:"Site-specific data items", t:"Myeloma: serum albumin, beta-2 microglobulin, LDH, high-risk cytogenetics. MPN: JAK2. Check the current SSDI manual for others."},
+    {h:"Treatment categories", t:"Steroids (prednisone, dexamethasone) given as part of the treatment regimen for heme malignancies are coded as hormone therapy. Transplants go in Hematologic Transplant and Endocrine Procedures. Phlebotomy for PV is Other Therapy. Verify lenalidomide, daratumumab, blinatumomab and CAR-T categories in SEER*Rx."}
+  ],
+  measures:[["None","No current CoC quality measure for leukemia, myeloma or MDS/MPN."]],
+  flags:[
+    {k:"miss",h:"Transplant months later",t:"An allogeneic or autologous transplant planned at diagnosis is first course even when it happens months later at a transplant center."},
+    {k:"miss",h:"Oral agents in the office",t:"TKIs, lenalidomide and hydroxyurea are often prescribed in clinic and never appear in infusion records. Read heme office notes and med lists."},
+    {k:"rule",h:"Date of diagnosis",t:"Use the Heme Manual's rules: a peripheral blood flow or clinical diagnosis can precede the marrow biopsy. Do not default to the marrow date."},
+    {k:"rule",h:"Transformation",t:"MDS to AML or MPN to AML may or may not be a new primary. Run the Heme DB multiple primaries calculator, not intuition."},
+    {k:"trap",h:"Supportive care is not treatment",t:"Transfusions, growth factors, hydroxyurea for leukostasis before diagnosis, and bone agents are not coded as first-course therapy unless the Manual says so."},
+    {k:"trap",h:"Smoldering vs active myeloma",t:"Both are reportable. Observation for smoldering disease means Treatment Status of active surveillance, not missing treatment."}
+  ]
+},
+{
+  id:"lymph", name:"Lymphomas (incl. CLL/SLL)", color:"var(--s-lymph)",
+  version:"NCCN Hodgkin, B-cell Lymphomas, CLL/SLL (2026 versions)",
+  drivers:["Excisional or core biopsy","IHC panel","Lugano / Ann Arbor stage","B symptoms","PET-CT (Deauville)","IPI / NCCN-IPI","Bone marrow if indicated","MYC / BCL2 / BCL6 (FISH)"],
+  summary:"Histology from the Heme DB, then stage and bulk drive treatment. Many indolent lymphomas and CLL are watched until treatment is needed, which is coded as active surveillance. Aggressive lymphomas are treated right away with chemo-immunotherapy.",
+  stages:[
+    {stage:"Hodgkin · early", sub:"stage I–II",
+     expect:["ABVD for 2–4 cycles, PET-adapted, ± involved-site radiation","Bulky or unfavorable disease: more cycles and/or RT"],
+     look:["Interim PET (Deauville score) changing the plan","ISRT dates"]},
+    {stage:"Hodgkin · advanced", sub:"stage III–IV",
+     expect:["Nivolumab + AVD or brentuximab vedotin + AVD as first line","Escalated BEACOPP-type regimens at some centers","RT to residual bulky sites in select cases"],
+     look:["Neuropathy-driven regimen changes (still first course)"]},
+    {stage:"DLBCL", sub:"diffuse large B-cell",
+     expect:["Pola-R-CHP or R-CHOP for 6 cycles","Limited stage: fewer cycles ± involved-site RT","CNS prophylaxis for high CNS-IPI","Relapse: CAR-T or bispecific antibodies (not first course)"],
+     look:["Double-hit FISH (MYC + BCL2) changes histology and regimen","Intrathecal methotrexate"]},
+    {stage:"Follicular", sub:"grade 1–2 / 3A",
+     expect:["Limited stage: involved-site RT","Advanced, low tumor burden: watch and wait","Symptomatic or high burden: bendamustine + rituximab or obinutuzumab, or R-CHOP; rituximab alone for some"],
+     look:["GELF criteria or \"no indication for treatment\" in heme note","Transformation to DLBCL on later biopsy"]},
+    {stage:"Marginal zone / MALT", sub:"gastric and other",
+     expect:["H. pylori-positive gastric MALT: antibiotic eradication first","Persistent disease or other sites: RT or rituximab-based therapy"],
+     look:["H. pylori breath test or path stain","Repeat EGD biopsy showing response"]},
+    {stage:"CLL / SLL", sub:"chronic lymphocytic",
+     expect:["Early, asymptomatic: observe (iwCLL criteria guide when to start)","When treatment is indicated: BTK inhibitor (acalabrutinib, zanubrutinib, ibrutinib) or venetoclax + obinutuzumab","Test del(17p)/TP53 and IGHV before treatment"],
+     look:["Rai or Binet stage in heme note","Months to years between diagnosis and treatment start"]}
+  ],
+  coding:[
+    {h:"Site-specific data items", t:"Lymphomas: B Symptoms, HIV Status, NCCN-IPI. CLL/SLL: Adenopathy, Anemia, Lymphocytosis, Organomegaly, Thrombocytopenia (for Rai staging)."},
+    {h:"Primary site", t:"Nodal lymphoma uses the lymph node region codes (C77.x); extranodal disease uses the organ site. Use the Heme Manual rules for multiple node regions."},
+    {h:"Treatment categories", t:"Prednisone in R-CHOP and similar regimens is hormone therapy for lymphoma. Rituximab and obinutuzumab: check SEER*Rx. Nivolumab is immunotherapy. Antibiotics for H. pylori in gastric MALT are coded as Other Therapy per the Heme Manual. RT is coded as usual."}
+  ],
+  measures:[["None","No current CoC quality measure for lymphoma or CLL."]],
+  flags:[
+    {k:"miss",h:"Watch and wait recorded as no treatment",t:"Planned observation is active surveillance. If treatment starts later because of progression, that is subsequent therapy, not first course."},
+    {k:"miss",h:"Steroid prephase",t:"A short course of prednisone before R-CHOP is part of the regimen. Code hormone therapy with that earlier date."},
+    {k:"rule",h:"Transformation",t:"Follicular to DLBCL may be a new primary depending on timing. Use the Heme DB calculator and document why."},
+    {k:"rule",h:"CLL vs SLL",t:"Same disease with different presentations and different codes and primary sites. Base the choice on the Heme Manual and the peripheral blood count, not on the doctor's shorthand."},
+    {k:"trap",h:"Stage from PET, not marrow alone",t:"Lugano staging uses PET-CT; bone marrow biopsy is often omitted in Hodgkin and DLBCL. Do not hold the stage waiting for a marrow."},
+    {k:"trap",h:"Biopsy site vs primary site",t:"An excisional biopsy of one node does not make that node region the primary site if disease is elsewhere. Read the full staging."}
+  ]
+},
+{
+  id:"melanoma", name:"Melanoma (skin)", color:"var(--s-mel)",
+  version:"NCCN Melanoma: Cutaneous (2026 versions)",
+  drivers:["Breslow thickness (0.1 mm)","Ulceration","Mitotic rate","Margins","SLN status","BRAF V600","LDH (stage IV)"],
+  summary:"Breslow thickness and ulceration set the T category, and they decide whether a sentinel node biopsy is offered. Adjuvant immunotherapy now starts at stage IIB, and patients with clinically detected nodes increasingly get immunotherapy before surgery.",
+  stages:[
+    {stage:"Stage 0", sub:"melanoma in situ",
+     expect:["Wide local excision with about 0.5–1 cm margins","Lentigo maligna: staged excision or Mohs; topical imiquimod or RT if surgery is not an option"],
+     look:["Re-excision report after the shave or punch biopsy","Dermatology office notes (often outside the hospital)"]},
+    {stage:"Stage IA", sub:"≤0.8 mm, no ulceration",
+     expect:["Wide excision with 1 cm margins","SLNB generally not recommended"],
+     look:["Final Breslow on the re-excision if deeper than the biopsy"]},
+    {stage:"Stage IB–II", sub:">0.8 mm or ulcerated",
+     expect:["Wide excision with 1–2 cm margins by thickness","SLNB discussed and offered","Stage IIB–IIC: adjuvant pembrolizumab or nivolumab for about a year"],
+     look:["Surgical oncology note documenting the SLNB discussion","Med onc consult after surgery"]},
+    {stage:"Stage III", sub:"node-positive or in-transit",
+     expect:["Positive SLN: nodal ultrasound surveillance is preferred over completion dissection","Clinically detected, resectable nodes: neoadjuvant pembrolizumab, then surgery, then adjuvant pembrolizumab","Adjuvant anti-PD-1, or dabrafenib + trametinib for BRAF V600","In-transit disease: excision, intralesional T-VEC, or systemic therapy"],
+     look:["BRAF result on the node or primary","Neoadjuvant doses before lymphadenectomy"]},
+    {stage:"Stage IV", sub:"metastatic",
+     expect:["Nivolumab + ipilimumab, nivolumab + relatlimab, or anti-PD-1 alone","BRAF V600: BRAF + MEK inhibitor as an alternative","Brain metastases: SRS ± systemic therapy","Later lines: TIL therapy (lifileucel)"],
+     look:["LDH before treatment","Metastasectomy or SRS dates"]}
+  ],
+  coding:[
+    {h:"Site-specific data items", t:"Breslow Tumor Thickness, Ulceration, Mitotic Rate Melanoma, LDH Pretreatment Lab Value and Level (stage IV). Clinical vs pathological margin status is in text, not an SSDI."},
+    {h:"Treatment categories", t:"Pembrolizumab, nivolumab, ipilimumab, relatlimab and T-VEC are immunotherapy. Dabrafenib, trametinib, vemurafenib and other BRAF/MEK inhibitors are chemotherapy. Check imiquimod and lifileucel in SEER*Rx."},
+    {h:"Surgery", t:"Mohs and wide excision are surgery of primary site. A shave or punch that removed all tumor may count as surgery; follow the STORE excisional biopsy rules. SLNB vs completion dissection changes Scope of Regional LN Surgery."}
+  ],
+  measures:[["MadjRx","Surgically managed pathologic stage IIIB–IIID: adjuvant systemic therapy started within 6 months of surgery, or recommended."]],
+  flags:[
+    {k:"miss",h:"Dermatology-only cases",t:"Many in situ and thin melanomas are fully treated in a dermatology office. Pull the outside path and re-excision note rather than coding \"no surgery.\""},
+    {k:"miss",h:"Adjuvant immunotherapy for stage II",t:"Stage IIB–IIC patients now get adjuvant pembrolizumab or nivolumab. It is easy to miss if you expect adjuvant therapy only for stage III."},
+    {k:"rule",h:"Thickness from the deepest specimen",t:"Use the greatest Breslow thickness from any specimen. Do not add biopsy and re-excision thickness together."},
+    {k:"rule",h:"No completion dissection is expected",t:"After a positive SLN, ultrasound surveillance is now standard. A missing lymphadenectomy is not a gap."},
+    {k:"trap",h:"Mucosal and uveal melanoma",t:"Melanoma of the eye, nasal cavity, vulva or anus uses a different schema and STR module. Check the site before using skin rules."},
+    {k:"trap",h:"Multiple melanomas",t:"New melanomas in different sites are often separate primaries. Use the Cutaneous Melanoma module timing and laterality rules."}
+  ]
+},
+{
+  id:"uterus", name:"Uterus (endometrial)", color:"var(--s-uterus)",
+  version:"NCCN Uterine Neoplasms (2026 versions)",
+  drivers:["Histology (endometrioid, serous, clear cell, carcinosarcoma)","Grade","Myometrial invasion","LVSI","Molecular class (POLE, MMR, p53)","ER/PR","HER2 (serous)"],
+  summary:"Surgery stages most patients. Adjuvant therapy depends on stage, grade, histology and increasingly on molecular class. Advanced disease now gets chemotherapy plus immunotherapy as standard first line.",
+  stages:[
+    {stage:"Fertility sparing", sub:"grade 1, no myoinvasion",
+     expect:["Progestin therapy (oral megestrol or levonorgestrel IUD)","Repeat endometrial sampling every 3–6 months","Hysterectomy after childbearing or if no response"],
+     look:["Gyn onc note stating fertility-sparing intent","MRI showing no myometrial invasion"]},
+    {stage:"Stage I–II", sub:"endometrioid",
+     expect:["Total hysterectomy, bilateral salpingo-oophorectomy, sentinel node mapping","Low risk: observation","Intermediate or high-intermediate: vaginal brachytherapy; pelvic RT for higher risk","Stage II: brachytherapy and/or pelvic RT"],
+     look:["MMR/MSI and p53 on the hysterectomy path","Rad onc consult after surgery"]},
+    {stage:"Serous / clear cell / carcinosarcoma", sub:"high-risk histology",
+     expect:["Surgical staging plus omentectomy","Carboplatin/paclitaxel ± vaginal brachytherapy or RT, even for many stage I","HER2-positive serous: add trastuzumab"],
+     look:["HER2 testing for serous","Peritoneal cytology"]},
+    {stage:"Stage III–IV", sub:"advanced",
+     expect:["Surgery when feasible","Carboplatin/paclitaxel plus dostarlimab, pembrolizumab or durvalumab, then maintenance immunotherapy","RT added for selected stage III","Low-grade, ER+ disease: hormone therapy is an option"],
+     look:["Maintenance phase continuing after chemo ends","Tumor board plan for RT"]}
+  ],
+  coding:[
+    {h:"Site-specific data items", t:"FIGO Stage, Number of Positive and Examined Pelvic and Para-Aortic Nodes, Peritoneal Cytology. Follow the SSDI Manual for which FIGO version to record."},
+    {h:"Treatment categories", t:"Megestrol, medroxyprogesterone, the levonorgestrel IUD and letrozole are hormone therapy. Dostarlimab, pembrolizumab and durvalumab are immunotherapy. Trastuzumab is chemotherapy. Vaginal cuff brachytherapy is radiation."},
+    {h:"Histology", t:"Carcinosarcoma (8980) is staged as a carcinoma. Uterine sarcomas (leiomyosarcoma, endometrial stromal sarcoma) use a different AJCC chapter and schema."}
+  ],
+  measures:[["None","No current CoC quality measure for endometrial cancer."]],
+  flags:[
+    {k:"miss",h:"Maintenance immunotherapy",t:"After chemo plus IO, the IO continues alone for months to years. It is part of the same first course."},
+    {k:"miss",h:"Brachytherapy at another facility",t:"Vaginal cuff brachytherapy is often given at a rad onc site outside the operating hospital. Ask for the treatment summary."},
+    {k:"rule",h:"Cancer found at hysterectomy for benign reasons",t:"The hysterectomy is still first-course surgery even when cancer was not suspected before surgery."},
+    {k:"rule",h:"Synchronous ovary and endometrium",t:"Endometrioid tumors in both sites can be one or two primaries. Use the Other Sites module and the pathologist's assessment."},
+    {k:"trap",h:"Biopsy grade vs hysterectomy grade",t:"Grade often changes on the final specimen. Code clinical and pathological grade from the right specimens."},
+    {k:"trap",h:"Atypical hyperplasia",t:"Atypical hyperplasia / EIN is not reportable. Wait for carcinoma on the path before abstracting."}
+  ]
+},
+{
+  id:"hn", name:"Head & Neck", color:"var(--s-hn)",
+  version:"NCCN Head and Neck Cancers (2026 versions)",
+  drivers:["Subsite (oral cavity, oropharynx, larynx, hypopharynx, nasopharynx)","p16 / HPV","Depth of invasion (oral cavity)","ENE","Margins","PD-L1 CPS","EBV DNA (nasopharynx)"],
+  summary:"Subsite and p16 status set the path. Early disease is treated with one modality (surgery or RT). Advanced disease gets surgery then RT or chemoRT, or primary chemoRT. Resectable stage III–IVA HPV-negative disease with PD-L1 expression can now get immunotherapy around surgery.",
+  stages:[
+    {stage:"Oral cavity · early", sub:"T1–T2 N0",
+     expect:["Wide excision of the primary","Elective neck dissection when depth of invasion is more than about 3–4 mm","Adjuvant RT only for adverse features"],
+     look:["Depth of invasion on path","Neck dissection levels"]},
+    {stage:"Resectable · locally advanced", sub:"oral cavity, larynx, HPV− oropharynx, hypopharynx",
+     expect:["Surgery with neck dissection, then RT starting within about 6 weeks","Add concurrent cisplatin for ENE or positive margins","PD-L1 CPS ≥1: perioperative pembrolizumab (before surgery, with adjuvant RT, then maintenance)"],
+     look:["ENE and margins on path","Neoadjuvant pembrolizumab doses before surgery","RT start date vs surgery date (HadjRT)"]},
+    {stage:"Oropharynx · HPV+", sub:"p16-positive",
+     expect:["Early: RT alone or transoral robotic surgery with neck dissection","Advanced: cisplatin-based chemoRT, or TORS + adjuvant RT/chemoRT"],
+     look:["p16 IHC result (Hp16)","Tonsillectomy path"]},
+    {stage:"Larynx", sub:"glottic / supraglottic",
+     expect:["Early glottic: RT or transoral laser excision","Advanced: larynx-preservation chemoRT, or total laryngectomy (usual for T4a)"],
+     look:["Vocal cord mobility in ENT note","Laryngectomy path margins"]},
+    {stage:"Recurrent / metastatic", sub:"",
+     expect:["Pembrolizumab alone or with platinum/5-FU by PD-L1 CPS","Cetuximab-based regimens as alternatives","Nasopharynx: gemcitabine/cisplatin with toripalimab or other PD-1 agent"],
+     look:["CPS value in path or send-out report"]}
+  ],
+  coding:[
+    {h:"Site-specific data items", t:"Extranodal Extension (clinical and pathological), LN Size, LN Head and Neck Levels, p16 for oropharynx, EBV-related items for nasopharynx. Schema depends on subsite and p16, so get those right first."},
+    {h:"Treatment categories", t:"Cisplatin, carboplatin, 5-FU and cetuximab are chemotherapy. Pembrolizumab, nivolumab and toripalimab are immunotherapy. Dental extraction, PEG and tracheostomy are not cancer-directed treatment."},
+    {h:"Surgery", t:"Neck dissection codes go in Scope of Regional LN Surgery. A diagnostic tonsillectomy or excisional biopsy can be surgery of primary site; check the STORE rules."}
+  ],
+  measures:[
+    ["HadjRT","Surgically managed head and neck SCC with adjuvant RT: radiation started within 6 weeks of surgery."],
+    ["Hp16","Newly diagnosed oropharyngeal SCC: p16 status by IHC documented."]
+  ],
+  flags:[
+    {k:"miss",h:"p16 result not captured",t:"p16 sits in the path addendum or a separate IHC report. Missing it fails Hp16 and can put the case in the wrong schema."},
+    {k:"miss",h:"Perioperative pembrolizumab",t:"Two doses before surgery, then IO with adjuvant RT and maintenance. Capture the neoadjuvant doses and check the treatment sequence fields."},
+    {k:"rule",h:"Unknown primary with neck node",t:"A p16+ or EBV+ neck node with no visible primary has specific STR and AJCC instructions. It is not automatically coded C76.0."},
+    {k:"rule",h:"Subsite decides the chapter",t:"Base of tongue is oropharynx; oral tongue is oral cavity. Use the STR Head and Neck site tables, not the clinician's general term."},
+    {k:"trap",h:"HadjRT clock",t:"The 6-week window starts at surgery. Delays from dental work or healing are common; document the reason in Remarks."},
+    {k:"trap",h:"Larynx vs hypopharynx",t:"Pyriform sinus is hypopharynx. Read the ENT exam and op note carefully before choosing the site."}
+  ]
+},
+{
+  id:"pancreas", name:"Pancreas", color:"var(--s-panc)",
+  version:"NCCN Pancreatic Adenocarcinoma (2026 versions)",
+  drivers:["Resectability (vessel contact on pancreas-protocol CT)","CA 19-9","Germline BRCA/PALB2","Somatic NGS (KRAS, MSI, NTRK)","Histology (adenocarcinoma vs neuroendocrine)"],
+  summary:"Resectability decides the order. Resectable disease goes to surgery (sometimes after chemo) and then six months of chemo. Borderline and locally advanced disease get chemo first. Neuroendocrine tumors of the pancreas follow a different guideline and AJCC chapter.",
+  stages:[
+    {stage:"Resectable", sub:"no major vessel contact",
+     expect:["Pancreaticoduodenectomy (Whipple) or distal pancreatectomy","Adjuvant modified FOLFIRINOX for 6 months, or gemcitabine/capecitabine","Neoadjuvant chemo for high-risk features (very high CA 19-9, large nodes, pain)"],
+     look:["Margin status (R0/R1) on Whipple path","Adjuvant start date (HPBCT window is 180 days)"]},
+    {stage:"Borderline resectable", sub:"limited vessel contact",
+     expect:["Neoadjuvant FOLFIRINOX or gemcitabine/nab-paclitaxel","± chemoRT or SBRT","Restaging, then surgery if still resectable"],
+     look:["Restaging CT and CA 19-9 trend","Tumor board resectability call"]},
+    {stage:"Locally advanced", sub:"unresectable, M0",
+     expect:["Chemotherapy as above","± chemoRT or SBRT","Surgery only if it converts to resectable"],
+     look:["Reason surgery not done"]},
+    {stage:"Metastatic", sub:"stage IV",
+     expect:["FOLFIRINOX, NALIRIFOX, or gemcitabine/nab-paclitaxel","Germline BRCA: olaparib maintenance after platinum","MSI-H or other targets: matched therapy"],
+     look:["Germline testing result","Performance status driving regimen choice"]},
+    {stage:"Neuroendocrine (PanNET)", sub:"well-differentiated",
+     expect:["Surgery for localized tumors; small low-grade tumors may be watched","Somatostatin analogs, everolimus, sunitinib, or PRRT for advanced disease"],
+     look:["Ki-67 and grade","Ga-68 dotatate PET"]}
+  ],
+  coding:[
+    {h:"Site-specific data items", t:"CA 19-9 PreTX Lab Value. PanNETs use the AJCC Version 9 NET Pancreas chapter and their own schema."},
+    {h:"Treatment categories", t:"FOLFIRINOX components, gemcitabine, nab-paclitaxel and olaparib are chemotherapy. Biliary stents, celiac plexus blocks and enzyme replacement are not cancer-directed. Check octreotide, lanreotide and PRRT (Lu-177 dotatate) in SEER*Rx and STORE."},
+    {h:"Surgery", t:"Code the procedure actually completed. An exploration that was aborted for unexpected metastases is not a resection."}
+  ],
+  measures:[
+    ["HPBCT","Stage I–II PDAC with upfront curative surgery: adjuvant chemo started within 180 days, or recommended."],
+    ["HPBnoT","Stage I–II PDAC with curative surgery: no residual tumor after resection."]
+  ],
+  flags:[
+    {k:"miss",h:"Neoadjuvant chemo before Whipple",t:"Chemo given before surgery changes staging to yp and the sequence fields. It also takes the case out of the upfront-surgery denominator for HPBCT."},
+    {k:"miss",h:"Germline testing",t:"Recommended for all pancreatic adenocarcinoma. Results drive olaparib eligibility and should be in your text."},
+    {k:"rule",h:"CA 19-9 timing",t:"Use the value before any treatment. A value drawn while the patient is jaundiced may be falsely high; note that in text."},
+    {k:"rule",h:"IPMN with invasive carcinoma",t:"Code the invasive component's histology. IPMN without invasion is behavior /2 or not reportable depending on dysplasia; check the ICD-O update table."},
+    {k:"trap",h:"Stent placement is not surgery",t:"ERCP with stent is diagnostic or palliative. Do not code it as surgery of primary site."},
+    {k:"trap",h:"Neuroendocrine vs adenocarcinoma",t:"Different schema, AJCC chapter and treatment. Read the histology closely before choosing."}
+  ]
+},
+{
+  id:"liver", name:"Liver & bile ducts", color:"var(--s-liver)",
+  version:"NCCN Hepatocellular Carcinoma and Biliary Tract Cancers (2026 versions)",
+  drivers:["LI-RADS category","AFP","Child-Pugh / MELD","BCLC stage","Milan criteria","Biliary: FGFR2, IDH1, HER2, MSI"],
+  summary:"Liver function matters as much as tumor extent. HCC is often diagnosed by imaging without a biopsy. Treatment ranges from ablation, resection or transplant to liver-directed embolization and systemic immunotherapy.",
+  stages:[
+    {stage:"HCC · very early / early", sub:"BCLC 0–A",
+     expect:["Resection for preserved liver function","Thermal ablation (RFA or microwave) for small tumors","Liver transplant within Milan criteria","Bridging TACE or Y-90 while waiting for transplant"],
+     look:["Transplant listing note","Ablation procedure note from IR"]},
+    {stage:"HCC · intermediate", sub:"BCLC B",
+     expect:["TACE or Y-90 radioembolization","SBRT for selected lesions"],
+     look:["IR procedure notes and dates for each session"]},
+    {stage:"HCC · advanced", sub:"BCLC C",
+     expect:["Atezolizumab + bevacizumab, durvalumab + tremelimumab, or nivolumab + ipilimumab","Lenvatinib or sorafenib when IO is not suitable"],
+     look:["Child-Pugh class in hepatology note","Varices screening before bevacizumab"]},
+    {stage:"Biliary · resectable", sub:"intrahepatic, hilar, distal, gallbladder",
+     expect:["Resection to clear margins","Adjuvant capecitabine for about 6 months","± chemoRT for positive margins (extrahepatic)"],
+     look:["Margin status (HPBnoT)","Incidental gallbladder cancer after cholecystectomy"]},
+    {stage:"Biliary · advanced", sub:"unresectable or metastatic",
+     expect:["Gemcitabine/cisplatin with durvalumab or pembrolizumab","Targeted therapy for FGFR2 fusion, IDH1, HER2"],
+     look:["NGS report"]}
+  ],
+  coding:[
+    {h:"Site-specific data items", t:"HCC: AFP Pretreatment Lab Value and Interpretation, Fibrosis Score, Bilirubin, Creatinine and INR pretreatment values. Biliary sites have their own schemas and SSDIs."},
+    {h:"Treatment categories", t:"Chemoembolization (TACE with a chemo agent) is chemotherapy. Y-90 radioembolization is radiation. RFA and microwave ablation are surgery (local destruction). Liver transplant is coded in surgery of primary site. Look up bland embolization rules in STORE."},
+    {h:"Diagnosis", t:"LI-RADS 5 imaging in a high-risk patient is diagnostic for HCC. The date of diagnosis is the imaging date when no biopsy is done."}
+  ],
+  measures:[
+    ["HPBafp","HCC of any stage: AFP obtained at diagnosis."],
+    ["HPBCT","Stage I–II cholangiocarcinoma with upfront surgery: adjuvant chemo within 180 days, or recommended."],
+    ["HPBnoT","Stage I–II cholangiocarcinoma with curative surgery: no residual tumor."]
+  ],
+  flags:[
+    {k:"miss",h:"Bridging therapy before transplant",t:"TACE, Y-90 or ablation done while waiting for a liver is part of the first course with the transplant."},
+    {k:"miss",h:"Serial IR sessions",t:"Multiple TACE or Y-90 sessions in the plan are all first course. Record the first date and the number of sessions in text."},
+    {k:"rule",h:"Imaging-only diagnosis",t:"No biopsy does not mean not reportable. Use the radiology report's LI-RADS language and reportable ambiguous terms."},
+    {k:"rule",h:"Y-90 is radiation",t:"Even though IR places it, radioembolization goes in the radiation fields with its own modality code."},
+    {k:"trap",h:"Metastases to the liver",t:"Liver lesions from a colon or other primary are not liver primaries. Confirm before opening a liver abstract."},
+    {k:"trap",h:"Which biliary schema",t:"Intrahepatic, perihilar, distal bile duct, gallbladder and ampulla each have a separate AJCC chapter. Use the op note and imaging to place the tumor."}
+  ]
+},
+{
+  id:"gi", name:"Esophagus & Stomach", color:"var(--s-gi)",
+  version:"NCCN Esophageal/EGJ and Gastric Cancers (2026 versions)",
+  drivers:["Histology (adeno vs squamous)","Tumor epicenter (EGJ)","EUS depth","HER2","PD-L1 CPS","MMR/MSI","Claudin 18.2"],
+  summary:"Histology and location decide the path. Early tumors can be removed endoscopically. Locally advanced esophageal cancer gets chemoRT or perioperative chemo around esophagectomy. Locally advanced gastric cancer gets perioperative FLOT, now often with durvalumab, around gastrectomy.",
+  stages:[
+    {stage:"Esophagus / stomach · T1a", sub:"mucosal",
+     expect:["Endoscopic resection (EMR or ESD)","Ablation of residual Barrett's (esophagus)"],
+     look:["EMR/ESD path depth and margins"]},
+    {stage:"Esophagus · locally advanced", sub:"T2+ or N+",
+     expect:["Neoadjuvant chemoRT (carboplatin/paclitaxel + RT), then esophagectomy","Adenocarcinoma: perioperative FLOT is also preferred","Residual disease after chemoRT and surgery: adjuvant nivolumab for 1 year","Squamous: definitive chemoRT is an option"],
+     look:["Restaging PET after chemoRT","ypT/ypN on esophagectomy path"]},
+    {stage:"Stomach · locally advanced", sub:"cT2+ or N+",
+     expect:["Perioperative FLOT ± durvalumab, then gastrectomy with D2 lymphadenectomy","At least 16 nodes examined","Surgery first then adjuvant chemo if not given before"],
+     look:["Neoadjuvant start date vs surgery (GCTRT)","Node count (G16RLN)"]},
+    {stage:"Metastatic", sub:"esophagus, EGJ, stomach",
+     expect:["FOLFOX or CAPOX plus nivolumab or pembrolizumab, by PD-L1","HER2+: add trastuzumab (± pembrolizumab)","Claudin 18.2+: add zolbetuximab","MSI-H: immunotherapy"],
+     look:["HER2, CPS, CLDN18.2 and MMR results"]}
+  ],
+  coding:[
+    {h:"Site-specific data items", t:"Esophagus and EGJ Tumor Epicenter. Tumors involving the EGJ with an epicenter within 2 cm into the stomach are staged as esophagus; beyond 2 cm, as stomach. Check the SSDI Manual for other required items."},
+    {h:"Treatment categories", t:"FLOT components, carboplatin/paclitaxel, trastuzumab and zolbetuximab are chemotherapy. Nivolumab, pembrolizumab and durvalumab are immunotherapy. EMR and ESD are surgery. Stents and feeding tubes are not treatment."},
+    {h:"Staging", t:"Esophagus has separate clinical, pathological and post-therapy (yp) stage groups, and they differ for adenocarcinoma and squamous cell."}
+  ],
+  measures:[
+    ["G16RLN","Surgically managed gastric adenocarcinoma: at least 16 regional nodes examined."],
+    ["GCTRT","Age 18–79, EGJ or esophageal cT2 poorly differentiated, cT3+ or N+, or gastric cT2+ or N+: neoadjuvant chemo and/or chemoRT started within 120 days before surgery."]
+  ],
+  flags:[
+    {k:"miss",h:"Adjuvant nivolumab after esophagectomy",t:"Started after recovery when residual disease is found. It is first course and often given at a different site."},
+    {k:"miss",h:"Durvalumab with FLOT",t:"Durvalumab runs before and after gastrectomy and then continues alone. Capture all phases."},
+    {k:"rule",h:"EGJ site assignment",t:"Primary site (C15.5 vs C16.0) and the AJCC chapter depend on the tumor epicenter. Use EGD and path descriptions."},
+    {k:"rule",h:"Node count after neoadjuvant therapy",t:"G16RLN applies to gastric resections. Record the actual number examined; do not estimate."},
+    {k:"trap",h:"Barrett's with high-grade dysplasia",t:"High-grade dysplasia alone is not reportable as esophageal cancer in most registries. Check your standard setter's reportability list."},
+    {k:"trap",h:"Gastric MALT and GIST",t:"Gastric lymphoma follows heme rules and GIST has its own chapter. They are not gastric adenocarcinoma."}
+  ]
+},
+{
+  id:"cervix", name:"Cervix", color:"var(--s-cervix)",
+  version:"NCCN Cervical Cancer (2026 versions)",
+  drivers:["FIGO stage","Tumor size","LVSI","Nodes (imaging or path)","Histology (squamous, adeno)","PD-L1 CPS","HPV"],
+  summary:"Small tumors are treated with surgery. Larger or node-positive tumors are treated with chemoradiation plus brachytherapy. Pembrolizumab added to chemoradiation is now an option for stage III–IVA.",
+  stages:[
+    {stage:"IA1", sub:"microinvasive, no LVSI",
+     expect:["Cone biopsy with negative margins (fertility sparing) or simple hysterectomy"],
+     look:["Cone margin status"]},
+    {stage:"IA2–IB2", sub:"early, ≤4 cm",
+     expect:["Radical hysterectomy with pelvic nodes or sentinel nodes","Low-risk tumors ≤2 cm: simple hysterectomy is an option","Fertility sparing: radical trachelectomy","Adjuvant RT or chemoRT for intermediate or high-risk pathology"],
+     look:["Parametrial and margin status","Rad onc consult after surgery"]},
+    {stage:"IB3–IVA", sub:"locally advanced",
+     expect:["Concurrent weekly cisplatin + pelvic RT","Brachytherapy boost","Stage III–IVA: add pembrolizumab during and after chemoRT","Induction carboplatin/paclitaxel before chemoRT at some centers"],
+     look:["Brachytherapy dates (often a separate course or facility)","Para-aortic node imaging"]},
+    {stage:"IVB / recurrent", sub:"metastatic",
+     expect:["Platinum/paclitaxel ± bevacizumab, plus pembrolizumab for PD-L1 CPS ≥1","Later lines: tisotumab vedotin or other agents"],
+     look:["PD-L1 result"]}
+  ],
+  coding:[
+    {h:"Site-specific data items", t:"FIGO Stage plus lymph node status and assessment-method SSDIs (pelvic, para-aortic, distant). AJCC Version 9 cervix allows imaging to assign nodal status."},
+    {h:"Treatment categories", t:"Cisplatin, carboplatin, paclitaxel, bevacizumab and tisotumab vedotin are chemotherapy. Pembrolizumab is immunotherapy. External beam and brachytherapy are coded in their own radiation phases."},
+    {h:"Surgery", t:"Cone biopsy or LEEP that removes all tumor can count as surgery of primary site. Code the most definitive procedure."}
+  ],
+  measures:[["CBRRT","Any-stage cervical cancer treated with primary curative radiation: brachytherapy is used."]],
+  flags:[
+    {k:"miss",h:"Brachytherapy recorded separately",t:"Brachytherapy is often given after external beam, sometimes at another facility. Without it, CBRRT fails."},
+    {k:"miss",h:"Pembrolizumab maintenance",t:"For stage III–IVA, pembrolizumab continues after chemoRT ends. It is part of the first course."},
+    {k:"rule",h:"CIN III / AIS not reportable",t:"Cervical intraepithelial neoplasia III and adenocarcinoma in situ of the cervix are not reportable to CoC or SEER."},
+    {k:"rule",h:"Version 9 staging",t:"Cervix uses AJCC Version 9 (2021+). Do not use the 8th Edition chapter for current cases."},
+    {k:"trap",h:"Cancer found on simple hysterectomy",t:"Inadvertent simple hysterectomy for presumed benign disease is still first-course surgery, and adjuvant chemoRT often follows."},
+    {k:"trap",h:"Para-aortic RT field",t:"Extended-field RT for para-aortic nodes changes the radiation volume code. Read the rad onc treatment summary."}
+  ]
+},
+{
+  id:"ovary", name:"Ovary / tube / peritoneum", color:"var(--s-ovary)",
+  version:"NCCN Ovarian Cancer (2026 versions)",
+  drivers:["Histology (high-grade serous, low-grade serous, clear cell, mucinous, endometrioid)","CA-125","Germline BRCA","HRD status","Residual disease after surgery"],
+  summary:"Most patients present at stage III–IV. Treatment is surgery to remove all visible disease plus carboplatin/paclitaxel, given in either order. PARP inhibitor maintenance is now common for BRCA and HRD-positive disease.",
+  stages:[
+    {stage:"Stage I", sub:"confined to ovary or tube",
+     expect:["Comprehensive surgical staging (hysterectomy, BSO, omentectomy, nodes, washings)","Low-grade IA/IB: observation","High-grade or IC and above: carboplatin/paclitaxel for 3–6 cycles"],
+     look:["Washings and capsule status on path","Fertility-sparing surgery note"]},
+    {stage:"Stage II–IV", sub:"advanced",
+     expect:["Primary cytoreduction to no gross residual, then 6 cycles carboplatin/paclitaxel ± bevacizumab","Or neoadjuvant chemo (about 3 cycles), interval debulking, then more chemo","HIPEC at interval surgery is an option for stage III","Maintenance PARP inhibitor (olaparib, niraparib) or olaparib + bevacizumab by BRCA/HRD"],
+     look:["Residual disease statement in the op note","Tumor board decision for neoadjuvant chemo"]},
+    {stage:"Low-grade serous", sub:"",
+     expect:["Surgery as above","Hormone therapy (letrozole) is an option after surgery","Chemo less effective"],
+     look:["Hormone therapy plan in gyn onc note"]}
+  ],
+  coding:[
+    {h:"Site-specific data items", t:"CA-125 Pretreatment Interpretation, FIGO Stage, Residual Tumor Volume Post Cytoreduction."},
+    {h:"Primary site", t:"Ovary, fallopian tube and primary peritoneal carcinoma share one AJCC chapter but get different site codes. Use the pathologist's site assignment and the Other Sites module instructions."},
+    {h:"Treatment categories", t:"Carboplatin, paclitaxel, bevacizumab and PARP inhibitors are chemotherapy. HIPEC is coded as chemotherapy. Letrozole is hormone therapy."}
+  ],
+  measures:[["None","No current CoC quality measure for ovarian cancer."]],
+  flags:[
+    {k:"miss",h:"PARP maintenance",t:"Starts after chemo ends, often months after diagnosis, as an oral drug. It is first course."},
+    {k:"miss",h:"Interval debulking",t:"Surgery after neoadjuvant chemo is still the first-course surgery. Check sequence fields and ypT staging."},
+    {k:"rule",h:"Borderline tumors are not reportable",t:"Serous and mucinous borderline tumors (/1) are not reportable to CoC or SEER."},
+    {k:"rule",h:"Residual disease",t:"Residual Tumor Volume comes from the surgeon's op note, not the path report."},
+    {k:"trap",h:"Diagnosis date with neoadjuvant chemo",t:"Diagnosis may come from paracentesis cytology or a core biopsy weeks before surgery. Use the earliest qualifying date."},
+    {k:"trap",h:"Tube vs ovary",t:"Many high-grade serous cancers are now assigned to the fallopian tube. Code the site the pathologist names."}
+  ]
+},
+{
+  id:"cns", name:"Brain & CNS", color:"var(--s-cns)",
+  version:"NCCN Central Nervous System Cancers (2026 versions)",
+  drivers:["WHO CNS grade","IDH1/2","1p/19q codeletion","MGMT methylation","H3 K27M","Extent of resection (post-op MRI)","Laterality"],
+  summary:"Integrated diagnosis (histology plus molecular markers) decides treatment. Benign and borderline CNS tumors are reportable too. Glioblastoma gets surgery then radiation with temozolomide. Many meningiomas and other benign tumors are watched.",
+  stages:[
+    {stage:"Glioblastoma", sub:"IDH-wildtype, grade 4",
+     expect:["Maximal safe resection","RT about 60 Gy over 6 weeks with concurrent temozolomide","Adjuvant temozolomide for 6–12 cycles ± tumor treating fields","Older or frail: shorter RT ± temozolomide"],
+     look:["Post-op MRI extent of resection","MGMT result"]},
+    {stage:"IDH-mutant glioma", sub:"grade 2",
+     expect:["Resection","Low risk with residual tumor: vorasidenib or observation","Higher risk: RT followed by PCV or temozolomide"],
+     look:["1p/19q status (oligodendroglioma vs astrocytoma)"]},
+    {stage:"IDH-mutant glioma", sub:"grade 3–4",
+     expect:["Resection then RT plus chemotherapy (PCV or temozolomide)"],
+     look:["Neuro-onc plan"]},
+    {stage:"Meningioma", sub:"grade 1–3",
+     expect:["Small, asymptomatic: observation with MRI","Resection for symptoms or growth","SRS or RT for residual, recurrent or grade 2–3 tumors"],
+     look:["Imaging-only diagnosis date","Neurosurgery plan for observation"]},
+    {stage:"Other benign", sub:"schwannoma, pituitary",
+     expect:["Vestibular schwannoma: observation, SRS or surgery","Pituitary tumors: surgery, medical therapy or observation"],
+     look:["Endocrinology notes for pituitary"]}
+  ],
+  coding:[
+    {h:"Site-specific data items", t:"Brain Molecular Markers, Chromosome 1p and 19q, MGMT. Grade uses WHO CNS grade from the Grade Manual's CNS table. Laterality is required for paired CNS sites."},
+    {h:"Treatment categories", t:"Temozolomide, PCV, bevacizumab, vorasidenib and carmustine wafers (Gliadel) are chemotherapy. Tumor treating fields are Other Therapy; confirm in STORE. Dexamethasone for swelling is not cancer treatment."},
+    {h:"Reportability", t:"Benign (/0) and borderline (/1) brain and CNS tumors are reportable, including meningiomas and pituitary tumors. Check the current ICD-O update table for behavior changes."}
+  ],
+  measures:[["None","No current CoC quality measure for CNS tumors."]],
+  flags:[
+    {k:"miss",h:"Imaging-only meningiomas",t:"Benign tumors seen on MRI and never biopsied are reportable. Casefinding should catch radiology reports, not only path."},
+    {k:"miss",h:"Adjuvant temozolomide",t:"Monthly cycles continue for 6–12 months after RT. Capture the full plan."},
+    {k:"rule",h:"Two STR modules",t:"Malignant CNS and Non-malignant CNS each have their own multiple primary and histology rules. Pick the module by behavior."},
+    {k:"rule",h:"No TNM stage",t:"AJCC Version 9 Brain and Spinal Cord does not assign stage groups. Capture grade and molecular SSDIs instead."},
+    {k:"trap",h:"Metastases to brain",t:"Brain metastases from lung, breast or melanoma are not CNS primaries."},
+    {k:"trap",h:"Steroids are not hormone therapy",t:"Dexamethasone for edema is supportive care. Do not code it as hormone therapy for CNS tumors."}
+  ]
+},
+{
+  id:"sclc", name:"Small cell lung", color:"var(--s-sclc)",
+  version:"NCCN Small Cell Lung Cancer (2026 versions)",
+  drivers:["Limited vs extensive stage","AJCC TNM (Version 9)","Brain MRI","Performance status"],
+  summary:"Small cell uses the same AJCC lung chapter but clinicians treat by limited vs extensive stage. Almost every patient gets platinum plus etoposide. Immunotherapy now follows chemoradiation in limited stage and runs with chemo, then as maintenance, in extensive stage.",
+  stages:[
+    {stage:"Limited · T1–2 N0", sub:"node-negative",
+     expect:["Lobectomy with mediastinal node evaluation, then adjuvant chemo (RT added if nodes are positive)","SBRT if not a surgical candidate, then chemo"],
+     look:["Invasive mediastinal staging before surgery","Path confirming N0"]},
+    {stage:"Limited stage", sub:"one radiation field",
+     expect:["Concurrent cisplatin or carboplatin + etoposide with thoracic RT","Durvalumab consolidation for up to 2 years after chemoRT (ADRIATIC)","Prophylactic cranial irradiation (PCI) or brain MRI surveillance"],
+     look:["Durvalumab start date after RT ends","PCI dates (a separate RT course)"]},
+    {stage:"Extensive stage", sub:"beyond one RT field",
+     expect:["Carboplatin + etoposide with atezolizumab or durvalumab for about 4 cycles","Maintenance immunotherapy; lurbinectedin added to atezolizumab maintenance is a newer option","Consolidative thoracic RT for selected responders","PCI or brain MRI surveillance; SRS or WBRT for brain metastases"],
+     look:["Maintenance phase start","Inpatient chemo start for very ill patients"]},
+    {stage:"Relapsed", sub:"not first course",
+     expect:["Tarlatamab, lurbinectedin, or topotecan","Rechallenge with platinum/etoposide if relapse is late"],
+     look:["Progression date that ends the first course"]}
+  ],
+  coding:[
+    {h:"Histology", t:"Small cell carcinoma 8041; combined small cell 8045. Large cell neuroendocrine carcinoma is coded separately but often treated like small cell. Use the STR Lung module."},
+    {h:"Staging", t:"Assign AJCC Version 9 lung TNM even though notes say limited or extensive. Record limited/extensive in text."},
+    {h:"Treatment categories", t:"Cisplatin, carboplatin, etoposide and lurbinectedin are chemotherapy. Atezolizumab and durvalumab are immunotherapy. Check tarlatamab in SEER*Rx. PCI is a separate radiation phase or course to the brain."}
+  ],
+  measures:[["None","LCT applies to NSCLC only; there is no current CoC measure for small cell."]],
+  flags:[
+    {k:"miss",h:"Durvalumab after chemoRT",t:"In limited stage, consolidation durvalumab starts weeks after RT and can run up to 2 years. It is part of the first course."},
+    {k:"miss",h:"PCI",t:"Prophylactic cranial irradiation planned at diagnosis is first course. Code it as its own radiation phase or course with the brain as the volume."},
+    {k:"rule",h:"Same lung chapter",t:"Small cell uses the AJCC Version 9 lung chapter. Limited/extensive is not a substitute for TNM."},
+    {k:"rule",h:"NSCLC measures do not apply",t:"Do not review small cell cases against LCT."},
+    {k:"trap",h:"Combined histology",t:"Small cell mixed with NSCLC components has its own code. Apply the STR Lung histology rules."},
+    {k:"trap",h:"Urgent inpatient chemo",t:"Many patients start chemo during the diagnostic admission. Capture the inpatient administration date, not the first clinic visit."}
+  ]
+},
+{
+  id:"meso", name:"Mesothelioma", color:"var(--s-meso)",
+  version:"NCCN Mesothelioma: Pleural and Peritoneal (2026 versions)",
+  drivers:["Histology (epithelioid, sarcomatoid, biphasic)","Pleural vs peritoneal","Resectability","BAP1 / germline testing","Asbestos history"],
+  summary:"Histology drives treatment. Most pleural mesothelioma is treated with systemic therapy; surgery is reserved for selected epithelioid tumors at experienced centers. Peritoneal mesothelioma is treated with cytoreductive surgery and heated intraperitoneal chemo when possible.",
+  stages:[
+    {stage:"Pleural · resectable", sub:"usually epithelioid",
+     expect:["Pemetrexed + cisplatin or carboplatin before or after pleurectomy/decortication","Hemithoracic RT for selected patients"],
+     look:["Multidisciplinary resectability decision","Operative procedure type"]},
+    {stage:"Pleural · unresectable", sub:"",
+     expect:["Nivolumab + ipilimumab (preferred for non-epithelioid)","Pemetrexed/platinum with pembrolizumab, or ± bevacizumab"],
+     look:["Histologic subtype on biopsy"]},
+    {stage:"Peritoneal", sub:"",
+     expect:["Cytoreductive surgery + HIPEC","Systemic pemetrexed/platinum or immunotherapy if unresectable"],
+     look:["Peritoneal cancer index and completeness of cytoreduction in op note"]},
+    {stage:"Palliative procedures", sub:"not cancer-directed",
+     expect:["Talc pleurodesis or indwelling pleural catheter for effusions"],
+     look:["Do not code these as treatment"]}
+  ],
+  coding:[
+    {h:"Staging", t:"Pleural: AJCC Version 9 Diffuse Pleural Mesothelioma (listed by AJCC for 2025). Peritoneal mesothelioma has no AJCC stage; EOD and Summary Stage apply."},
+    {h:"Primary site and histology", t:"Pleura C38.4, peritoneum C48.x; also pericardium and tunica vaginalis. Histology 9050–9053. Use the STR Other Sites module."},
+    {h:"Treatment categories", t:"Pemetrexed, platinum and bevacizumab are chemotherapy. Nivolumab, ipilimumab and pembrolizumab are immunotherapy. HIPEC is chemotherapy. Pleurodesis and pleural catheters are not cancer-directed."}
+  ],
+  measures:[["None","No current CoC quality measure for mesothelioma."]],
+  flags:[
+    {k:"miss",h:"Neoadjuvant chemo before surgery",t:"Chemo before P/D changes the sequence fields and staging basis."},
+    {k:"miss",h:"Hemithoracic RT",t:"Often given weeks after surgery at a different facility. Ask for the RT summary."},
+    {k:"rule",h:"Pleurodesis is not surgery",t:"Talc pleurodesis and VATS for effusion control are not surgery of primary site."},
+    {k:"rule",h:"Site of origin",t:"Code the serosal site of origin, not the organ the tumor invades."},
+    {k:"trap",h:"Metastatic adenocarcinoma to pleura",t:"Malignant effusions from lung or breast are not mesothelioma. Look for the IHC panel (calretinin, WT1, BAP1 loss)."},
+    {k:"trap",h:"Benign mesothelial tumors",t:"Adenomatoid tumors and well-differentiated papillary mesothelial tumors are not malignant mesothelioma."}
+  ]
+},
+{
+  id:"anus", name:"Anus", color:"var(--s-anus)",
+  version:"NCCN Anal Carcinoma (2026 versions)",
+  drivers:["Anal canal vs perianal","Tumor size","Inguinal and pelvic nodes","HIV status","p16 / HPV"],
+  summary:"Chemoradiation is standard for most anal squamous cell carcinoma and usually cures without surgery. Response is judged months after treatment, so surgery soon after chemoRT is unusual.",
+  stages:[
+    {stage:"Small perianal T1 N0", sub:"well differentiated",
+     expect:["Local excision with adequate margins","ChemoRT if margins are inadequate"],
+     look:["Margin status on excision"]},
+    {stage:"Anal canal · T1–T4, any N", sub:"nonmetastatic",
+     expect:["Mitomycin + 5-FU or capecitabine with RT (about 50–59 Gy), including inguinal nodes","Response assessment by exam and imaging over about 26 weeks"],
+     look:["Mitomycin doses and RT start/end dates","Nodal RT volume"]},
+    {stage:"Persistent / recurrent", sub:"after chemoRT",
+     expect:["Abdominoperineal resection for persistent or recurrent disease","Use STORE timing rules to decide first vs subsequent course"],
+     look:["Biopsy confirming persistent disease after 26 weeks"]},
+    {stage:"Metastatic", sub:"",
+     expect:["Carboplatin + paclitaxel with retifanlimab","Retifanlimab or other PD-1 agent after progression"],
+     look:["PD-1 agent start date"]}
+  ],
+  coding:[
+    {h:"Staging", t:"AJCC Version 9 Anus (2023+). Check the SSDI Manual for the items in this schema."},
+    {h:"Histology", t:"Most are squamous cell carcinoma (8070). Anal adenocarcinoma is treated like rectal cancer. Use the STR Other Sites module."},
+    {h:"Treatment categories", t:"Mitomycin, 5-FU, capecitabine, carboplatin and paclitaxel are chemotherapy. Retifanlimab is immunotherapy. RT to primary and nodes is coded in the radiation phase fields."}
+  ],
+  measures:[["None","No current CoC quality measure for anal cancer."]],
+  flags:[
+    {k:"rule",h:"AIN III is reportable",t:"Anal intraepithelial neoplasia III is reportable, unlike CIN III of the cervix."},
+    {k:"rule",h:"Anal adenocarcinoma",t:"Adenocarcinoma of the anal canal follows the rectal treatment pathway, though it is still coded to the anal site."},
+    {k:"miss",h:"Nodal radiation",t:"Inguinal and pelvic nodes are usually in the RT volume even when uninvolved. Read the RT summary for the full volume."},
+    {k:"miss",h:"HIV status",t:"HIV status affects treatment tolerance and is important context. Record it in text."},
+    {k:"trap",h:"Anal canal vs perianal skin",t:"The boundary decides site code and schema. Use the exam and op descriptions with the STR and AJCC definitions."},
+    {k:"trap",h:"Positive biopsy too early",t:"Tumor regresses slowly after chemoRT. A positive biopsy at 8–12 weeks is not treatment failure."}
+  ]
+},
+{
+  id:"appendix", name:"Appendix", color:"var(--s-appx)",
+  version:"NCCN Colon Cancer (appendiceal adenocarcinoma) and Neuroendocrine Tumors (2026 versions)",
+  drivers:["Histology (LAMN, HAMN, mucinous, goblet cell, NET)","Grade","Perforation / peritoneal spread","Pseudomyxoma peritonei","Size (NET)"],
+  summary:"Most appendix tumors are found incidentally at appendectomy. Histology decides whether that appendectomy is enough, or whether right hemicolectomy, cytoreduction with HIPEC, or chemotherapy follows.",
+  stages:[
+    {stage:"LAMN / HAMN", sub:"confined to appendix",
+     expect:["Appendectomy with a clear margin is usually enough","Surveillance imaging"],
+     look:["Margin and perforation status","Acellular mucin outside the appendix"]},
+    {stage:"Adenocarcinoma", sub:"incl. goblet cell",
+     expect:["Right hemicolectomy with nodes","Adjuvant chemo like colon for node-positive disease"],
+     look:["Completion hemicolectomy date","Node count"]},
+    {stage:"Peritoneal spread", sub:"pseudomyxoma peritonei",
+     expect:["Cytoreductive surgery + HIPEC at a specialized center","Systemic chemo for high-grade disease"],
+     look:["Op note describing cytoreduction completeness"]},
+    {stage:"Appendiceal NET", sub:"well differentiated",
+     expect:["≤2 cm with favorable features: appendectomy alone","Larger, mesoappendiceal invasion or LVI: right hemicolectomy"],
+     look:["Size and mesoappendix involvement on path"]}
+  ],
+  coding:[
+    {h:"Histology and behavior", t:"LAMN and HAMN are 8480/2 and reportable for 2022+ diagnoses; code 8480/3 when the pathologist stages them pT3 or pT4. Goblet cell adenocarcinoma is 8243/3."},
+    {h:"Staging", t:"AJCC Version 9 Appendix Carcinoma (2023+). Appendiceal NETs use the Version 9 NET Appendix chapter (2024+)."},
+    {h:"Treatment", t:"Appendectomy and hemicolectomy have separate surgery codes. HIPEC is chemotherapy. Cytoreductive procedures follow STORE rules for primary and other sites."}
+  ],
+  measures:[["None","No appendix-specific CoC measure. Check RCRS specifications before assuming colon measures apply to C18.1."]],
+  flags:[
+    {k:"miss",h:"Incidental at appendectomy",t:"These cases often show up only on a path report for appendicitis. Casefinding has to catch them."},
+    {k:"miss",h:"Completion hemicolectomy",t:"A hemicolectomy weeks after the appendectomy is still first-course surgery."},
+    {k:"rule",h:"LAMN before 2022",t:"LAMN diagnosed before 2022 is not reportable, even if treated."},
+    {k:"rule",h:"Not the colon chapter",t:"Appendix carcinoma has its own Version 9 chapter and SSDIs."},
+    {k:"trap",h:"Mucocele",t:"A mucocele without a neoplasm is not reportable. Read the final diagnosis."},
+    {k:"trap",h:"Pseudomyxoma and the ovary",t:"Ovarian involvement in pseudomyxoma is usually secondary to the appendix. Use the pathologist's statement of origin."}
+  ]
+},
+{
+  id:"net", name:"GI neuroendocrine tumors", color:"var(--s-net)",
+  version:"NCCN Neuroendocrine and Adrenal Tumors (2026 versions)",
+  drivers:["Differentiation (NET vs NEC)","Grade by Ki-67 / mitoses","Primary site","Size","Somatostatin-receptor PET","Chromogranin A, 5-HIAA"],
+  summary:"Well-differentiated NETs grow slowly and are graded by Ki-67. Small tumors are removed endoscopically or surgically. Advanced disease is controlled with somatostatin analogs, PRRT and targeted drugs. Poorly differentiated neuroendocrine carcinomas behave like small cell and are treated with platinum/etoposide.",
+  stages:[
+    {stage:"Small localized", sub:"rectal <1 cm, gastric type 1",
+     expect:["Endoscopic resection","Gastric type 1: surveillance or endoscopic removal"],
+     look:["Endoscopy path margins"]},
+    {stage:"Small bowel", sub:"jejunum / ileum",
+     expect:["Segmental resection with mesenteric lymphadenectomy","Check for multiple tumors along the bowel"],
+     look:["Number of tumors on path"]},
+    {stage:"Larger locoregional", sub:"",
+     expect:["Surgical resection with nodes, by site"],
+     look:["Ki-67 grade on resection"]},
+    {stage:"Metastatic NET", sub:"well differentiated",
+     expect:["Somatostatin analog (octreotide LAR or lanreotide)","PRRT with Lu-177 dotatate after progression, or first line for selected higher-grade tumors","Everolimus; liver-directed therapy or resection of liver metastases"],
+     look:["Ga-68 or Cu-64 dotatate PET","Injection start date"]},
+    {stage:"Neuroendocrine carcinoma", sub:"poorly differentiated",
+     expect:["Platinum + etoposide","Surgery rarely"],
+     look:["Histology statement: NEC vs G3 NET"]}
+  ],
+  coding:[
+    {h:"Staging", t:"AJCC Version 9 NET chapters (2024+) for stomach, duodenum/ampulla, jejunum/ileum, appendix, colon/rectum and pancreas. NEC is staged with the carcinoma chapter for the site."},
+    {h:"Grade and histology", t:"Grade G1/G2/G3 by Ki-67 and mitoses using the Grade Manual. NET (8240), G3 NET (8249) and NEC (8246, or small/large cell codes) are different histologies."},
+    {h:"Treatment categories", t:"Everolimus, sunitinib and capecitabine/temozolomide are chemotherapy. Check octreotide, lanreotide and Lu-177 dotatate in SEER*Rx and STORE."}
+  ],
+  measures:[["None","No current CoC quality measure for neuroendocrine tumors."]],
+  flags:[
+    {k:"miss",h:"Somatostatin analog started later",t:"Monthly injections planned at diagnosis are first course even if started after surgery."},
+    {k:"miss",h:"Multifocal small bowel tumors",t:"Multiple ileal NETs are common. Apply the multiple primary rules for the site."},
+    {k:"rule",h:"NET vs NEC",t:"These are different diseases with different codes and chapters. Use the pathologist's exact wording."},
+    {k:"rule",h:"Endoscopic removal is surgery",t:"A rectal NET fully removed at colonoscopy is treated. Code the endoscopic excision as surgery."},
+    {k:"trap",h:"Grade from Ki-67",t:"A Ki-67 above 20% with well-differentiated morphology is a G3 NET, not NEC."},
+    {k:"trap",h:"Symptom control vs treatment",t:"Octreotide for carcinoid syndrome may also be anti-tumor therapy. Check STORE and SEER*Rx before coding."}
+  ]
+},
+{
+  id:"gist", name:"GIST", color:"var(--s-gist)",
+  version:"NCCN Gastrointestinal Stromal Tumors (2026 versions)",
+  drivers:["Site (gastric vs small bowel)","Size","Mitotic rate per 5 mm²","Rupture","KIT / PDGFRA mutation"],
+  summary:"Surgery is the main treatment. Recurrence risk from size, mitoses, site and rupture decides adjuvant imatinib. Mutation type decides which drug works.",
+  stages:[
+    {stage:"Small gastric", sub:"<2 cm",
+     expect:["Endoscopic surveillance or resection"],
+     look:["EUS features"]},
+    {stage:"Localized resectable", sub:"",
+     expect:["Resection with negative margins; lymphadenectomy usually not needed","Low risk: surveillance","High risk or rupture: adjuvant imatinib for 3 years"],
+     look:["Mitotic count and size on path","Risk category in med onc note"]},
+    {stage:"Marginally resectable", sub:"",
+     expect:["Neoadjuvant imatinib, then resection"],
+     look:["Response imaging before surgery"]},
+    {stage:"Metastatic / unresectable", sub:"",
+     expect:["Imatinib, then sunitinib, regorafenib, ripretinib","PDGFRA D842V: avapritinib (imatinib does not work)"],
+     look:["Mutation report"]}
+  ],
+  coding:[
+    {h:"Staging", t:"AJCC 8th Edition GIST. Gastric/omental and small bowel tumors have different stage groups. Mitotic rate is used in place of grade."},
+    {h:"Histology and behavior", t:"GIST 8936. Recent ICD-O updates code GIST as malignant (/3); check the update table for your diagnosis year."},
+    {h:"Treatment categories", t:"Imatinib, sunitinib, regorafenib, ripretinib and avapritinib are chemotherapy. Use the surgery codes for the organ of origin."}
+  ],
+  measures:[["None","No current CoC quality measure for GIST."]],
+  flags:[
+    {k:"miss",h:"3 years of oral imatinib",t:"Adjuvant imatinib is prescribed in clinic and runs for years. Capture the start date."},
+    {k:"miss",h:"Neoadjuvant imatinib",t:"Imatinib before surgery changes the sequence fields."},
+    {k:"rule",h:"No node dissection expected",t:"GIST rarely spreads to nodes. Absent lymphadenectomy is normal."},
+    {k:"rule",h:"Site of origin",t:"Code the organ of origin (stomach, small bowel), not C49 soft tissue."},
+    {k:"trap",h:"Rupture",t:"Tumor rupture before or during surgery puts the patient in a high-risk group. Look for it in the op note."},
+    {k:"trap",h:"Lookalikes",t:"Leiomyoma and schwannoma can mimic GIST. Confirm CD117/DOG1 on path."}
+  ]
+},
+{
+  id:"sarcoma", name:"Soft tissue sarcoma", color:"var(--s-sarc)",
+  version:"NCCN Soft Tissue Sarcoma (2026 versions)",
+  drivers:["Site (extremity/trunk, retroperitoneum, visceral, head and neck)","Histologic subtype","FNCLCC grade","Size and depth","Margins"],
+  summary:"Site and grade drive treatment. Extremity sarcomas are usually resected with radiation before or after surgery. Chemotherapy is used selectively by subtype. Retroperitoneal sarcomas need en bloc surgery at a sarcoma center.",
+  stages:[
+    {stage:"Extremity/trunk · low grade", sub:"or small superficial",
+     expect:["Wide excision","RT for close or positive margins"],
+     look:["Margin distances on path"]},
+    {stage:"Extremity/trunk · high grade", sub:">5 cm or deep",
+     expect:["Preoperative RT (about 50 Gy) then wide excision, or surgery then postoperative RT","Doxorubicin + ifosfamide for selected high-risk patients"],
+     look:["RT dates relative to surgery","Sarcoma center records"]},
+    {stage:"Retroperitoneal", sub:"",
+     expect:["En bloc resection with involved organs","Preoperative RT selectively"],
+     look:["Organs removed in op note"]},
+    {stage:"Metastatic", sub:"",
+     expect:["Doxorubicin-based chemo; subtype-specific options (gemcitabine/docetaxel, trabectedin, eribulin, pazopanib)","Metastasectomy for limited lung metastases"],
+     look:["Subtype on path"]}
+  ],
+  coding:[
+    {h:"Staging", t:"AJCC 8th Edition has separate soft tissue chapters: head and neck, trunk and extremities, abdomen and thoracic visceral organs, retroperitoneum, and unusual histologies. Grade uses FNCLCC from the Grade Manual."},
+    {h:"Primary site", t:"Code soft tissue sarcomas to C49.x by location; sarcomas arising in an organ get the organ code. Use the STR Other Sites module."},
+    {h:"Treatment categories", t:"Doxorubicin, ifosfamide, gemcitabine, docetaxel, trabectedin, eribulin and pazopanib are chemotherapy. Check the surgery/RT sequence field when RT comes first."}
+  ],
+  measures:[["None","No current CoC quality measure for soft tissue sarcoma."]],
+  flags:[
+    {k:"miss",h:"Unplanned excision",t:"Many sarcomas are first removed as a presumed benign lump. That excision and the later re-excision are both first-course surgery."},
+    {k:"miss",h:"Preop RT elsewhere",t:"RT may be given at the sarcoma center before surgery. Get the RT summary."},
+    {k:"rule",h:"Not all fatty tumors are reportable",t:"Atypical lipomatous tumor and desmoid tumors are not malignant. Check the behavior code before abstracting."},
+    {k:"rule",h:"Other chapters",t:"GIST, Kaposi sarcoma, uterine sarcoma and bone sarcomas have their own chapters."},
+    {k:"trap",h:"Grade on core biopsy",t:"Core biopsy can underestimate grade. Follow the Grade Manual instructions on which specimen to use."},
+    {k:"trap",h:"Pediatric-type sarcomas",t:"Rhabdomyosarcoma and Ewing sarcoma follow pediatric-style protocols even in adults."}
+  ]
+},
+{
+  id:"testis", name:"Testis", color:"var(--s-testis)",
+  version:"NCCN Testicular Cancer (2026 versions)",
+  drivers:["Seminoma vs nonseminoma","AFP, hCG, LDH (pre- and post-orchiectomy)","LVI","Retroperitoneal nodes on CT","IGCCCG risk"],
+  summary:"Radical inguinal orchiectomy diagnoses and treats the primary. Tumor markers before and after orchiectomy set the S category. Stage I is mostly watched; higher stages get BEP or EP chemotherapy, with surgery for residual masses.",
+  stages:[
+    {stage:"Seminoma · stage I", sub:"",
+     expect:["Surveillance preferred","Single-dose carboplatin or RT as alternatives"],
+     look:["Surveillance plan in urology or med onc note"]},
+    {stage:"Nonseminoma · stage I", sub:"",
+     expect:["Surveillance, especially without LVI","One cycle of BEP or nerve-sparing RPLND for higher risk"],
+     look:["LVI on orchiectomy path"]},
+    {stage:"Stage II", sub:"retroperitoneal nodes",
+     expect:["Seminoma IIA/IIB: RT or chemo (BEP x3 or EP x4); RPLND an option","Nonseminoma: chemo or RPLND by marker status and node size"],
+     look:["Post-orchiectomy marker trend"]},
+    {stage:"Stage III", sub:"",
+     expect:["BEP x3 (good risk) or x4 (intermediate/poor), or VIP","Post-chemo RPLND for residual masses (nonseminoma)"],
+     look:["IGCCCG risk group","Residual mass surgery date"]}
+  ],
+  coding:[
+    {h:"Site-specific data items", t:"AFP, hCG and LDH pre- and post-orchiectomy values and ranges. The post-orchiectomy markers decide the S category."},
+    {h:"Histology", t:"Pure seminoma 9061; mixed germ cell tumor 9085. Postpubertal-type teratoma is malignant. Use the STR Other Sites module."},
+    {h:"Treatment", t:"Orchiectomy is surgery of primary site (not an endocrine procedure as it is for prostate). RPLND is regional lymph node surgery. BEP, EP, VIP and carboplatin are chemotherapy."}
+  ],
+  measures:[["None","No current CoC quality measure for testicular cancer."]],
+  flags:[
+    {k:"rule",h:"Orchiectomy is primary surgery here",t:"Unlike prostate cancer, orchiectomy for testis cancer goes in surgery of primary site."},
+    {k:"miss",h:"Post-orchiectomy markers",t:"Markers drawn after orchiectomy are needed for the S category. Find the right draw date."},
+    {k:"miss",h:"RPLND after chemo",t:"Planned resection of residual masses after chemo is first course."},
+    {k:"trap",h:"Surveillance",t:"Stage I surveillance is active surveillance, not missing treatment."},
+    {k:"trap",h:"Trans-scrotal procedures",t:"A scrotal biopsy or trans-scrotal orchiectomy changes the expected lymphatic spread. Note it in text."},
+    {k:"trap",h:"Extragonadal germ cell tumors",t:"Mediastinal or retroperitoneal germ cell tumors with normal testes are coded to the site of origin."}
+  ]
+},
+{
+  id:"vulva", name:"Vulva", color:"var(--s-vulva)",
+  version:"NCCN Vulvar Cancer (2026 versions)",
+  drivers:["Depth of invasion (>1 mm)","Tumor size","Unifocal vs multifocal","Groin nodes","HPV-associated vs HPV-independent (p16)"],
+  summary:"Surgery is the main treatment for early vulvar cancer, with sentinel node biopsy for many patients. Node-positive or locally advanced disease gets radiation with chemotherapy.",
+  stages:[
+    {stage:"Stage IA", sub:"≤2 cm, ≤1 mm invasion",
+     expect:["Radical local excision without groin node evaluation"],
+     look:["Depth of invasion on path"]},
+    {stage:"Early", sub:">1 mm invasion, <4 cm, unifocal",
+     expect:["Radical local excision + inguinofemoral sentinel node biopsy","Full groin dissection if SLN positive or not mapped","Midline tumors need both groins evaluated"],
+     look:["SLN results by side"]},
+    {stage:"Adjuvant", sub:"",
+     expect:["RT ± weekly cisplatin for positive nodes or close/positive margins"],
+     look:["RT start date after surgery"]},
+    {stage:"Locally advanced", sub:"",
+     expect:["ChemoRT (weekly cisplatin) to primary and groins/pelvis","Surgery for residual disease"],
+     look:["Response exam after chemoRT"]},
+    {stage:"Metastatic", sub:"",
+     expect:["Platinum-based chemo ± pembrolizumab for PD-L1-positive disease"],
+     look:["PD-L1 result"]}
+  ],
+  coding:[
+    {h:"Staging", t:"AJCC Version 9 Vulva (2024+). FIGO stage and lymph node status SSDIs."},
+    {h:"Histology", t:"Mostly squamous cell carcinoma. Vulvar melanoma and extramammary Paget disease follow different rules; check the STR and schema."},
+    {h:"Treatment", t:"Cisplatin is chemotherapy. SLNB and groin dissection go in Scope of Regional LN Surgery. RT to vulva, groins and pelvis in the radiation phase fields."}
+  ],
+  measures:[["None","No current CoC quality measure for vulvar cancer."]],
+  flags:[
+    {k:"rule",h:"VIN III is reportable",t:"Vulvar intraepithelial neoplasia III (vulvar HSIL) is reportable, unlike CIN III of the cervix."},
+    {k:"rule",h:"Version 9 chapter",t:"Do not use the 8th Edition vulva chapter for 2024+ cases."},
+    {k:"miss",h:"Bilateral groin evaluation",t:"Midline tumors need both groins. Capture bilateral SLN or dissection."},
+    {k:"miss",h:"Adjuvant RT",t:"Often starts several weeks after wound healing. It is first course."},
+    {k:"trap",h:"Multifocal disease",t:"Separate vulvar lesions may be one or more primaries. Use the STR Other Sites rules."},
+    {k:"trap",h:"Subsite codes",t:"Labia majora, labia minora and clitoris have separate site codes. Use the exam and op note."}
+  ]
+},
+{
+  id:"merkel", name:"Merkel cell", color:"var(--s-merkel)",
+  version:"NCCN Merkel Cell Carcinoma (2026 versions)",
+  drivers:["Tumor size","SLN status","Clinical nodes","Immunosuppression","Merkel cell polyomavirus status"],
+  summary:"Merkel cell carcinoma is aggressive but sensitive to radiation and immunotherapy. Localized disease usually gets wide excision with sentinel node biopsy, then radiation to the primary site.",
+  stages:[
+    {stage:"Localized", sub:"clinically N0",
+     expect:["Wide excision (1–2 cm) with SLNB at the same time","Adjuvant RT to the primary bed for most","Observation for small tumors with clear margins and negative SLN in some"],
+     look:["SLN result","Rad onc consult"]},
+    {stage:"SLN positive", sub:"",
+     expect:["Node dissection and/or RT to the nodal basin"],
+     look:["Nodal RT volume"]},
+    {stage:"Clinically node-positive", sub:"",
+     expect:["Excision plus node dissection and/or RT","Immunotherapy before or after surgery in trials or selected cases"],
+     look:["Imaging staging"]},
+    {stage:"Metastatic", sub:"",
+     expect:["Avelumab, pembrolizumab, retifanlimab or nivolumab","Carboplatin/etoposide if immunotherapy is not possible"],
+     look:["Immunosuppression documented"]}
+  ],
+  coding:[
+    {h:"Reportability", t:"Merkel cell carcinoma of skin (8247/3) is reportable, even though basal and squamous cell skin cancers are not."},
+    {h:"Staging", t:"AJCC 8th Edition Merkel Cell Carcinoma."},
+    {h:"Treatment categories", t:"Avelumab, pembrolizumab, retifanlimab and nivolumab are immunotherapy. Carboplatin and etoposide are chemotherapy. Wide excision is surgery of primary site."}
+  ],
+  measures:[["None","No current CoC quality measure for Merkel cell carcinoma."]],
+  flags:[
+    {k:"rule",h:"Reportable skin cancer",t:"Do not exclude Merkel cell as a non-reportable skin cancer."},
+    {k:"miss",h:"Adjuvant RT",t:"Most patients get RT to the primary site after excision. Capture it."},
+    {k:"miss",h:"Immunosuppression",t:"Organ transplant, CLL and HIV change prognosis and treatment. Record it in text."},
+    {k:"trap",h:"Nodal disease without skin primary",t:"Follow the STR Other Sites unknown primary instructions for nodal Merkel cell with no skin lesion."},
+    {k:"trap",h:"Metastatic small cell lookalike",t:"Small cell lung cancer can mimic Merkel cell. CK20+ and TTF-1− support Merkel cell."},
+    {k:"trap",h:"Dermatology biopsy",t:"Diagnosis is often an outside dermatology biopsy. Get the original path for the diagnosis date."}
+  ]
+}
+];
+
+/* Suggested text documentation (NAACCR text fields). Placeholders in [brackets]. */
+const NOTES = {
+  breast:{
+    "PE":"[date] [facility/MD]: [size] palpable mass [laterality, clock position], axillary nodes [palpable/not], skin/nipple [changes]",
+    "X-RAY/SCAN":"[date] Mammo/US: [size] mass [location], BI-RADS [#], axilla [findings]. [date] MRI: [extent, multicentric?]. Staging CT/bone scan if done",
+    "SCOPES":"N/A",
+    "LAB TESTS":"Germline genetics [result/date]. Oncotype DX RS [##] ([date])",
+    "OP":"[date] Core bx [laterality, clock]. [date] [lumpectomy/mastectomy] + [SLNB/ALND]",
+    "PATH":"[date] Core: [histology], grade [#], ER [%] PR [%] HER2 IHC [0-3+]/ISH [ratio], Ki-67 [%]. [date] Resection: [size] [histology], margins [closest mm], LVI [y/n], SLN [#pos/#exam], [ypT ypN if neoadj], RCB [if given]",
+    "PRIMARY SITE":"[C50.x] [quadrant] [laterality]",
+    "HISTOLOGY":"[histology], grade [#]",
+    "STAGING":"cT[ ] cN[ ] M[ ] clinical stage [ ] (prognostic). pT[ ] pN[ ] path stage [ ]. Neoadj response [ ]",
+    "SURGERY":"[date] [procedure], LN surgery [SLNB #/ALND #]. Re-excision [date] if any. Reconstruction not coded",
+    "RADIATION":"[date–date] [facility] [whole breast/PMRT/RNI], [dose Gy/fx], boost [y/n]",
+    "CHEMO":"[date] [regimen e.g., TCHP, AC-T, capecitabine, T-DM1, CDK4/6i] [facility]",
+    "HORMONE":"[date] [tamoxifen/AI ± ovarian suppression], planned [5–10 yrs]; or refused [date, source]",
+    "IMMUNO":"[date] pembrolizumab [neoadj + adj] or N/A",
+    "OTHER":"N/A",
+    "REMARKS":"Tumor board [date]. Recommended-but-not-given treatment and reason. Deviations from expected pathway explained"
+  },
+  lung:{
+    "PE":"[date]: presenting sx [cough/hemoptysis/incidental], ECOG [#], smoking hx [pack-yrs]",
+    "X-RAY/SCAN":"[date] CT chest: [size] [lobe] mass, nodules [other lobes?], nodes [stations]. [date] PET: SUV [##], nodal/distant uptake. [date] Brain MRI: [neg/mets]",
+    "SCOPES":"[date] EBUS/bronch: stations sampled [4R, 7, …] [pos/neg]",
+    "LAB TESTS":"PD-L1 TPS [%]. NGS [EGFR/ALK/ROS1/KRAS/other — result, tissue or liquid, date]",
+    "OP":"[date] [lobectomy/segmentectomy/pneumonectomy], approach [VATS/robotic/open], nodes sampled [stations]",
+    "PATH":"[date] Bx: [histology]. [date] Resection: [size] [histology], pleural invasion [PL0–3], margins [ ], LVI [ ], nodes [#pos/#exam by station], [ypT ypN, % viable tumor if neoadj]",
+    "PRIMARY SITE":"[C34.x] [lobe] [laterality]",
+    "HISTOLOGY":"[adenocarcinoma, predominant pattern / squamous / other]",
+    "STAGING":"cT[ ] cN[ ] M[ ] stage [ ]. pT[ ] pN[ ] stage [ ]. Separate tumor nodules [ ]",
+    "SURGERY":"[date] [procedure]; or none — reason [inoperable/SBRT chosen]",
+    "RADIATION":"[date–date] [SBRT/conventional chemoRT/SRS brain], [dose Gy/fx], [site]",
+    "CHEMO":"[date] [carboplatin/pemetrexed, cisplatin/gem, osimertinib, alectinib…], [neoadj/adj/concurrent]",
+    "HORMONE":"N/A",
+    "IMMUNO":"[date] [nivolumab/pembrolizumab/durvalumab/atezolizumab], phase [neoadj/adj/consolidation]",
+    "OTHER":"N/A",
+    "REMARKS":"Driver status explains IO vs targeted choice. Multidisciplinary resectability decision [date]"
+  },
+  prostate:{
+    "PE":"[date] DRE: [findings → cT category]",
+    "X-RAY/SCAN":"[date] MRI prostate: PI-RADS [#], ECE/SVI [y/n]. [date] PSMA PET or bone scan: [nodes/mets]",
+    "SCOPES":"N/A",
+    "LAB TESTS":"PSA [##.#] ng/mL on [date] (pre-biopsy). Germline/genomic tests [ ]",
+    "OP":"[date] [TRUS/transperineal/MRI-fusion] bx, [#pos]/[#exam] cores. [date] RP ± PLND",
+    "PATH":"[date] Bx: adenocarcinoma, Gleason [x+y=z], GG [#], max % core [ ], PNI [ ]. [date] RP: Gleason [ ], GG [ ], ECE [ ], SVI [ ], margins [ ], nodes [#pos/#exam]",
+    "PRIMARY SITE":"C61.9 Prostate",
+    "HISTOLOGY":"[acinar adenocarcinoma], GG [#]",
+    "STAGING":"cT[ ] cN[ ] M[ ], PSA [ ], GG [ ] → stage [ ]. NCCN risk group [ ] (per notes)",
+    "SURGERY":"[date] [RP/focal ablation]; or none",
+    "RADIATION":"[date–date] [EBRT/SBRT/brachy, LDR/HDR], [dose Gy/fx], pelvic nodes [y/n]",
+    "CHEMO":"[date] docetaxel or N/A",
+    "HORMONE":"[date] [leuprolide/degarelix/relugolix] [planned duration]; [abiraterone/enzalutamide/apalutamide/darolutamide] [date]",
+    "IMMUNO":"N/A",
+    "OTHER":"N/A",
+    "REMARKS":"Treatment Status: active surveillance vs watchful waiting, with source and date. Bilateral orchiectomy [date] if done"
+  },
+  colon:{
+    "PE":"[date]: presenting sx [bleeding/anemia/obstruction/perforation/screening], ECOG [ ]",
+    "X-RAY/SCAN":"[date] CT C/A/P: [primary location, nodes, liver/lung mets]",
+    "SCOPES":"[date] Colonoscopy: [size] mass [segment, cm], [polypectomy? piecemeal/en bloc], tattooed [y/n], synchronous lesions [ ]",
+    "LAB TESTS":"CEA [##] on [date] (pre-treatment)",
+    "OP":"[date] [polypectomy]. [date] [right/left/sigmoid colectomy, approach]; ostomy [y/n]",
+    "PATH":"[date] Bx/polyp: adenocarcinoma, [grade], margin [mm], LVI [ ], budding [ ]. MMR [proficient/deficient] or MSI [ ]. KRAS/NRAS/BRAF [ ]. [date] Resection: [size], depth [pT], nodes [#pos/#exam], tumor deposits [#], LVI/PNI, margins incl. radial [mm]",
+    "PRIMARY SITE":"[C18.x/C19.9] [segment]",
+    "HISTOLOGY":"[adenocarcinoma/mucinous/signet ring], grade [ ]",
+    "STAGING":"cT[ ] cN[ ] M[ ] stage [ ]. pT[ ] pN[ ] stage [ ]",
+    "SURGERY":"[date] [procedure]; nodes examined [#]",
+    "RADIATION":"N/A (rare in colon)",
+    "CHEMO":"[date] [CAPOX/FOLFOX/capecitabine], [3 or 6 months], [adjuvant/neoadjuvant/metastatic ± biologic]",
+    "HORMONE":"N/A",
+    "IMMUNO":"[date] [atezolizumab with FOLFOX/pembrolizumab/nivo + ipi] for dMMR or N/A",
+    "OTHER":"N/A",
+    "REMARKS":"Days from diagnosis to adjuvant start. Reason ACT not given or refused [source]. Metastasectomy [date/site]"
+  },
+  rectum:{
+    "PE":"[date]: presenting sx [bleeding/change in habits], DRE: [cm from anal verge, mobility, sphincter involvement]",
+    "X-RAY/SCAN":"[date] Pelvic MRI: mrT[ ], mrN[ ], MRF/CRM [mm], EMVI [ ], distance from anal verge [cm]. [date] CT C/A/P: [mets]. Restaging MRI [date]: [response]",
+    "SCOPES":"[date] Colonoscopy/flex sig: [size] mass [cm from verge], [circumference %]. Restaging endoscopy [date]: [cCR/near cCR/residual]",
+    "LAB TESTS":"CEA [##] on [date] (pre-treatment)",
+    "OP":"[date] [LAR/APR/TME/local excision/TAMIS/ESD]; ostomy [diverting/permanent]",
+    "PATH":"[date] Bx: adenocarcinoma, [grade]. MMR [ ]. KRAS/NRAS/BRAF [ ]. [date] Resection: [ypT ypN], tumor regression grade [ ], nodes [#pos/#exam], tumor deposits [#], CRM [mm], distal margin [cm], mesorectum quality [complete/near/incomplete]",
+    "PRIMARY SITE":"C20.9 Rectum",
+    "HISTOLOGY":"[adenocarcinoma/mucinous/signet ring], grade [ ]",
+    "STAGING":"cT[ ] cN[ ] M[ ] stage [ ]. ypT[ ] ypN[ ] stage [ ]",
+    "SURGERY":"[date] [procedure]; or watch-and-wait after cCR [date, source]",
+    "RADIATION":"[date–date] [short-course 25 Gy/5 fx or long-course 50.4 Gy/28 fx] with [capecitabine/5-FU], [facility]",
+    "CHEMO":"[date] [FOLFOX/CAPOX], [induction/consolidation/adjuvant], [# cycles]; concurrent [capecitabine]",
+    "HORMONE":"N/A",
+    "IMMUNO":"[date] dostarlimab for dMMR or N/A",
+    "OTHER":"N/A",
+    "REMARKS":"TNT sequence (RT first or chemo first). Reason RT omitted. cCR and watch-and-wait decision [source]"
+  },
+  bladder:{
+    "PE":"[date]: [gross hematuria/other], exam [ ]",
+    "X-RAY/SCAN":"[date] CT urogram: [bladder mass, upper tracts clear?, nodes, mets]",
+    "SCOPES":"[date] Cystoscopy: [size, number, location, papillary vs sessile]",
+    "LAB TESTS":"Urine cytology [ ]. Creatinine/GFR [##] (cisplatin eligibility). FGFR3 [ ]",
+    "OP":"[date] TURBT [complete/incomplete], post-op instillation [drug, date/time]. [date] re-TURBT. [date] radical cystectomy + PLND, diversion [type]",
+    "PATH":"[date] TURBT: urothelial ca, [low/high] grade, [noninvasive papillary/CIS/invades lamina propria/muscle], muscularis propria [present/absent], variants [ ]. [date] Cystectomy: [ypT ypN], margins, nodes [#pos/#exam]",
+    "PRIMARY SITE":"[C67.x] [wall/trigone/dome]",
+    "HISTOLOGY":"[papillary urothelial ca/urothelial CIS/variant], grade [low/high]",
+    "STAGING":"cT[ ] cN[ ] M[ ] stage [0a/0is/I–IV]. pT/ypT[ ] pN[ ]",
+    "SURGERY":"[date] TURBT; [date] re-TURBT; [date] cystectomy",
+    "RADIATION":"[date–date] bladder [dose Gy/fx] concurrent with [chemo] (trimodality) or N/A",
+    "CHEMO":"[date] intravesical [gemcitabine/mitomycin] [single/induction]. [date] systemic [ddMVAC/gem-cis/EV]",
+    "HORMONE":"N/A",
+    "IMMUNO":"[date] BCG induction [#] + maintenance plan; [date] [pembrolizumab/durvalumab/nivolumab]",
+    "OTHER":"N/A",
+    "REMARKS":"Cisplatin ineligibility reason. Reason no post-TURBT instillation if not given"
+  },
+  thyroid:{
+    "PE":"[date]: [palpable nodule/incidental], neck nodes [ ], voice changes [ ]",
+    "X-RAY/SCAN":"[date] Neck US: [size] nodule [lobe], TI-RADS [#], lateral nodes [ ]. Other imaging [ ]",
+    "SCOPES":"[date] Laryngoscopy (vocal cords) if done",
+    "LAB TESTS":"TSH, thyroglobulin/anti-Tg [ ]. Medullary: calcitonin [ ], CEA [ ]. Molecular [BRAF/RET/RAS] [ ]",
+    "OP":"[date] FNA [Bethesda category]. [date] [lobectomy/total thyroidectomy] + [central/lateral neck dissection]. [date] completion thyroidectomy",
+    "PATH":"[date] Resection: [size] [histology + subtype], focality [uni/multi], ETE [none/micro/gross], LVI [ ], margins [ ], nodes [#pos/#exam], largest node [mm], ENE [ ]",
+    "PRIMARY SITE":"C73.9 Thyroid gland",
+    "HISTOLOGY":"[papillary, subtype/follicular/oncocytic/medullary/anaplastic]",
+    "STAGING":"Age at dx [ ]. pT[ ] pN[ ] M[ ] stage [ ]",
+    "SURGERY":"[date] [procedure]; completion [date]",
+    "RADIATION":"[date] I-131 [###] mCi [ablation/adjuvant/treatment], prep [withdrawal/Thyrogen]. EBRT if any",
+    "CHEMO":"[lenvatinib/sorafenib/selpercatinib/dabrafenib+trametinib] [date] or N/A",
+    "HORMONE":"[date] levothyroxine for TSH suppression (per STORE)",
+    "IMMUNO":"N/A",
+    "OTHER":"N/A",
+    "REMARKS":"Active surveillance plan for microcarcinoma. NIFTP excluded. Reason RAI not given"
+  },
+  kidney:{
+    "PE":"[date]: [incidental/hematuria/flank pain]",
+    "X-RAY/SCAN":"[date] CT/MRI abd: [size] [solid/cystic, Bosniak #] mass [laterality, pole], renal vein/IVC [ ], adrenal [ ], nodes [ ]. CT chest [ ]",
+    "SCOPES":"N/A",
+    "LAB TESTS":"Creatinine/eGFR [ ]. For metastatic: IMDC factors (Hgb, Ca, neutrophils, platelets)",
+    "OP":"[date] Renal mass bx [if done]. [date] [partial/radical nephrectomy, robotic/open] ± [thrombectomy/LND]. [date] [cryo/RFA]",
+    "PATH":"[date] [size] [clear cell/papillary/chromophobe/other], WHO/ISUP grade [#], sarcomatoid/rhabdoid [%], necrosis [ ], perinephric/sinus fat [ ], renal vein [ ], adrenal [ ], margins [ ], nodes [#pos/#exam]",
+    "PRIMARY SITE":"C64.9 Kidney, [laterality]",
+    "HISTOLOGY":"[histology], grade [#]",
+    "STAGING":"cT[ ] cN[ ] M[ ] stage [ ]. pT[ ] pN[ ] stage [ ]",
+    "SURGERY":"[date] [procedure]; or active surveillance [date, source]",
+    "RADIATION":"[SBRT to primary/mets] or N/A",
+    "CHEMO":"[date] [axitinib/cabozantinib/lenvatinib/other TKI] or N/A",
+    "HORMONE":"N/A",
+    "IMMUNO":"[date] adjuvant pembrolizumab (1 yr) or [pembro/nivo/ipi] for metastatic",
+    "OTHER":"N/A",
+    "REMARKS":"Reason radical instead of partial for cT1a. Cytoreductive nephrectomy or metastasectomy [date/site]"
+  },
+  heme:{
+    "PE":"[date]: [fatigue/bleeding/infection/bone pain/incidental CBC], splenomegaly [ ], LAD [ ]",
+    "X-RAY/SCAN":"Myeloma: [date] skeletal survey/PET/MRI [lytic lesions]. MPN: spleen size [cm]",
+    "SCOPES":"N/A",
+    "LAB TESTS":"[date] CBC: WBC [ ], Hgb [ ], Plt [ ], blasts [%]. Flow [date]: [immunophenotype]. Cytogenetics/FISH [ ]. Molecular [FLT3/NPM1/BCR::ABL1/JAK2/TP53]. Myeloma: SPEP M-spike [ ], FLC ratio [ ], beta-2 MG [ ], albumin [ ], LDH [ ], Ca/Cr",
+    "OP":"[date] Bone marrow bx/aspirate. [date] stem cell collection",
+    "PATH":"[date] BM: cellularity [%], blasts/plasma cells [%], dysplasia [ ], fibrosis [grade], diagnosis [ ]",
+    "PRIMARY SITE":"C42.1 Bone marrow (per Heme DB)",
+    "HISTOLOGY":"[Heme DB term + ICD-O code]; date of dx rule used [ ]",
+    "STAGING":"Not AJCC staged (myeloma: R-ISS [ ] in notes). Risk group: ELN/IPSS-M/DIPSS [ ]",
+    "SURGERY":"N/A (marrow bx is diagnostic)",
+    "RADIATION":"[TBI as transplant conditioning/palliative RT] or N/A",
+    "CHEMO":"[date] [7+3/ven-aza/TKI/bortezomib/hydroxyurea…], phase [induction/consolidation/maintenance]",
+    "HORMONE":"[date] [dexamethasone/prednisone] as part of regimen",
+    "IMMUNO":"[date] [per SEER*Rx: e.g., blinatumomab, CAR-T, interferon] or N/A",
+    "OTHER":"PV phlebotomy [dates] or N/A",
+    "REMARKS":"TRANSPLANT [date] [auto/allo], center [ ]. Heme DB multiple primary calculator result if prior heme dx. Treatment given at outside office [source]"
+  },
+  lymph:{
+    "PE":"[date]: [node regions], B symptoms [fever/night sweats/weight loss >10%], spleen/liver [ ]",
+    "X-RAY/SCAN":"[date] PET-CT: involved regions [ ], extranodal [ ], bulk [cm], Deauville [interim/EOT]",
+    "SCOPES":"[EGD for gastric MALT] or N/A",
+    "LAB TESTS":"LDH [ ], CBC [ ], HIV [ ], HBV [ ]. CLL: ALC [ ], FISH del(17p)/TP53, IGHV",
+    "OP":"[date] [excisional/core] bx [site]. [date] BM bx if done",
+    "PATH":"[date] [node/site]: [histology], IHC [CD20, CD30, BCL2, BCL6, Ki-67…], FISH [MYC/BCL2/BCL6], COO [GCB/ABC], FL grade [ ]",
+    "PRIMARY SITE":"[C77.x node region or extranodal organ] per Heme Manual",
+    "HISTOLOGY":"[Heme DB term + ICD-O code]",
+    "STAGING":"Lugano/Ann Arbor stage [ ] [A/B], [E], bulk [ ]. IPI/NCCN-IPI [ ]. CLL: Rai [ ]",
+    "SURGERY":"[splenectomy/resection] or N/A (excisional bx is diagnostic)",
+    "RADIATION":"[date–date] ISRT [site], [dose Gy/fx]",
+    "CHEMO":"[date] [ABVD/AVD/R-CHOP/Pola-R-CHP/BR/BTK inhibitor/venetoclax…], [# cycles]",
+    "HORMONE":"[date] prednisone [prephase/part of regimen]",
+    "IMMUNO":"[date] [nivolumab/brentuximab per SEER*Rx] or N/A",
+    "OTHER":"[date] H. pylori eradication [regimen] for gastric MALT or N/A",
+    "REMARKS":"Watch-and-wait plan [date, source]. Transformation and Heme DB multiple primary result if applicable"
+  },
+  melanoma:{
+    "PE":"[date]: [size] pigmented lesion [site, laterality], satellite/in-transit [ ], regional nodes [palpable/not]",
+    "X-RAY/SCAN":"[date] Nodal US / PET-CT / brain MRI if done: [findings]",
+    "SCOPES":"N/A",
+    "LAB TESTS":"LDH [ ] (stage IV). BRAF [V600E/K/wild-type] [date, specimen]",
+    "OP":"[date] [shave/punch/excisional] bx [site] ([outside derm?]). [date] WLE [margin cm]. [date] SLNB [basin], [date] lymphadenectomy if done",
+    "PATH":"[date] Bx: [subtype], Breslow [x.x] mm, ulceration [y/n], mitoses [#/mm²], regression [ ], margins [ ]. [date] WLE: residual [ ], margins [ ]. SLN [#pos/#exam], largest deposit [mm]",
+    "PRIMARY SITE":"[C44.x] [specific site], laterality [ ]",
+    "HISTOLOGY":"[superficial spreading/nodular/lentigo maligna/acral/NOS] melanoma [in situ/invasive]",
+    "STAGING":"cT[ ] cN[ ] M[ ] stage [ ]. pT[ ] pN[ ] stage [ ]",
+    "SURGERY":"[date] [WLE/Mohs]; excisional bx counted as surgery if all tumor removed",
+    "RADIATION":"[SRS brain/adjuvant nodal RT] or N/A",
+    "CHEMO":"[date] dabrafenib + trametinib or N/A",
+    "HORMONE":"N/A",
+    "IMMUNO":"[date] [pembrolizumab/nivolumab/nivo+ipi/nivo+relatlimab/T-VEC], [neoadj/adj/metastatic]",
+    "OTHER":"N/A",
+    "REMARKS":"Outside dermatology source. Reason no SLNB. Nodal US surveillance plan instead of completion dissection"
+  },
+  uterus:{
+    "PE":"[date]: [postmenopausal bleeding], pelvic exam [ ]",
+    "X-RAY/SCAN":"[date] Pelvic US: endometrial stripe [mm]. [date] MRI/CT: myoinvasion [ ], nodes [ ], mets [ ]",
+    "SCOPES":"[date] Hysteroscopy if done",
+    "LAB TESTS":"CA-125 [ ] if done. Germline/Lynch testing [ ]",
+    "OP":"[date] Endometrial bx / D&C. [date] [TLH/robotic/TAH] + BSO + SLN mapping [± omentectomy]",
+    "PATH":"[date] Bx: [histology], grade [ ]. [date] Hysterectomy: [size], myoinvasion [x of y mm, %], LVSI [none/focal/substantial], cervical stroma [ ], adnexa [ ], washings [ ], SLN/LN [pelvic #pos/#exam, para-aortic #pos/#exam]. MMR/MSI [ ], p53 [ ], POLE [ ], ER/PR [ ], HER2 [ ]",
+    "PRIMARY SITE":"C54.1 Endometrium (or [C54.x/C55.9])",
+    "HISTOLOGY":"[endometrioid/serous/clear cell/carcinosarcoma], grade [ ]",
+    "STAGING":"FIGO [ ]. pT[ ] pN[ ] M[ ] stage [ ]",
+    "SURGERY":"[date] [procedure], LN surgery [SLN/pelvic/para-aortic]",
+    "RADIATION":"[date–date] [vaginal brachy/pelvic EBRT], [dose Gy/fx]",
+    "CHEMO":"[date] carboplatin/paclitaxel [± trastuzumab], [# cycles]",
+    "HORMONE":"[date] [megestrol/LNG-IUD/letrozole] or N/A",
+    "IMMUNO":"[date] [dostarlimab/pembrolizumab/durvalumab] + maintenance or N/A",
+    "OTHER":"N/A",
+    "REMARKS":"Fertility-sparing intent. Molecular class. Treatment at outside rad onc [facility]"
+  },
+  hn:{
+    "PE":"[date] ENT exam: [subsite, size, extension], cord mobility [ ], neck nodes [level, size, fixed?]",
+    "X-RAY/SCAN":"[date] CT/MRI neck: [primary extent, DOI, bone], nodes [levels, size, ENE]. [date] PET-CT: [ ]",
+    "SCOPES":"[date] Laryngoscopy/panendoscopy: [findings]",
+    "LAB TESTS":"HPV/EBV DNA [ ]. Dental eval [date]",
+    "OP":"[date] Bx [site]. [date] [resection/TORS/laryngectomy] + [neck dissection levels, side]",
+    "PATH":"[date] Bx: SCC [grade], p16 IHC [pos/neg] (HPV ISH [ ]). [date] Resection: [size], DOI [mm], PNI [ ], LVI [ ], margins [closest mm], nodes [#pos/#exam by level], largest [cm], ENE [none/minor/major]. PD-L1 CPS [ ]",
+    "PRIMARY SITE":"[C00–C14, C32.x] [subsite], laterality [ ]",
+    "HISTOLOGY":"Squamous cell carcinoma [keratinizing/nonkeratinizing], grade [ ]",
+    "STAGING":"Schema [oral cavity/HPV+ OP/p16− OP/larynx]. cT[ ] cN[ ] M[ ] stage [ ]. pT[ ] pN[ ] stage [ ]",
+    "SURGERY":"[date] [procedure]; neck dissection [levels]",
+    "RADIATION":"[date–date] [IMRT] [primary/adjuvant], [dose Gy/fx]. Days from surgery to RT start: [ ]",
+    "CHEMO":"[date] [cisplatin weekly/q3w, carboplatin/5-FU, cetuximab]",
+    "HORMONE":"N/A",
+    "IMMUNO":"[date] pembrolizumab [neoadj/adj/maintenance/metastatic] or N/A",
+    "OTHER":"N/A",
+    "REMARKS":"Reason for RT delay >6 weeks. Unknown primary workup. PEG/trach not coded"
+  },
+  pancreas:{
+    "PE":"[date]: [jaundice/pain/weight loss], ECOG [ ]",
+    "X-RAY/SCAN":"[date] Pancreas-protocol CT: [size, head/body/tail], SMA/SMV/PV/celiac contact [degrees], nodes, mets. Restaging [date]",
+    "SCOPES":"[date] EUS-FNA [result]. [date] ERCP + stent [palliative]",
+    "LAB TESTS":"CA 19-9 [##] on [date] (pre-treatment; bilirubin [ ]). Germline [BRCA1/2/PALB2/other]. NGS [ ]",
+    "OP":"[date] [Whipple/distal pancreatectomy/total], vascular resection [ ]",
+    "PATH":"[date] EUS-FNA: [histology]. [date] Resection: [size], margins [R0/R1, closest mm, which margin], nodes [#pos/#exam], PNI/LVI, [ypT ypN, CAP regression score if neoadj]",
+    "PRIMARY SITE":"[C25.x] [head/body/tail]",
+    "HISTOLOGY":"[ductal adenocarcinoma/IPMN-associated/neuroendocrine], grade [ ]",
+    "STAGING":"Resectability: [resectable/borderline/LA]. cT[ ] cN[ ] M[ ] stage [ ]. pT/ypT[ ] pN[ ] stage [ ]",
+    "SURGERY":"[date] [procedure]; or aborted exploration [date, reason]",
+    "RADIATION":"[date–date] [chemoRT/SBRT], [dose Gy/fx]",
+    "CHEMO":"[date] [mFOLFIRINOX/gem-nab-pac/gem-cape/NALIRIFOX], [neoadj/adj], [# cycles]; olaparib [ ]",
+    "HORMONE":"[somatostatin analog for PanNET per SEER*Rx] or N/A",
+    "IMMUNO":"[pembrolizumab for MSI-H] or N/A",
+    "OTHER":"N/A",
+    "REMARKS":"Reason neoadjuvant chosen. Reason adjuvant not given. Stent/celiac block not coded"
+  },
+  liver:{
+    "PE":"[date]: [cirrhosis etiology], ascites/encephalopathy [ ], ECOG [ ]",
+    "X-RAY/SCAN":"[date] [CT/MRI] liver: [#] lesions, largest [cm], LI-RADS [#], vascular invasion [ ], extrahepatic [ ]",
+    "SCOPES":"[date] EGD varices [ ]. Biliary: ERCP/cholangioscopy [ ]",
+    "LAB TESTS":"AFP [##] on [date]. Bilirubin [ ], albumin [ ], INR [ ], creatinine [ ]. Child-Pugh [ ], MELD [ ]. Biliary: CA 19-9 [ ], NGS [FGFR2/IDH1/HER2]",
+    "OP":"[date] [bx if done]. [date] [resection/RFA/MWA/transplant]. [date] [TACE/Y-90] session [#]",
+    "PATH":"[date] [HCC grade/cholangiocarcinoma], size [ ], vascular invasion [ ], margins [ ], fibrosis [ ], nodes [ ]",
+    "PRIMARY SITE":"[C22.0 liver/C22.1 intrahepatic duct/C23.9/C24.x]",
+    "HISTOLOGY":"[hepatocellular carcinoma/cholangiocarcinoma/combined], grade [ ]",
+    "STAGING":"BCLC [ ] (per notes). cT[ ] cN[ ] M[ ] stage [ ]. pT[ ] pN[ ] stage [ ]",
+    "SURGERY":"[date] [resection/ablation/transplant]",
+    "RADIATION":"[date] Y-90 [dose, lobe]; [SBRT dose Gy/fx]",
+    "CHEMO":"[date] TACE [agent]; [atezo+bev (bev here), lenvatinib, sorafenib, gem/cis, capecitabine]",
+    "HORMONE":"N/A",
+    "IMMUNO":"[date] [atezolizumab/durvalumab + tremelimumab/nivo + ipi/pembrolizumab]",
+    "OTHER":"[bland embolization per STORE] or N/A",
+    "REMARKS":"Imaging-only diagnosis source. Transplant listing and bridging therapy plan"
+  },
+  gi:{
+    "PE":"[date]: [dysphagia/weight loss/bleeding], ECOG [ ]",
+    "X-RAY/SCAN":"[date] CT C/A/P: [ ]. [date] PET-CT: [ ]. Restaging [date]",
+    "SCOPES":"[date] EGD: [location cm from incisors, length, EGJ involvement, epicenter]. [date] EUS: uT[ ] uN[ ]",
+    "LAB TESTS":"HER2 [ ], PD-L1 CPS [ ], MMR [ ], CLDN18.2 [ ]",
+    "OP":"[date] [EMR/ESD]. [date] [esophagectomy (type)/subtotal or total gastrectomy] + [D2] lymphadenectomy",
+    "PATH":"[date] Bx: [adenocarcinoma/SCC], grade [ ]. [date] Resection: [size], depth [ ], margins [proximal/distal/radial], nodes [#pos/#exam], [ypT ypN, tumor regression grade]",
+    "PRIMARY SITE":"[C15.x/C16.x] [segment]; epicenter [cm from EGJ]",
+    "HISTOLOGY":"[adenocarcinoma (intestinal/diffuse/signet ring)/SCC], grade [ ]",
+    "STAGING":"Schema [esophagus/stomach]. cT[ ] cN[ ] M[ ] stage [ ]. pT/ypT[ ] pN[ ] stage [ ]",
+    "SURGERY":"[date] [procedure]",
+    "RADIATION":"[date–date] [41.4 Gy/23 fx neoadj or 50.4 Gy definitive] with [carbo/pac]",
+    "CHEMO":"[date] [FLOT/CROSS carbo-pac/FOLFOX/CAPOX ± trastuzumab, zolbetuximab], [phase]",
+    "HORMONE":"N/A",
+    "IMMUNO":"[date] [durvalumab with FLOT/adjuvant nivolumab/nivo or pembro metastatic]",
+    "OTHER":"N/A",
+    "REMARKS":"Days neoadjuvant start to surgery. Stent/J-tube not coded"
+  },
+  cervix:{
+    "PE":"[date] Pelvic exam [± EUA]: [size cm], vaginal/parametrial extension [ ]",
+    "X-RAY/SCAN":"[date] Pelvic MRI: [size, parametria]. [date] PET-CT: pelvic/para-aortic nodes [ ], distant [ ]",
+    "SCOPES":"[date] Colposcopy. Cystoscopy/proctoscopy if done",
+    "LAB TESTS":"HPV [ ]. PD-L1 CPS [ ]",
+    "OP":"[date] [bx/LEEP/cone]. [date] [radical/simple hysterectomy, trachelectomy] + [SLN/pelvic LND]",
+    "PATH":"[date] [histology], depth of invasion [mm], width [mm], LVSI [ ], margins [ ], parametria [ ], nodes [#pos/#exam]",
+    "PRIMARY SITE":"[C53.x] Cervix",
+    "HISTOLOGY":"[SCC/adenocarcinoma/adenosquamous], grade [ ]",
+    "STAGING":"FIGO [ ]. AJCC V9 cT[ ] cN[ ] M[ ] stage [ ]; nodes by [imaging/path]",
+    "SURGERY":"[date] [procedure]",
+    "RADIATION":"[date–date] EBRT [pelvis ± para-aortic] [dose Gy/fx]; [date–date] brachytherapy [HDR, dose Gy/fx] [facility]",
+    "CHEMO":"[date] weekly cisplatin [# doses]; [carbo/pac induction]; [bevacizumab]",
+    "HORMONE":"N/A",
+    "IMMUNO":"[date] pembrolizumab [with chemoRT + maintenance/metastatic] or N/A",
+    "OTHER":"N/A",
+    "REMARKS":"Reason no brachytherapy if none. Outside facility for brachy"
+  },
+  ovary:{
+    "PE":"[date]: [bloating/mass/ascites], exam [ ]",
+    "X-RAY/SCAN":"[date] CT A/P: [adnexal mass, ascites, omental cake, nodes, pleural effusion]",
+    "SCOPES":"[diagnostic laparoscopy for resectability] or N/A",
+    "LAB TESTS":"CA-125 [##] on [date] (pre-treatment). Germline BRCA [ ], HRD [ ]",
+    "OP":"[date] [paracentesis/core bx/laparoscopy]. [date] [primary/interval] cytoreduction: [procedures], residual [none/≤1 cm/>1 cm]. HIPEC [y/n]",
+    "PATH":"[date] [histology], grade [ ], sites involved [ovary L/R, tube, omentum, peritoneum], capsule [ ], washings [ ], nodes [#pos/#exam], [chemo response score if neoadj]",
+    "PRIMARY SITE":"[C56.9 ovary/C57.0 tube/C48.x peritoneum], laterality [ ]",
+    "HISTOLOGY":"[high-grade serous/low-grade serous/clear cell/endometrioid/mucinous]",
+    "STAGING":"FIGO [ ]. cT[ ] cN[ ] M[ ] / pT[ ] pN[ ] stage [ ]",
+    "SURGERY":"[date] [procedure]",
+    "RADIATION":"N/A",
+    "CHEMO":"[date] carboplatin/paclitaxel [± bev], [neoadj # / adj #]; [date] PARP [olaparib/niraparib] maintenance",
+    "HORMONE":"[letrozole for low-grade serous] or N/A",
+    "IMMUNO":"N/A",
+    "OTHER":"N/A",
+    "REMARKS":"Residual disease per op note. Reason for neoadjuvant approach"
+  },
+  cns:{
+    "PE":"[date]: [presenting sx: seizure/headache/deficit], KPS [ ]",
+    "X-RAY/SCAN":"[date] MRI brain: [size, location, laterality, enhancement]. [date] post-op MRI: extent of resection [GTR/STR/bx only]",
+    "SCOPES":"N/A",
+    "LAB TESTS":"N/A",
+    "OP":"[date] [craniotomy resection/stereotactic bx/transsphenoidal]; Gliadel [y/n]",
+    "PATH":"[date] Integrated dx: [histology], WHO CNS grade [ ], IDH [ ], 1p/19q [ ], MGMT [ ], other [ATRX, H3 K27M, CDKN2A]",
+    "PRIMARY SITE":"[C70–C72, C75.1–C75.3] [location], laterality [ ]",
+    "HISTOLOGY":"[glioblastoma/astrocytoma/oligodendroglioma/meningioma/other], behavior [/0,/1,/3]",
+    "STAGING":"No AJCC stage group. Summary Stage [ ]",
+    "SURGERY":"[date] [procedure]; or observation [date, source]",
+    "RADIATION":"[date–date] [IMRT/SRS/proton], [dose Gy/fx]",
+    "CHEMO":"[date] temozolomide [concurrent + adjuvant # cycles]; [PCV/vorasidenib/bevacizumab]",
+    "HORMONE":"N/A (dexamethasone for edema not coded)",
+    "IMMUNO":"N/A",
+    "OTHER":"[date] tumor treating fields (confirm STORE) or N/A",
+    "REMARKS":"Imaging-only diagnosis source for benign tumors. Observation plan"
+  },
+  sclc:{
+    "PE":"[date]: [sx], ECOG [ ], smoking hx [pack-yrs]",
+    "X-RAY/SCAN":"[date] CT chest/abd: [primary, nodes, mets]. [date] PET: [ ]. [date] Brain MRI: [ ]. Limited vs extensive per [MD, date]",
+    "SCOPES":"[date] Bronch/EBUS: [stations, result]",
+    "LAB TESTS":"Sodium/SIADH, LDH [ ] if relevant",
+    "OP":"[date] Bx [site]. [date] lobectomy (if T1–2 N0)",
+    "PATH":"[date] Small cell carcinoma [pure/combined], IHC [synaptophysin, chromogranin, INSM1, TTF-1], Ki-67 [ ]",
+    "PRIMARY SITE":"[C34.x] [lobe], laterality [ ]",
+    "HISTOLOGY":"Small cell carcinoma [8041/8045]",
+    "STAGING":"AJCC V9 cT[ ] cN[ ] M[ ] stage [ ]. VA stage [limited/extensive] (text only)",
+    "SURGERY":"[date] [procedure] or none",
+    "RADIATION":"[date–date] thoracic RT [dose Gy/fx, BID/daily]; [date–date] PCI [dose]; [SRS/WBRT]",
+    "CHEMO":"[date] [cis/carbo + etoposide] [# cycles]; [lurbinectedin maintenance]",
+    "HORMONE":"N/A",
+    "IMMUNO":"[date] [durvalumab consolidation/atezolizumab or durvalumab with chemo + maintenance]",
+    "OTHER":"N/A",
+    "REMARKS":"Inpatient chemo start [date]. PCI vs MRI surveillance decision"
+  },
+  meso:{
+    "PE":"[date]: [dyspnea/chest pain/ascites], asbestos exposure [ ], ECOG [ ]",
+    "X-RAY/SCAN":"[date] CT chest/abd: [pleural thickening/nodularity, effusion, nodes]. [date] PET: [ ]",
+    "SCOPES":"[date] Thoracoscopy/laparoscopy: [findings]",
+    "LAB TESTS":"Germline BAP1 [ ] if done",
+    "OP":"[date] [pleural bx/VATS]. [date] [P/D/EPP/CRS + HIPEC]. Pleurodesis/IPC [date] (not coded)",
+    "PATH":"[date] [epithelioid/sarcomatoid/biphasic] mesothelioma, IHC [calretinin, WT1, D2-40, BAP1 loss, MTAP]",
+    "PRIMARY SITE":"[C38.4 pleura/C48.x peritoneum/other], laterality [ ]",
+    "HISTOLOGY":"[9050–9053]",
+    "STAGING":"Pleural AJCC V9 cT[ ] cN[ ] M[ ] stage [ ]. Peritoneal: Summary Stage [ ]",
+    "SURGERY":"[date] [procedure] or none",
+    "RADIATION":"[date–date] hemithoracic RT [dose] or N/A",
+    "CHEMO":"[date] pemetrexed + [cis/carbo] [± bev]; HIPEC [agent, date]",
+    "HORMONE":"N/A",
+    "IMMUNO":"[date] [nivolumab + ipilimumab/pembrolizumab]",
+    "OTHER":"N/A",
+    "REMARKS":"Palliative pleurodesis/IPC not coded. Resectability decision [source]"
+  },
+  anus:{
+    "PE":"[date] DRE/anoscopy: [size cm, location canal/perianal, sphincter], inguinal nodes [ ]",
+    "X-RAY/SCAN":"[date] Pelvic MRI: [T, nodes]. [date] CT/PET: [inguinal, pelvic, distant]",
+    "SCOPES":"[date] Anoscopy/EUA: [findings]",
+    "LAB TESTS":"HIV [status, CD4 if known]",
+    "OP":"[date] Bx [site]. [date] [local excision/APR]",
+    "PATH":"[date] SCC [keratinizing/basaloid], grade [ ], p16 [ ], margins [ ]",
+    "PRIMARY SITE":"[C21.0/C21.1/C21.8] [canal/anus NOS]",
+    "HISTOLOGY":"Squamous cell carcinoma [8070] or [adenocarcinoma]",
+    "STAGING":"AJCC V9 cT[ ] cN[ ] M[ ] stage [ ]",
+    "SURGERY":"[date] [local excision/APR] or none",
+    "RADIATION":"[date–date] [IMRT] [dose Gy/fx] incl. [inguinal/pelvic nodes]",
+    "CHEMO":"[date] mitomycin [D1 ± D29] + [5-FU/capecitabine]; [carbo/paclitaxel]",
+    "HORMONE":"N/A",
+    "IMMUNO":"[date] retifanlimab or N/A",
+    "OTHER":"N/A",
+    "REMARKS":"Response assessment [date]. Persistent disease biopsy [date, result]"
+  },
+  appendix:{
+    "PE":"[date]: [RLQ pain/appendicitis/incidental/abdominal distension]",
+    "X-RAY/SCAN":"[date] CT A/P: [appendiceal mass, mucocele, peritoneal mucin, nodes]",
+    "SCOPES":"[colonoscopy if done]",
+    "LAB TESTS":"CEA [ ], CA 19-9 [ ], CA-125 [ ]",
+    "OP":"[date] appendectomy [lap/open]. [date] right hemicolectomy. [date] CRS + HIPEC",
+    "PATH":"[date] [LAMN/HAMN/mucinous adenoca/goblet cell adenoca/NET], grade [ ], depth [pT], perforation [ ], extra-appendiceal mucin [acellular/cellular], margins [ ], nodes [#pos/#exam]",
+    "PRIMARY SITE":"C18.1 Appendix",
+    "HISTOLOGY":"[histology + behavior], grade [ ]",
+    "STAGING":"AJCC V9 [Appendix Carcinoma/NET Appendix] pT[ ] pN[ ] M[ ] stage [ ]",
+    "SURGERY":"[date] [procedure]",
+    "RADIATION":"N/A",
+    "CHEMO":"[date] [FOLFOX/CAPOX]; HIPEC [agent]",
+    "HORMONE":"N/A",
+    "IMMUNO":"N/A",
+    "OTHER":"N/A",
+    "REMARKS":"Incidental finding. Reason no hemicolectomy if not done"
+  },
+  net:{
+    "PE":"[date]: [flushing/diarrhea/incidental/obstruction]",
+    "X-RAY/SCAN":"[date] CT/MRI: [primary, nodes, liver mets]. [date] Ga-68/Cu-64 dotatate PET: [uptake]",
+    "SCOPES":"[date] [EGD/colonoscopy/EUS]: [size, location, removal]",
+    "LAB TESTS":"Chromogranin A [ ], 24-h urine or plasma 5-HIAA [ ]",
+    "OP":"[date] [endoscopic resection/segmental resection + mesenteric LND/liver resection]",
+    "PATH":"[date] [well-diff NET/NEC], grade [G1/G2/G3], Ki-67 [%], mitoses [/2 mm²], size [ ], # tumors [ ], LVI/PNI, margins, nodes [#pos/#exam]",
+    "PRIMARY SITE":"[organ, C-code]",
+    "HISTOLOGY":"[8240/8249/8246/other], grade [ ]",
+    "STAGING":"AJCC V9 NET [site] chapter cT/pT[ ] N[ ] M[ ] stage [ ] (NEC: carcinoma chapter)",
+    "SURGERY":"[date] [procedure]",
+    "RADIATION":"[PRRT Lu-177 dotatate per STORE] or N/A",
+    "CHEMO":"[date] [everolimus/sunitinib/CAPTEM/platinum-etoposide]",
+    "HORMONE":"[date] [octreotide LAR/lanreotide] per SEER*Rx",
+    "IMMUNO":"N/A",
+    "OTHER":"[liver-directed embolization per STORE] or N/A",
+    "REMARKS":"Somatostatin analog intent (anti-tumor vs symptom). Multifocal tumors"
+  },
+  gist:{
+    "PE":"[date]: [GI bleed/mass/incidental]",
+    "X-RAY/SCAN":"[date] CT A/P: [size, site, mets]",
+    "SCOPES":"[date] EGD/EUS: [submucosal mass, size, location]",
+    "LAB TESTS":"Mutation: KIT [exon] / PDGFRA [ ] / SDH [ ]",
+    "OP":"[date] [EUS-FNA/core]. [date] [wedge/partial gastrectomy/segmental resection]",
+    "PATH":"[date] GIST [spindle/epithelioid/mixed], size [cm], mitoses [/5 mm²], rupture [y/n], margins [ ], CD117/DOG1 [ ]",
+    "PRIMARY SITE":"[organ of origin C-code]",
+    "HISTOLOGY":"GIST 8936 [behavior per ICD-O update]",
+    "STAGING":"AJCC 8th GIST [gastric/small bowel] pT[ ] N[ ] M[ ], mitotic rate [low/high], stage [ ]",
+    "SURGERY":"[date] [procedure]",
+    "RADIATION":"N/A",
+    "CHEMO":"[date] imatinib [400/800 mg] [neoadj/adj 3 yrs/metastatic]; [avapritinib/sunitinib/regorafenib/ripretinib]",
+    "HORMONE":"N/A",
+    "IMMUNO":"N/A",
+    "OTHER":"N/A",
+    "REMARKS":"Risk category [ ]. Rupture. Reason no adjuvant imatinib"
+  },
+  sarcoma:{
+    "PE":"[date]: [mass location, size, depth (superficial/deep), growth]",
+    "X-RAY/SCAN":"[date] MRI [site]: [size, depth, neurovascular]. [date] CT chest: [lung mets]",
+    "SCOPES":"N/A",
+    "LAB TESTS":"Molecular/FISH [MDM2, translocations] [ ]",
+    "OP":"[date] [core bx/unplanned excision]. [date] [wide re-excision/en bloc resection/amputation]",
+    "PATH":"[date] [subtype], FNCLCC grade [ ], size [cm], depth [ ], necrosis [%], margins [closest mm, which], [post-RT treatment effect %]",
+    "PRIMARY SITE":"[C49.x or organ], laterality [ ]",
+    "HISTOLOGY":"[subtype + ICD-O code], grade [ ]",
+    "STAGING":"AJCC 8th [chapter by site] cT[ ] cN[ ] M[ ] G[ ] stage [ ]",
+    "SURGERY":"[date] [procedure]; prior unplanned excision [date]",
+    "RADIATION":"[date–date] [preop/postop] [dose Gy/fx]",
+    "CHEMO":"[date] [doxorubicin + ifosfamide/gem-docetaxel/other]",
+    "HORMONE":"N/A",
+    "IMMUNO":"N/A",
+    "OTHER":"N/A",
+    "REMARKS":"Unplanned excision before referral. Sarcoma center [facility]"
+  },
+  testis:{
+    "PE":"[date]: [testicular mass, side], gynecomastia [ ]",
+    "X-RAY/SCAN":"[date] Scrotal US: [size, side]. [date] CT A/P/chest: [RP nodes size, mets]",
+    "SCOPES":"N/A",
+    "LAB TESTS":"Pre-orchiectomy [date]: AFP [ ], hCG [ ], LDH [ ]. Post-orchiectomy [date]: AFP [ ], hCG [ ], LDH [ ]",
+    "OP":"[date] radical inguinal orchiectomy [side]. [date] RPLND [primary/post-chemo]",
+    "PATH":"[date] [seminoma/NSGCT components %], size [ ], LVI [ ], rete testis/spermatic cord/tunica [ ], margins [ ]",
+    "PRIMARY SITE":"[C62.x], laterality [ ]",
+    "HISTOLOGY":"[9061 seminoma/9085 mixed GCT/other]",
+    "STAGING":"pT[ ] cN[ ] M[ ] S[ ] stage [ ]. IGCCCG risk [ ]",
+    "SURGERY":"[date] orchiectomy",
+    "RADIATION":"[date–date] [para-aortic/dogleg] [dose] or N/A",
+    "CHEMO":"[date] [BEP x3/x4, EP x4, carboplatin x1, VIP]",
+    "HORMONE":"N/A",
+    "IMMUNO":"N/A",
+    "OTHER":"N/A",
+    "REMARKS":"Surveillance plan [source]. Trans-scrotal procedure if any"
+  },
+  vulva:{
+    "PE":"[date] Exam: [lesion size, location, distance from midline, multifocal], groin nodes [ ]",
+    "X-RAY/SCAN":"[date] [MRI pelvis/CT/PET]: [groin and pelvic nodes, extension]",
+    "SCOPES":"[cystoscopy/proctoscopy if done]",
+    "LAB TESTS":"HPV/p16 [ ], PD-L1 [ ]",
+    "OP":"[date] Bx. [date] [radical local excision/radical vulvectomy] + [SLNB/inguinofemoral LND, side(s)]",
+    "PATH":"[date] SCC [HPV-associated/independent], depth of invasion [mm], size [ ], LVSI [ ], margins [closest mm], SLN/nodes [#pos/#exam by side], ENE [ ]",
+    "PRIMARY SITE":"[C51.x] [subsite]",
+    "HISTOLOGY":"[SCC/other], grade [ ]",
+    "STAGING":"FIGO [ ]. AJCC V9 T[ ] N[ ] M[ ] stage [ ]",
+    "SURGERY":"[date] [procedure]",
+    "RADIATION":"[date–date] [vulva/groins/pelvis] [dose Gy/fx]",
+    "CHEMO":"[date] weekly cisplatin [# doses]",
+    "HORMONE":"N/A",
+    "IMMUNO":"[date] pembrolizumab or N/A",
+    "OTHER":"N/A",
+    "REMARKS":"Bilateral groin evaluation. Prior VIN III history"
+  },
+  merkel:{
+    "PE":"[date]: [size] [site] skin nodule, nodes [ ], immunosuppression [transplant/CLL/HIV]",
+    "X-RAY/SCAN":"[date] PET-CT or CT: [nodes, distant]. Brain MRI if done",
+    "SCOPES":"N/A",
+    "LAB TESTS":"MCPyV antibody [ ] if done",
+    "OP":"[date] Bx [outside derm?]. [date] WLE [margin cm] + SLNB [basin]. [date] node dissection",
+    "PATH":"[date] Merkel cell carcinoma, size [ ], depth [ ], LVI [ ], margins [ ], CK20 [ ], TTF-1 [ ], SLN [#pos/#exam]",
+    "PRIMARY SITE":"[C44.x] [site], laterality [ ]",
+    "HISTOLOGY":"Merkel cell carcinoma 8247/3",
+    "STAGING":"cT[ ] cN[ ] M[ ] / pT[ ] pN[ ] stage [ ]",
+    "SURGERY":"[date] [WLE]",
+    "RADIATION":"[date–date] [primary bed ± nodal basin] [dose Gy/fx]",
+    "CHEMO":"[carboplatin/etoposide] or N/A",
+    "HORMONE":"N/A",
+    "IMMUNO":"[date] [avelumab/pembrolizumab/retifanlimab/nivolumab]",
+    "OTHER":"N/A",
+    "REMARKS":"Immunosuppression. Outside dermatology biopsy source"
+  }
+};
+/* Coding manuals by task. Always use the edition in effect for the diagnosis year. */
+const L = {
+  str:"https://seer.cancer.gov/tools/solidtumor/",
+  heme:"https://seer.cancer.gov/seertools/hemelymph/",
+  icdo:"https://www.naaccr.org/icdo3/",
+  ajcc:"https://www.facs.org/quality-programs/cancer-programs/american-joint-committee-on-cancer/",
+  ssdi:"https://apps.naaccr.org/ssdi/list/",
+  eod:"https://staging.seer.cancer.gov/",
+  store:"https://www.facs.org/quality-programs/cancer-programs/national-cancer-database/",
+  seerman:"https://seer.cancer.gov/manuals/",
+  rx:"https://seer.cancer.gov/seertools/seerrx/",
+  canswer:"https://cancerbulletin.facs.org/forums/",
+  sinq:"https://seer.cancer.gov/seer-inquiry/"
+};
+const COMMON_PS = [["ICD-O-3.2 + NAACCR ICD-O update tables",L.icdo,"Code list for histology and behavior; the annual update tables add new codes and reportability changes."]];
+const COMMON_STG = [
+  ["SSDI Manual",L.ssdi,"Site-specific data items for this schema, with coding notes and which values to use."],
+  ["Grade Coding Instructions and Tables",L.ssdi,"Grade clinical, pathological, and post-therapy, using the table for this schema."],
+  ["EOD 2018 and Summary Stage 2018",L.eod,"Required by SEER and state registries; uses the same schema discriminators as the SSDI Manual."]
+];
+const COMMON_TX = [
+  ["STORE Manual (CoC)",L.store,"First course rules, surgery codes in Appendix B for this site, radiation and systemic fields. Required for CoC-accredited programs."],
+  ["SEER Program Coding and Staging Manual",L.seerman,"Same treatment concepts for SEER and state reporting; use when your central registry follows SEER."],
+  ["SEER*Rx",L.rx,"Drug lookup: tells you whether a drug is chemo, hormone, immunotherapy, or not coded."]
+];
+const ASK = [["CAnswer Forum / SEER SINQ",L.canswer,"For questions the manuals don't answer: CAnswer Forum for STORE and AJCC; SINQ (seer.cancer.gov/seer-inquiry) for SEER rules."]];
+const MANUALS = {
+  breast:{
+    ps:[["Solid Tumor Rules · Breast module",L.str,"Multiple primary rules, histology rules (ductal + lobular, mixed types), and the breast equivalent terms and site coding tables (quadrant, clock position)."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Breast",L.ajcc,"Anatomic and prognostic stage groups. Check AJCC breast updates and errata posted after publication."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Breast surgery codes",L.store,"Lumpectomy vs mastectomy codes; reconstruction is coded inside mastectomy codes, not as separate treatment."]]
+  },
+  lung:{
+    ps:[["Solid Tumor Rules · Lung module",L.str,"Multiple primaries (separate nodules, different histologies), histology tables, and lobe assignment."],...COMMON_PS],
+    stg:[["AJCC Version 9 · Lung",L.ajcc,"In use for lung cases diagnosed 2025 and later. N2 split into N2a/N2b and M1c split into M1c1/M1c2. Not the 8th Edition chapter."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Lung surgery codes",L.store,"Wedge, segmentectomy, lobectomy, pneumonectomy; SBRT is radiation, not surgery."]]
+  },
+  prostate:{
+    ps:[["Solid Tumor Rules · Other Sites module",L.str,"Prostate is covered in Other Sites. Histology is almost always acinar adenocarcinoma; check rules for ductal and small cell types."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Prostate",L.ajcc,"Stage group uses T, N, M, PSA and grade group. The NCCN risk group is not an AJCC field."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Prostate surgery codes",L.store,"Radical prostatectomy and local destruction (cryo, HIFU). Orchiectomy goes in the endocrine procedures field."]]
+  },
+  colon:{
+    ps:[["Solid Tumor Rules · Colon module",L.str,"Covers colon, rectosigmoid and rectum; check the module's site list for appendix. Polyp, adenocarcinoma-in-polyp and synchronous tumor rules."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Colon and Rectum",L.ajcc,"One chapter for colon and rectum. Appendix carcinoma and colorectal NETs use separate Version 9 chapters."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Colon surgery codes",L.store,"Polypectomy, segmental resection, hemicolectomy and total colectomy codes."]]
+  },
+  rectum:{
+    ps:[["Solid Tumor Rules · Colon module",L.str,"Rectum and rectosigmoid are covered here. Anal canal tumors use the Other Sites module."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Colon and Rectum",L.ajcc,"Same chapter as colon; use yp staging after neoadjuvant therapy. Anal canal uses the Version 9 Anus chapter."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Rectum surgery codes",L.store,"Local excision, LAR, APR and pelvic exenteration codes. Radiation phase fields for short- and long-course RT."]]
+  },
+  bladder:{
+    ps:[["Solid Tumor Rules · Urinary Sites module",L.str,"Bladder, renal pelvis, ureter and urethra. Recurrent urothelial tumors are usually the same primary."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Urinary Bladder",L.ajcc,"Stage 0a vs 0is depends on histology and behavior; lamina propria vs muscle invasion sets T1 vs T2."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Bladder surgery codes",L.store,"TURBT, partial and radical cystectomy. Intravesical drugs are coded in the systemic fields, using SEER*Rx for category."]]
+  },
+  thyroid:{
+    ps:[["Solid Tumor Rules · Other Sites module",L.str,"Thyroid is covered in Other Sites (not Head and Neck). Multifocal papillary is usually one primary; NIFTP is not reportable."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Thyroid",L.ajcc,"Differentiated and anaplastic share one chapter; medullary has its own chapter. Age 55 cutoff for differentiated."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Thyroid surgery codes",L.store,"Lobectomy, near-total and total; completion thyroidectomy is coded cumulatively. RAI is coded as radiation."]]
+  },
+  kidney:{
+    ps:[["Solid Tumor Rules · Kidney module",L.str,"Kidney parenchyma only (C64.9). Renal pelvis tumors use the Urinary Sites module."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Kidney",L.ajcc,"T3 subcategories depend on renal vein, IVC and perinephric fat; adrenal involvement changes T or M."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Kidney surgery codes",L.store,"Partial vs radical nephrectomy and local destruction (cryo, RFA)."]]
+  },
+  heme:{
+    ps:[["Hematopoietic and Lymphoid Neoplasm Database + Coding Manual",L.heme,"The source for reportability, histology, primary site, date of diagnosis, grade, and the multiple primaries calculator. Use it instead of the Solid Tumor Rules."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Plasma Cell Myeloma",L.ajcc,"Myeloma uses R-ISS. Leukemias, MDS and MPN have no AJCC stage."],["EOD 2018 and Summary Stage 2018",L.eod,"Leukemias and most heme schemas are coded as systemic disease."],["SSDI Manual",L.ssdi,"Myeloma SSDIs (albumin, beta-2 microglobulin, LDH, high-risk cytogenetics) and JAK2 for MPN."],["Grade Coding Instructions and Tables",L.ssdi,"Heme grade codes identify cell lineage (T, B, NK), not differentiation."]],
+    tx:[["Hematopoietic Coding Manual · treatment sections",L.heme,"Heme-specific rules: steroids as hormone therapy, phlebotomy as Other Therapy, transplants, supportive care that is not coded. Each Heme DB entry lists typical treatment."],...COMMON_TX]
+  },
+  lymph:{
+    ps:[["Hematopoietic and Lymphoid Neoplasm Database + Coding Manual",L.heme,"Histology, nodal vs extranodal primary site rules, transformation, and the multiple primaries calculator."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Hodgkin and Non-Hodgkin Lymphomas",L.ajcc,"Lugano classification. CLL uses Rai staging captured through the CLL/SLL SSDIs."],...COMMON_STG],
+    tx:[["Hematopoietic Coding Manual · treatment sections",L.heme,"Prednisone in regimens as hormone therapy, antibiotics for gastric MALT as Other Therapy, watch-and-wait coding."],...COMMON_TX]
+  },
+  melanoma:{
+    ps:[["Solid Tumor Rules · Cutaneous Melanoma module",L.str,"Multiple primary timing and site rules, histology subtypes. Mucosal and ocular melanoma use other modules."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Melanoma of the Skin",L.ajcc,"T by Breslow thickness and ulceration; N by SLN, clinical nodes and in-transit disease."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Skin surgery codes",L.store,"Excisional biopsy, WLE, Mohs; margin-based surgery codes."]]
+  },
+  uterus:{
+    ps:[["Solid Tumor Rules · Other Sites module",L.str,"Corpus uteri histology rules (carcinosarcoma, mixed types) and synchronous ovary/endometrium."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Corpus Uteri (Carcinoma and Carcinosarcoma)",L.ajcc,"Uterine sarcomas have a separate chapter. FIGO stage is captured in its SSDI."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Corpus Uteri surgery codes",L.store,"Hysterectomy types with and without BSO."]]
+  },
+  hn:{
+    ps:[["Solid Tumor Rules · Head and Neck module",L.str,"Subsite tables, multiple primaries, histology, and unknown primary instructions."],...COMMON_PS],
+    stg:[["AJCC chapters by subsite",L.ajcc,"Oral cavity, larynx, and p16− oropharynx/hypopharynx: 8th Edition. HPV-associated (p16+) oropharynx: Version 9, listed by AJCC for 2026; confirm the effective date with your standard setter. Nasopharynx: Version 9 (2025)."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Head and Neck surgery codes",L.store,"Separate code lists for oral cavity, pharynx and larynx; neck dissection in Scope of Regional LN Surgery."]]
+  },
+  pancreas:{
+    ps:[["Solid Tumor Rules · Other Sites module",L.str,"Pancreas histology rules, including IPMN with invasion and neuroendocrine tumors."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Exocrine Pancreas",L.ajcc,"Neuroendocrine tumors use the AJCC Version 9 NET Pancreas chapter (2024+)."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Pancreas surgery codes",L.store,"Whipple, distal and total pancreatectomy."]]
+  },
+  liver:{
+    ps:[["Solid Tumor Rules · Other Sites module",L.str,"Liver and biliary histology rules, combined HCC-cholangiocarcinoma, and site assignment."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Liver and Biliary chapters",L.ajcc,"Separate chapters for liver, intrahepatic bile ducts, perihilar, distal bile duct, gallbladder and ampulla."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Liver and Biliary surgery codes",L.store,"Ablation, resection, and transplant codes; embolization coding instructions."]]
+  },
+  gi:{
+    ps:[["Solid Tumor Rules · Other Sites module",L.str,"Esophagus and stomach histology rules; EGJ site assignment."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Esophagus/EGJ and Stomach",L.ajcc,"Esophagus has separate c, p and yp stage groups by histology. Gastric NETs use the Version 9 NET Stomach chapter."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Esophagus and Stomach surgery codes",L.store,"EMR/ESD, esophagectomy and gastrectomy types."]]
+  },
+  cervix:{
+    ps:[["Solid Tumor Rules · Other Sites module",L.str,"Cervix histology rules. CIN III and AIS are not reportable."],...COMMON_PS],
+    stg:[["AJCC Version 9 · Cervix Uteri",L.ajcc,"In use for 2021+ diagnoses. Imaging may assign nodal status."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Cervix surgery codes",L.store,"LEEP, cone, trachelectomy and hysterectomy types."]]
+  },
+  ovary:{
+    ps:[["Solid Tumor Rules · Other Sites module",L.str,"Ovary vs fallopian tube vs peritoneum site assignment, histology rules, bilateral tumors."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Ovary, Fallopian Tube and Primary Peritoneal Carcinoma",L.ajcc,"FIGO stage captured in its SSDI."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Ovary surgery codes",L.store,"Debulking and cytoreduction codes."]]
+  },
+  cns:{
+    ps:[["Solid Tumor Rules · Malignant CNS and Non-malignant CNS modules",L.str,"Pick the module by behavior. Histology tables follow the WHO CNS classification."],...COMMON_PS],
+    stg:[["AJCC Version 9 · Brain and Spinal Cord",L.ajcc,"No TNM stage groups; grade and molecular markers are collected instead."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Brain surgery codes",L.store,"Biopsy, subtotal and gross total resection codes."]]
+  },
+  sclc:{
+    ps:[["Solid Tumor Rules · Lung module",L.str,"Small cell and combined small cell histology rules; multiple primaries."],...COMMON_PS],
+    stg:[["AJCC Version 9 · Lung",L.ajcc,"Same chapter as NSCLC for 2025+ diagnoses. Limited/extensive goes in text."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Lung surgery codes",L.store,"Lobectomy codes for early-stage cases; PCI is coded as a separate radiation phase or course."]]
+  },
+  meso:{
+    ps:[["Solid Tumor Rules · Other Sites module",L.str,"Mesothelioma histology and serosal site coding."],...COMMON_PS],
+    stg:[["AJCC Version 9 · Diffuse Pleural Mesothelioma",L.ajcc,"Pleural only. Peritoneal mesothelioma has no AJCC chapter."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · surgery codes for pleura / All Other Sites",L.store,"P/D, EPP and cytoreduction; pleurodesis is not coded as surgery."]]
+  },
+  anus:{
+    ps:[["Solid Tumor Rules · Other Sites module",L.str,"Anal canal histology rules; AIN III reportability."],...COMMON_PS],
+    stg:[["AJCC Version 9 · Anus",L.ajcc,"In use for 2023+ diagnoses."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Anus surgery codes",L.store,"Local excision and APR codes."]]
+  },
+  appendix:{
+    ps:[["Solid Tumor Rules · module listed for C18.1",L.str,"Check the current STR site list for appendix; LAMN/HAMN histology and behavior rules."],...COMMON_PS],
+    stg:[["AJCC Version 9 · Appendix Carcinoma / NET Appendix",L.ajcc,"Carcinoma chapter 2023+; NET chapter 2024+."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Colon surgery codes",L.store,"Appendectomy and hemicolectomy codes for C18.1."]]
+  },
+  net:{
+    ps:[["Solid Tumor Rules · module for the organ of origin",L.str,"Colon module for colorectal NETs; Other Sites for stomach, small bowel and pancreas. Multiple primary rules for multifocal tumors."],...COMMON_PS],
+    stg:[["AJCC Version 9 · NET chapters",L.ajcc,"Stomach, duodenum/ampulla, jejunum/ileum, appendix, colon/rectum and pancreas NET chapters (2024+)."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · surgery codes for the organ",L.store,"Endoscopic excision and segmental resection codes by site."]]
+  },
+  gist:{
+    ps:[["Solid Tumor Rules · Other Sites module",L.str,"Code the organ of origin; GIST histology."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Gastrointestinal Stromal Tumor",L.ajcc,"Stage groups differ for gastric/omental vs small bowel and other sites."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · surgery codes for the organ",L.store,"Wedge and partial resection codes by site."]]
+  },
+  sarcoma:{
+    ps:[["Solid Tumor Rules · Other Sites module",L.str,"Sarcoma histology and site rules (C49.x vs organ)."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Soft Tissue Sarcoma chapters",L.ajcc,"Separate chapters by anatomic site; FNCLCC grade."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Soft tissue surgery codes",L.store,"Excision, wide resection and amputation codes."]]
+  },
+  testis:{
+    ps:[["Solid Tumor Rules · Other Sites module",L.str,"Germ cell tumor histology rules, mixed tumors."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Testis",L.ajcc,"Uses T, N, M and S (serum markers)."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Testis surgery codes",L.store,"Orchiectomy is surgery of primary site; RPLND is regional node surgery."]]
+  },
+  vulva:{
+    ps:[["Solid Tumor Rules · Other Sites module",L.str,"Vulvar histology and multifocal rules; VIN III reportability."],...COMMON_PS],
+    stg:[["AJCC Version 9 · Vulva",L.ajcc,"In use for 2024+ diagnoses."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Vulva surgery codes",L.store,"Local excision and vulvectomy codes; groin node surgery."]]
+  },
+  merkel:{
+    ps:[["Solid Tumor Rules · Other Sites module",L.str,"Merkel cell histology and unknown primary instructions."],...COMMON_PS],
+    stg:[["AJCC 8th Edition · Merkel Cell Carcinoma",L.ajcc,"Separate from melanoma and other skin carcinomas."],...COMMON_STG],
+    tx:[...COMMON_TX,["STORE Appendix B · Skin surgery codes",L.store,"Wide excision codes."]]
+  }
+};
+/* Sources shown in the footer for the selected site only */
+const NCCN_URL = "https://www.nccn.org/guidelines/category_1";
+const S_QM = ["CoC / NCDB Quality of Care Measures","https://www.facs.org/quality-programs/cancer-programs/national-cancer-database/quality-of-care-measures/"];
+const S_AJCC = ["AJCC current staging system list, 2026","https://www.facs.org/media/c5ik5tkr/ajcc-current-staging-system-2026.pdf"];
+const S_HEME = ["SEER Hematopoietic and Lymphoid Neoplasm Database","https://seer.cancer.gov/seertools/hemelymph/"];
+const SOURCES = {
+  breast:[["NCCN Guidelines: Breast Cancer (v5.2026)",NCCN_URL],["Breast guideline update timeline, 2024–2026","https://www.consultant360.com/exclusive/breast-cancer-guideline-updates-2024-present"],["NCCN Breast v4.2026 metastatic updates (OncoDaily)","https://oncodaily.com/oncolibrary/breast-oncology/breast-cancer-nccn-v4"],S_QM],
+  lung:[["NCCN Guidelines: Non-Small Cell Lung Cancer",NCCN_URL],["Summary of NCCN NSCLC v7.2025 Insights","https://www.emjreviews.com/respiratory/news/new-nccn-guidelines-add-treatment-options-for-nsclc/"],["NCCN updates guidelines for NSCLC (U.S. Pharmacist)","https://www.uspharmacist.com/article/nccn-updates-guidelines-for-non-small-cell-lung-cancer"],S_AJCC,S_QM],
+  prostate:[["NCCN Guidelines: Prostate Cancer (v5.2026)",NCCN_URL],["NCCN Guidelines Insights: Prostate Cancer v5.2026","https://education.nccn.org/May2026"],S_QM],
+  colon:[["NCCN Guidelines: Colon Cancer",NCCN_URL],["Adjuvant atezolizumab + mFOLFOX6 in stage III dMMR colon cancer (ATOMIC)","https://ascopost.com/news/march-2026/adjuvant-atezolizumab-and-mfolfox6-in-stage-iii-mismatch-repair-deficient-colon-cancer/"],["Atezolizumab plus chemotherapy improves DFS in dMMR colon cancer","https://www.targetedonc.com/view/atezolizumab-plus-chemotherapy-improves-dfs-in-dmmr-colon-cancer"],S_QM],
+  rectum:[["NCCN Guidelines: Rectal Cancer",NCCN_URL],["NCCN Guidelines Insights: Rectal Cancer v3.2024","https://education.nccn.org/node/94861"],["Total neoadjuvant therapy for rectal cancer: where are we now (2026)","https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13476737/"],S_QM],
+  bladder:[["NCCN Guidelines: Bladder Cancer",NCCN_URL],["Perioperative enfortumab vedotin + pembrolizumab in MIBC (NEJM, Feb 2026)","https://www.healthday.com/healthpro-news/cancer/perioperative-enfortumab-vedotin-pembrolizumab-tied-to-improved-outcomes-with-bladder-cancer"],["2026 NCCN bladder cancer updates (Oncology Nursing News)","https://www.oncnursingnews.com/view/clinical-practice-updates-navigating-the-new-standard-of-care-in-bladder-cancer"],S_QM],
+  thyroid:[["NCCN Guidelines: Thyroid Carcinoma",NCCN_URL],["NCCN updates thyroid carcinoma guideline","https://www.hmpgloballearningnetwork.com/site/jcp/news/nccn-updates-clinical-practice-guideline-thyroid-carcinomas"]],
+  kidney:[["NCCN Guidelines: Kidney Cancer",NCCN_URL],["NCCN kidney cancer guideline updates (OncLive)","https://onclive.com/view/nccn-updates-kidney-cancer-clinical-practice-guidelines"],["Optimizing adjuvant IO in RCC after nephrectomy","https://www.targetedonc.com/view/optimizing-adjuvant-io-in-renal-cell-carcinoma-post-nephrectomy"],S_QM],
+  heme:[["NCCN Guidelines: AML, ALL, CML, Multiple Myeloma, MDS, MPN",NCCN_URL],S_HEME,["SEER*Rx interactive drug database","https://seer.cancer.gov/seertools/seerrx/"]],
+  lymph:[["NCCN Guidelines: Hodgkin Lymphoma, B-Cell Lymphomas, CLL/SLL",NCCN_URL],["Nivolumab + AVD in advanced classical Hodgkin lymphoma (ASCO Post)","https://ascopost.com/news/january-2026/nivolumab-plus-avd-reduces-disease-progression-risk-in-advanced-stage-classical-hodgkin-lymphoma/"],["Nivolumab approved for untreated advanced cHL (AACR)","https://www.aacr.org/patients-caregivers/progress-against-cancer/immune-checkpoint-inhibitor-nivolumab-approved-for-untreated-advanced-classical-hodgkin-lymphoma/"],S_HEME],
+  melanoma:[["NCCN Guidelines: Melanoma: Cutaneous",NCCN_URL],S_QM],
+  uterus:[["NCCN Guidelines: Uterine Neoplasms",NCCN_URL]],
+  hn:[["NCCN Guidelines: Head and Neck Cancers",NCCN_URL],["Perioperative pembrolizumab in resectable HNSCC (KEYNOTE-689)","https://www.onclive.com/view/perioperative-pembrolizumab-meets-efs-end-point-in-newly-diagnosed-resected-stage-iii-iva-hnscc"],["Immunotherapy approved as first perioperative approach in head and neck cancer (AACR)","https://www.aacr.org/?p=702327"],S_AJCC,S_QM],
+  pancreas:[["NCCN Guidelines: Pancreatic Adenocarcinoma",NCCN_URL],S_AJCC,S_QM],
+  liver:[["NCCN Guidelines: Hepatocellular Carcinoma; Biliary Tract Cancers",NCCN_URL],S_QM],
+  gi:[["NCCN Guidelines: Esophageal and EGJ Cancers; Gastric Cancer",NCCN_URL],["Perioperative durvalumab + FLOT in gastric/EGJ cancer (MATTERHORN)","https://ascopost.com/news/june-2025/perioperative-durvalumab-boosts-flot-chemotherapy-benefit-for-some-gastric-cancers/"],["Durvalumab plus FLOT improves OS in G/GEJ adenocarcinoma","https://www.targetedonc.com/view/durvalumab-plus-flot-improves-os-in-g-gej-adenocarcinoma"],S_AJCC,S_QM],
+  cervix:[["NCCN Guidelines: Cervical Cancer",NCCN_URL],S_AJCC,S_QM],
+  ovary:[["NCCN Guidelines: Ovarian Cancer",NCCN_URL]],
+  cns:[["NCCN Guidelines: Central Nervous System Cancers",NCCN_URL],S_AJCC],
+  sclc:[["NCCN Guidelines: Small Cell Lung Cancer",NCCN_URL],["Lurbinectedin approved as part of maintenance therapy for ES-SCLC (AACR)","https://www.aacr.org/patients-caregivers/progress-against-cancer/lurbinectedin-approved-as-part-of-maintenance-therapy-for-extensive-stage-small-cell-lung-cancer/"],["Immunotherapy advances in SCLC (OncLive)","https://www.onclive.com/view/immunotherapy-advances-in-sclc-highlight-promise-limitations-and-biomarker-needs"],S_AJCC],
+  meso:[["NCCN Guidelines: Mesothelioma: Pleural; Mesothelioma: Peritoneal",NCCN_URL],S_AJCC],
+  anus:[["NCCN Guidelines: Anal Carcinoma",NCCN_URL],["FDA approves retifanlimab with carboplatin and paclitaxel for anal canal SCC","https://www.fda.gov/drugs/resources-information-approved-drugs/fda-approves-retifanlimab-dlwr-carboplatin-and-paclitaxel-and-single-agent-squamous-cell-carcinoma"],S_AJCC],
+  appendix:[["NCCN Guidelines: Colon Cancer (appendiceal adenocarcinoma); Neuroendocrine and Adrenal Tumors",NCCN_URL],["LAMN histology and behavior (Tumor Tip of the Week)","https://www.omegahms.com/tumor-tip-of-the-week-04-12-2024-lamn-histology-and-behavior/"],S_AJCC],
+  net:[["NCCN Guidelines: Neuroendocrine and Adrenal Tumors",NCCN_URL],S_AJCC],
+  gist:[["NCCN Guidelines: Gastrointestinal Stromal Tumors",NCCN_URL]],
+  sarcoma:[["NCCN Guidelines: Soft Tissue Sarcoma",NCCN_URL]],
+  testis:[["NCCN Guidelines: Testicular Cancer",NCCN_URL]],
+  vulva:[["NCCN Guidelines: Vulvar Cancer",NCCN_URL],S_AJCC],
+  merkel:[["NCCN Guidelines: Merkel Cell Carcinoma",NCCN_URL]]
+};
+function renderSources(s){
+  const head=document.getElementById("srcHead"), list=document.getElementById("srcList");
+  if(!head||!list) return;
+  head.textContent = "Sources for " + s.name;
+  list.innerHTML = (SOURCES[s.id]||[]).map(x=>`<li><a href="${x[1]}" target="_blank" rel="noopener">${esc(x[0])}</a></li>`).join("");
+}
+
+function manualCol(title, items){
+  return `<div class="code-card"><h3>${esc(title)}</h3><ul class="man">${items.map(m=>`<li><a href="${m[1]}" target="_blank" rel="noopener">${esc(m[0])}</a><span>${esc(m[2])}</span></li>`).join("")}</ul></div>`;
+}
+
+const NOTE_ORDER =["PE","X-RAY/SCAN","SCOPES","LAB TESTS","OP","PATH","PRIMARY SITE","HISTOLOGY","STAGING","SURGERY","RADIATION","CHEMO","HORMONE","IMMUNO","OTHER","REMARKS"];
+const NOTE_FIELD = {"PE":"Text–Dx Proc–PE","X-RAY/SCAN":"Text–Dx Proc–X-ray/Scan","SCOPES":"Text–Dx Proc–Scopes","LAB TESTS":"Text–Dx Proc–Lab Tests","OP":"Text–Dx Proc–Op","PATH":"Text–Dx Proc–Path","PRIMARY SITE":"Text–Primary Site Title","HISTOLOGY":"Text–Histology Title","STAGING":"Text–Staging","SURGERY":"RX Text–Surgery","RADIATION":"RX Text–Radiation","CHEMO":"RX Text–Chemo","HORMONE":"RX Text–Hormone","IMMUNO":"RX Text–BRM","OTHER":"RX Text–Other","REMARKS":"Text–Remarks"};
+function noteText(id){ const n=NOTES[id]||{}; return NOTE_ORDER.map(k=>`${k}: ${n[k]||"[ ]"}`).join("\n"); }
+
+const LEG ={miss:"Commonly missed", rule:"Rule to remember", trap:"Coding trap"};
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const tabs = document.getElementById("siteTabs");
+const panel = document.getElementById("panel");
+
+function render(id){
+  const s = SITES.find(x=>x.id===id) || SITES[0];
+  tabs.querySelectorAll(".site-tab").forEach(b=>b.setAttribute("aria-pressed", b.dataset.id===s.id?"true":"false"));
+  const sel=document.getElementById("siteSelect"); if(sel) sel.value=s.id;
+  panel.style.setProperty("--c", s.color);
+  panel.innerHTML = `
+    <div class="site-head">
+      <span class="eyebrow">${esc(s.version)}</span>
+      <h2>${esc(s.name)}</h2>
+      <p class="lede">${esc(s.summary)}</p>
+      <div class="meta"><span><b>Know before abstracting treatment:</b></span></div>
+      <div class="chips">${s.drivers.map(d=>`<span class="chip">${esc(d)}</span>`).join("")}</div>
+    </div>
+    <div class="jump"><a href="#stages-${s.id}">Treatment by stage</a><a href="#coding-${s.id}">Coding tie-ins</a><a href="#manuals-${s.id}">Manuals</a><a href="#flags-${s.id}">Red flags</a><a href="#notes-${s.id}">Notepad template</a></div>
+
+    <section class="band" id="stages-${s.id}">
+      <div class="band-head"><h2>Expected first course by stage</h2><p>What NCCN usually recommends, and where to confirm it</p></div>
+      <div class="stages">${s.stages.map(st=>`
+        <article class="stage">
+          <div class="tag"><strong>${esc(st.stage)}</strong><small>${esc(st.sub)}</small></div>
+          <div class="col"><h4>Usually expected</h4><ul class="tight">${st.expect.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+          <div class="col"><h4>Look for in the chart</h4><ul class="tight">${st.look.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+        </article>`).join("")}
+      </div>
+    </section>
+
+    <section class="band" id="coding-${s.id}">
+      <div class="band-head"><h2>Registry coding tie-ins</h2><p>SSDIs, drug categories, and CoC quality measures</p></div>
+      <div class="code-grid">
+        ${s.coding.map(c=>`<div class="code-card"><h3>${esc(c.h)}</h3><p>${esc(c.t)}</p></div>`).join("")}
+        <div class="code-card"><h3>CoC quality measures</h3><div class="qm">${s.measures.map(m=>`<div class="qm-row"><code>${esc(m[0])}</code><span>${esc(m[1])}</span></div>`).join("")}</div></div>
+      </div>
+    </section>
+
+    <section class="band" id="manuals-${s.id}">
+      <div class="band-head"><h2>Coding manuals to use</h2><p>Use the edition in effect for the year of diagnosis</p></div>
+      <div class="code-grid">
+        ${manualCol("Primary site & histology", MANUALS[s.id].ps)}
+        ${manualCol("Staging", MANUALS[s.id].stg)}
+        ${manualCol("Treatment", MANUALS[s.id].tx)}
+      </div>
+      <p class="ask">Still stuck? ${ASK.map(a=>`<a href="${a[1]}" target="_blank" rel="noopener">${esc(a[0])}</a>: ${esc(a[2])}`).join("")}</p>
+    </section>
+
+    <section class="band" id="flags-${s.id}">
+      <div class="band-head"><h2>Red flags and common misses</h2>
+        <div class="legend">${Object.entries(LEG).map(([k,v])=>`<span class="pill ${k}">${v}</span>`).join("")}</div></div>
+      <div class="flags">${s.flags.map(f=>`
+        <article class="flag"><span class="pill ${f.k}">${LEG[f.k]}</span><h3>${esc(f.h)}</h3><p>${esc(f.t)}</p></article>`).join("")}
+      </div>
+    </section>
+
+    <section class="band" id="notes-${s.id}">
+      <div class="band-head"><h2>Suggested notepad documentation</h2><p>Fill-in template for the text fields; replace each [bracket]</p></div>
+      <div class="notepad">
+        <div class="np-bar"><span>${esc(s.name)} · text template</span><button class="copy" type="button" id="copyBtn">Copy template</button></div>
+        <div class="np-body"><pre id="npText">${NOTE_ORDER.map(k=>`<span class="fld" title="${esc(NOTE_FIELD[k])}">${esc(k)}:</span> ${esc((NOTES[s.id]||{})[k]||"[ ]")}`).join("\n")}</pre></div>
+      </div>
+    </section>`;
+  const btn=document.getElementById("copyBtn");
+  btn.addEventListener("click",()=>{
+    const txt=noteText(s.id);
+    const done=()=>{btn.textContent="Copied"; setTimeout(()=>btn.textContent="Copy template",1600)};
+    const fallback=()=>{const r=document.createRange(); r.selectNodeContents(document.getElementById("npText")); const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); btn.textContent="Selected, press Ctrl+C"};
+    try{ navigator.clipboard.writeText(txt).then(done,fallback) }catch(e){ fallback() }
+  });
+  renderSources(s);
+  try{ localStorage.setItem("ods-site", s.id) }catch(e){}
+}
+
+const GROUPS = [
+  ["Breast",["breast"]],
+  ["Thoracic",["lung","sclc","meso"]],
+  ["Gastrointestinal",["gi","colon","rectum","anus","appendix","pancreas","liver","net","gist"]],
+  ["Genitourinary",["prostate","bladder","kidney","testis"]],
+  ["Gynecologic",["uterus","cervix","ovary","vulva"]],
+  ["Skin",["melanoma","merkel"]],
+  ["Head, neck & endocrine",["hn","thyroid"]],
+  ["Brain & CNS",["cns"]],
+  ["Sarcoma",["sarcoma"]],
+  ["Hematologic",["heme","lymph"]]
+];
+const grouped = new Set(GROUPS.flatMap(g=>g[1]));
+const leftovers = SITES.filter(s=>!grouped.has(s.id)).map(s=>s.id);
+if(leftovers.length) GROUPS.push(["Other",leftovers]);
+const byId = Object.fromEntries(SITES.map(s=>[s.id,s]));
+const go = id=>{render(id); history.replaceState(null,"","#"+id)};
+const selEl = document.getElementById("siteSelect");
+GROUPS.forEach(([label,ids])=>{
+  const row=document.createElement("div"); row.className="grp";
+  const lab=document.createElement("div"); lab.className="grp-label"; lab.textContent=label;
+  const pills=document.createElement("div"); pills.className="grp-pills";
+  const og=document.createElement("optgroup"); og.label=label;
+  ids.filter(id=>byId[id]).forEach(id=>{
+    const s=byId[id];
+    const b=document.createElement("button");
+    b.className="site-tab"; b.type="button"; b.id="tab-"+s.id;
+    b.dataset.id=s.id; b.style.setProperty("--c", s.color); b.textContent=s.name;
+    b.addEventListener("click",()=>go(s.id));
+    pills.appendChild(b);
+    const o=document.createElement("option"); o.value=s.id; o.textContent=s.name; og.appendChild(o);
+  });
+  row.append(lab,pills); tabs.appendChild(row); if(selEl) selEl.appendChild(og);
+});
+if(selEl) selEl.addEventListener("change",()=>go(selEl.value));
+
+let start = (location.hash||"").slice(1);
+if(!SITES.some(s=>s.id===start)){ try{ start = localStorage.getItem("ods-site")||"breast" }catch(e){ start="breast" } }
+if(start==="crc") start="colon";
+render(start);
+</script>
+
+</body></html>
