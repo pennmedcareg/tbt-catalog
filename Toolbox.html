@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Penn Medicine Cancer Registry — Toolbox</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #F7F8FA;
+    background-image: radial-gradient(#E5E9EF 1px, transparent 1px);
+    background-size: 22px 22px;
+    color: #2C2C2C;
+    min-height: 100vh;
+    scroll-padding-top: 230px;
+  }
+
+  /* ── HEADER BADGE ── */
+  .header-badge {
+    flex-shrink: 0; background: #fff; border-radius: 12px; padding: 7px 12px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.22); display: flex; align-items: center;
+  }
+  .header-badge img { display: block; width: 190px; height: auto; }
+
+  /* ── BRAND STRIPE ── */
+  .brand-stripe { height: 4px; background: linear-gradient(90deg, #990000 0%, #990000 35%, #011F5B 35%, #011F5B 100%); }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #011F5B 0%, #003C73 100%);
+    color: #fff;
+    padding: 30px 32px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(1,31,91,.25);
+  }
+  .header-inner { max-width: 1180px; margin: 0 auto; }
+  .header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .header-title-row { display: flex; align-items: center; gap: 14px; }
+  .header-icon {
+    flex-shrink: 0; width: 52px; height: 52px; border-radius: 14px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.25);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.03) inset, 0 4px 14px rgba(0,0,0,0.2);
+  }
+  .header-eyebrow { font-size: 10px; letter-spacing: 2.5px; color: #B1CFE7; text-transform: uppercase; margin-bottom: 5px; font-weight: 700; }
+  .header-title {
+    font-size: 25px; font-weight: 800; letter-spacing: -0.3px; color: #fff;
+  }
+  .header-meta { display: flex; gap: 6px; margin-top: 7px; flex-wrap: wrap; }
+  .stat-chip {
+    font-size: 11px; font-weight: 700; color: #fff; background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.22); border-radius: 20px; padding: 3px 11px;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .stat-chip b { color: #fff; font-weight: 800; }
+  .header-sub { color: #CBDCEC; font-size: 12px; margin-top: 10px; max-width: 560px; line-height: 1.5; }
+
+  /* ── QUICK NAV ── */
+  .quick-nav { display: flex; gap: 6px; margin-top: 16px; flex-wrap: wrap; }
+  .quick-nav a {
+    font-size: 11px; font-weight: 600; color: #CBDCEC; text-decoration: none;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 20px; padding: 4px 12px; transition: all .15s; white-space: nowrap;
+  }
+  .quick-nav a:hover { background: rgba(255,255,255,0.16); color: #fff; border-color: rgba(255,255,255,0.4); }
+
+  /* ── SUITE NAV: links to sister tools ── */
+  .suite-nav-wrap { background: #F2F4F7; border-bottom: 1px solid #E5E9EF; }
+  .suite-nav { max-width: 1180px; margin: 0 auto; padding: 22px 32px; }
+  .suite-nav-label {
+    font-size: 11px; font-weight: 700; color: #627191; text-transform: uppercase;
+    letter-spacing: 1.5px; margin-bottom: 12px;
+  }
+  .suite-cards { display: flex; gap: 14px; flex-wrap: wrap; }
+  .suite-card {
+    flex: 1; min-width: 230px; display: flex; align-items: center; gap: 14px;
+    padding: 16px 18px; border-radius: 12px; text-decoration: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12); transition: transform .15s, box-shadow .15s;
+    position: relative; overflow: hidden;
+  }
+  .suite-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.2); }
+  .suite-card-icon {
+    flex-shrink: 0; width: 46px; height: 46px; border-radius: 10px;
+    background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.3);
+    display: flex; align-items: center; justify-content: center; font-size: 21px;
+  }
+  .suite-card-text { flex: 1; min-width: 0; }
+  .suite-card-name { display: block; font-size: 15px; font-weight: 800; color: #fff; line-height: 1.25; }
+  .suite-card-sub { display: block; font-size: 11.5px; color: rgba(255,255,255,0.8); margin-top: 3px; }
+  .suite-card-arrow { font-size: 16px; color: rgba(255,255,255,0.75); flex-shrink: 0; }
+  .suite-card.pending { cursor: default; opacity: 0.85; }
+  .suite-card.pending .suite-card-sub { font-style: italic; }
+
+  .btn {
+    border: none; border-radius: 9px; padding: 10px 18px; font-weight: 700;
+    cursor: pointer; font-size: 13px; white-space: nowrap; transition: all .15s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,0.22); }
+  .btn-export { background: #17751A; color: #fff; }
+  .btn-export:hover { background: #136015; }
+  .btn-edit { background: #0055A4; color: #fff; }
+  .btn-edit:hover { background: #004685; }
+  .btn-edit.active { background: #990000; }
+  .btn-edit.active:hover { background: #7a0000; }
+  .btn-pw {
+    background: transparent; color: #B1CFE7; border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 6px; padding: 5px 10px; font-weight: 600; cursor: pointer;
+    font-size: 11px; white-space: nowrap; transition: all .15s;
+  }
+  .btn-pw:hover { background: rgba(255,255,255,0.12); color: #fff; }
+  .btn-small {
+    background: rgba(255,255,255,0.08); color: #E1EAF3; border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 6px; padding: 4px 10px; font-size: 11px; cursor: pointer; font-weight: 600;
+  }
+  .btn-small:hover { background: rgba(255,255,255,0.16); }
+  .btn-danger {
+    background: rgba(153,0,0,0.12); color: #990000; border: 1px solid rgba(153,0,0,0.35);
+    border-radius: 6px; padding: 3px 8px; font-size: 11px; cursor: pointer; font-weight: 600;
+  }
+  .btn-danger:hover { background: rgba(153,0,0,0.22); }
+
+  .search-bar { margin-top: 20px; position: relative; }
+  .search-bar input {
+    width: 100%; padding: 13px 16px 13px 42px;
+    border-radius: 10px; border: 1.5px solid rgba(255,255,255,0.25);
+    background: rgba(1,15,45,0.35);
+    color: #fff; font-size: 14px; outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .search-bar input:focus { border-color: #4C90C9; box-shadow: 0 0 0 3px rgba(76,144,201,0.28); }
+  .search-bar input::placeholder { color: #9FBEDD; }
+  .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #9FBEDD; font-size: 15px; pointer-events: none; }
+
+  .filter-row { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; align-items: center; }
+  .filter-pill {
+    background: rgba(255,255,255,0.05); color: #CBDCEC; border: 1.5px solid rgba(255,255,255,0.25);
+    border-radius: 20px; padding: 6px 15px; cursor: pointer; font-size: 12px;
+    font-weight: 600; transition: all .15s;
+  }
+  .filter-pill:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+  .filter-pill.active { color: #fff; border-color: transparent; box-shadow: 0 2px 10px rgba(0,0,0,0.25); }
+  .filter-pill[data-k="all"].active { background: #627191; }
+  .filter-pill[data-k="open"].active { background: #17751A; }
+  .filter-pill[data-k="penn"].active { background: #0055A4; }
+  .filter-pill[data-k="signon"].active { background: #4C90C9; }
+  .filter-pill[data-k="sub"].active { background: #C47F00; }
+
+  .legend { font-size: 11px; color: #9FBEDD; margin-top: 12px; display:flex; gap:18px; flex-wrap:wrap; }
+
+  /* ── MAIN ── */
+  .main { max-width: 1180px; margin: 0 auto; padding: 28px 32px 60px; }
+
+  .category {
+    background: #fff; border-radius: 14px; border: 1px solid #E5E9EF;
+    padding: 22px 24px; margin-bottom: 20px; position: relative; overflow: hidden;
+    box-shadow: 0 1px 3px rgba(1,31,91,0.05);
+    transition: box-shadow .2s, transform .2s;
+    scroll-margin-top: 230px;
+  }
+  .category::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--accent, #0055A4), var(--accent, #0055A4) 40%, transparent 100%);
+  }
+  .category::after {
+    content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 4px;
+    background: var(--accent, #0055A4);
+  }
+  .category:hover { box-shadow: 0 10px 28px rgba(1,31,91,0.12); transform: translateY(-2px); }
+  .category-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom: 4px; }
+  .category-name-wrap { display:flex; align-items:center; gap:12px; }
+  .category-icon {
+    width: 38px; height: 38px; border-radius: 10px; display:flex; align-items:center; justify-content:center;
+    font-size: 17px; flex-shrink: 0;
+    background: linear-gradient(145deg, var(--accent-soft, #F2F4F7), #ffffff);
+    border: 1px solid var(--accent-soft, #F2F4F7);
+    box-shadow: 0 2px 6px rgba(1,31,91,0.08);
+  }
+  .category-name { font-size: 16.5px; font-weight: 800; color: #011F5B; letter-spacing: -0.2px; }
+  .category-note { font-size: 12px; color: #627191; margin: 6px 0 12px 50px; font-style: italic; }
+  .category-count {
+    font-size: 10px; color: #627191; font-weight: 700; background: #F2F4F7;
+    padding: 3px 9px; border-radius: 10px; white-space: nowrap;
+  }
+
+  .item-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 10px; margin-top: 14px; }
+  .item-card {
+    border: 1.5px solid #E5E9EF; border-radius: 10px; padding: 10px 14px;
+    display: flex; align-items: center; gap: 10px; cursor: pointer; transition: all .15s;
+    background: #F9FBFD;
+  }
+  .item-card:hover { border-color: var(--accent, #4C90C9); background: #fff; box-shadow: 0 6px 16px rgba(1,31,91,0.12); transform: translateY(-1px); }
+  .item-card.no-url { cursor: default; }
+  .item-card.no-url:hover { transform: none; box-shadow: none; border-style: dashed; }
+  .source-badge {
+    width: 25px; height: 25px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 10px; font-weight: 800; letter-spacing: -0.3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.25), inset 0 0 0 1px rgba(255,255,255,0.25);
+  }
+  .item-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+  .item-name { font-size: 13px; font-weight: 600; color: #2C2C2C; line-height: 1.25; }
+  .item-badge-row { display: flex; align-items: center; gap: 6px; }
+  .item-badge {
+    font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px;
+    white-space: nowrap; letter-spacing: 0.1px;
+  }
+  .badge-open { background: rgba(23,117,26,0.12); color: #17751A; }
+  .badge-penn { background: rgba(0,85,164,0.12); color: #0055A4; }
+  .badge-signon { background: rgba(98,113,145,0.16); color: #4A5775; }
+  .badge-sub { background: rgba(240,169,62,0.22); color: #92600A; }
+  .no-link-tag { font-size: 10px; color: #c7d3e0; font-style: italic; }
+  .ext-arrow { flex-shrink: 0; color: #4C90C9; font-size: 13px; opacity: 0; transition: opacity .15s; }
+  .item-card:hover .ext-arrow { opacity: 1; }
+
+  /* ── EDIT MODE ── */
+  .edit-banner {
+    background: #F5E6E6; border: 1px solid #990000; color: #6B0000; font-size: 12.5px;
+    padding: 12px 18px; border-radius: 10px; margin-bottom: 20px; font-weight: 600;
+    box-shadow: 0 2px 10px rgba(153,0,0,0.1);
+  }
+  .item-edit {
+    border: 1.5px solid #E5E9EF; border-radius: 12px; padding: 12px 14px;
+    background: #F7F8FA; display:flex; flex-direction:column; gap:7px; min-width: 240px; flex: 1 1 260px;
+    transition: border-color .15s;
+  }
+  .item-edit:focus-within { border-color: #0055A4; }
+  .item-edit input[type=text] {
+    font-size: 12px; padding: 7px 9px; border: 1px solid #B1CFE7; border-radius: 7px; width: 100%;
+    transition: border-color .15s;
+  }
+  .item-edit input[type=text]:focus { outline: none; border-color: #0055A4; }
+  .item-edit .row { display:flex; gap:6px; align-items:center; }
+  .item-edit select { font-size: 11px; padding: 5px 7px; border-radius: 7px; border: 1px solid #B1CFE7; background:#fff; }
+  .add-item-card {
+    border: 1.5px dashed #B1CFE7; border-radius: 10px; padding: 9px 13px;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; color:#627191;
+    font-size: 12px; font-weight: 700; min-width: 140px; transition: all .15s;
+  }
+  .add-item-card:hover { background: #F5F9FC; border-color: #0055A4; color: #003C73; }
+  .add-category-btn {
+    width: 100%; padding: 16px; border: 2px dashed #B1CFE7; border-radius: 14px;
+    background: transparent; color: #627191; font-weight: 700; cursor: pointer; font-size: 13px;
+    transition: all .15s;
+  }
+  .add-category-btn:hover { background: #fff; border-color: #0055A4; color: #003C73; box-shadow: 0 4px 14px rgba(1,31,91,0.08); }
+
+  .empty-state { text-align:center; color:#627191; padding: 50px; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="brand-stripe"></div>
+<div class="header">
+  <div class="header-inner">
+    <div class="header-top">
+      <div>
+        <div class="header-title-row">
+          <div class="header-badge">
+            <img src="data:image/png;base64,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" alt="Penn Medicine Cancer Registry Toolbox">
+          </div>
+          <div>
+            <div class="header-eyebrow">Penn Medicine Cancer Registry</div>
+            <div class="header-title">Toolbox</div>
+            <div class="header-meta" id="meta-line"><span class="stat-chip"><b>78</b> resources</span><span class="stat-chip"><b>11</b> categories</span><span class="stat-chip">🔓 <b>39</b> open</span><span class="stat-chip">🔒 <b>30</b> Penn network</span></div>
+          </div>
+        </div>
+        <div class="header-sub">Every reference link in one searchable place, tagged by what it takes to get in — open, Penn network, your own sign-on, or a subscription — so you know before you click.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-export" onclick="exportCatalog()">⬇ Export &amp; Save</button>
+          <button class="btn btn-edit" id="edit-toggle-btn" onclick="toggleEditMode()">🔒 Edit Links</button>
+        </div>
+        <button class="btn-pw" onclick="changePassword()">🔑 Change Password</button>
+        <div style="font-size:11px;color:#8b9ec7;font-style:italic;">🔒 Adding/editing links is password protected</div>
+      </div>
+    </div>
+
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" placeholder="Search resources…" oninput="render()">
+    </div>
+    <div class="filter-row" id="filter-row"><button class="filter-pill active" data-k="all" onclick="setFilter('all')">All</button><button class="filter-pill" data-k="open" onclick="setFilter('open')">🔓 Open</button><button class="filter-pill" data-k="penn" onclick="setFilter('penn')">🔒 Penn network</button><button class="filter-pill" data-k="signon" onclick="setFilter('signon')">👤 Sign-on</button><button class="filter-pill" data-k="sub" onclick="setFilter('sub')">💳 Subscription</button></div>
+    <div class="legend">
+      <span>🔓 Open access</span>
+      <span>🔒 Penn network / VPN required</span>
+      <span>👤 Individual sign-on required</span>
+      <span>💳 Subscription required</span>
+    </div>
+    <div class="quick-nav" id="quick-nav"><a href="#cat-core">🧰 Core Work Apps</a><a href="#cat-manuals">📚 Coding Manuals &amp; Standards</a><a href="#cat-staging">🎯 Staging References</a><a href="#cat-seer">🔬 SEER Tools &amp; Lookups</a><a href="#cat-quickref">📋 Quick References &amp; Cheat Sheets</a><a href="#cat-insurance">🏥 Insurance &amp; Payer Portals</a><a href="#cat-forums">💬 Forums &amp; Continuing Education</a><a href="#cat-tips">💡 Abstracting Tips</a><a href="#cat-sites">🫀 Site-Specific Resources</a><a href="#cat-admin">🧑‍💼 Admin / HR Quick Links</a><a href="#cat-doclib">🗂️ Document Library (folders)</a></div>
+  </div>
+</div>
+
+<div class="suite-nav-wrap">
+  <div class="suite-nav">
+    <div class="suite-nav-label">Your Registry Tools</div>
+    <div class="suite-cards">
+      <a class="suite-card" href="https://pennmedcareg.github.io/tbt-catalog/TBT_Meeting_Catalog.html" target="_blank" rel="noopener" style="background: linear-gradient(135deg, #4a0e0e 0%, #6B0000 100%);">
+        <span class="suite-card-icon">🗓️</span>
+        <span class="suite-card-text">
+          <span class="suite-card-name">TBT Meeting Catalog</span>
+          <span class="suite-card-sub">Topics &amp; recaps from every TBT</span>
+        </span>
+        <span class="suite-card-arrow">↗</span>
+      </a>
+      <a class="suite-card" href="https://pennmedcareg.github.io/tbt-catalog/Webinar_Conference_Catalog.html" target="_blank" rel="noopener" style="background: linear-gradient(135deg, #4d3300 0%, #8a5a00 100%);">
+        <span class="suite-card-icon">🎥</span>
+        <span class="suite-card-text">
+          <span class="suite-card-name">Webinar &amp; Conference Catalog</span>
+          <span class="suite-card-sub">Conference &amp; webconferencing sessions</span>
+        </span>
+        <span class="suite-card-arrow">↗</span>
+      </a>
+      <a class="suite-card" href="https://pennmedcareg.github.io/tbt-catalog/ODS_Treatment_Pathways.html" target="_blank" rel="noopener" style="background: linear-gradient(135deg, #0a3d3f 0%, #0d6b70 100%);">
+        <span class="suite-card-icon">🩺</span>
+        <span class="suite-card-text">
+          <span class="suite-card-name">ODS Treatment Pathways</span>
+          <span class="suite-card-sub">NCCN-based treatment reference</span>
+        </span>
+        <span class="suite-card-arrow">↗</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="main" id="main"><div class="category" id="cat-core" style="--accent: #0055A4; --accent-soft: #F5F9FC;"><div class="category-head"><div class="category-name-wrap"><div class="category-icon" style="color:#0055A4;">🧰</div><div class="category-name">Core Work Apps</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="category-count">6 links</span></div></div><div class="category-note">Daily-use tools, pinned to the top.</div><div class="item-grid"><div class="item-card"><span class="source-badge" style="background:#db2777;" title="KACI">K</span><span class="item-main"><span class="item-name">KACI</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span></span></span><span class="ext-arrow">↗</span></div><div class="item-card"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">CRCF</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span></span></span><span class="ext-arrow">↗</span></div><div class="item-card"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Penn Chart via Citrix</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span></span></span><span class="ext-arrow">↗</span></div><div class="item-card"><span class="source-badge" style="background:#9333ea;" title="ARIA">AR</span><span class="item-main"><span class="item-name">ARIA via Citrix</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span></span></span><span class="ext-arrow">↗</span></div><div class="item-card"><span class="source-badge" style="background:#0055A4;" title="Your own tool">★</span><span class="item-main"><span class="item-name">Conference &amp; Webinar Catalog</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span></span></span><span class="ext-arrow">↗</span></div><div class="item-card"><span class="source-badge" style="background:#0055A4;" title="Your own tool">★</span><span class="item-main"><span class="item-name">TBT Meeting Catalog</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span></span></span><span class="ext-arrow">↗</span></div></div></div><div class="category" id="cat-manuals" style="--accent: #011F5B; --accent-soft: #F2F4F7;"><div class="category-head"><div class="category-name-wrap"><div class="category-icon" style="color:#011F5B;">📚</div><div class="category-name">Coding Manuals &amp; Standards</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="category-count">15 links</span></div></div><div class="item-grid"><div class="item-card"><span class="source-badge" style="background:#7c3aed;" title="NAACCR">NA</span><span class="item-main"><span class="item-name">STORE 2026</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span></span></span><span class="ext-arrow">↗</span></div><div class="item-card"><span class="source-badge" style="background:#7c3aed;" title="NAACCR">NA</span><span class="item-main"><span class="item-name">STORE 2025</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span></span></span><span class="ext-arrow">↗</span></div><div class="item-card"><span class="source-badge" style="background:#7c3aed;" title="NAACCR">NA</span><span class="item-main"><span class="item-name">STORE 2024</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span></span></span><span class="ext-arrow">↗</span></div><div class="item-card"><span class="source-badge" style="background:#0ea5e9;" title="SEER / NCI">SR</span><span class="item-main"><span class="item-name">2026 SEER Coding Manual</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span></span></span><span class="ext-arrow">↗</span></div><div class="item-card"><span class="source-badge" style="background:#0ea5e9;" title="SEER / NCI">SR</span><span class="item-main"><span class="item-name">2025 SEER Coding Manual</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span></span></span><span class="ext-arrow">↗</span></div><div class="item-card"><span class="source-badge" style="background:#0ea5e9;" title="SEER / NCI">SR</span><span class="item-main"><span class="item-name">2024 Appendix C</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span></span></span><span class="ext-arrow">↗</span></div><div class="item-card"><span class="source-badge" style="background:#0ea5e9;" title="SEER / NCI">SR</span><span class="item-main"><span class="item-name">2026 Appendix C</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span></span></span><span class="ext-arrow">↗</span></div><div class="item-card no-url"><span class="source-badge" style="background:#0ea5e9;" title="SEER / NCI">SR</span><span class="item-main"><span class="item-name">2025 Appendix D — Race &amp; Nationality</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#0d9488;" title="PA Cancer Registry">PC</span><span class="item-main"><span class="item-name">2026 PCR Manual</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#0d9488;" title="PA Cancer Registry">PC</span><span class="item-main"><span class="item-name">2025 PCR Manual</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#0d9488;" title="PA Cancer Registry">PC</span><span class="item-main"><span class="item-name">2024 PCR Manual</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#059669;" title="NJSCR">NJ</span><span class="item-main"><span class="item-name">NJSCR Program Manual</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#64748b;" title="WHO / IARC">W</span><span class="item-main"><span class="item-name">ICD-O-3</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#0ea5e9;" title="SEER / NCI">SR</span><span class="item-main"><span class="item-name">Summary Stage 2018</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#0ea5e9;" title="SEER / NCI">SR</span><span class="item-main"><span class="item-name">EOD</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div></div></div><div class="category" id="cat-staging" style="--accent: #990000; --accent-soft: #F5E6E6;"><div class="category-head"><div class="category-name-wrap"><div class="category-icon" style="color:#990000;">🎯</div><div class="category-name">Staging References</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="category-count">5 links</span></div></div><div class="item-grid"><div class="item-card no-url"><span class="source-badge" style="background:#d97706;" title="AJCC">AJ</span><span class="item-main"><span class="item-name">AJCC Staging Portal</span><span class="item-badge-row"><span class="item-badge badge-sub">💳 Subscription</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#d97706;" title="AJCC">AJ</span><span class="item-main"><span class="item-name">AJCC Cancer Staging | R2 Library</span><span class="item-badge-row"><span class="item-badge badge-sub">💳 Subscription</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#d97706;" title="AJCC">AJ</span><span class="item-main"><span class="item-name">Node Status Not Required — Rare Circumstances</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#d97706;" title="AJCC">AJ</span><span class="item-main"><span class="item-name">8th Ed — Chapter One Summary</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#d97706;" title="AJCC">AJ</span><span class="item-main"><span class="item-name">Timing Is Everything</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div></div></div><div class="category" id="cat-seer" style="--accent: #4C90C9; --accent-soft: #F0F7FC;"><div class="category-head"><div class="category-name-wrap"><div class="category-icon" style="color:#4C90C9;">🔬</div><div class="category-name">SEER Tools &amp; Lookups</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="category-count">10 links</span></div></div><div class="item-grid"><div class="item-card no-url"><span class="source-badge" style="background:#0ea5e9;" title="SEER / NCI">SR</span><span class="item-main"><span class="item-name">Solid Tumor Rules</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#0ea5e9;" title="SEER / NCI">SR</span><span class="item-main"><span class="item-name">Hem Database</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#0ea5e9;" title="SEER / NCI">SR</span><span class="item-main"><span class="item-name">Hem Coding Manual</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#0ea5e9;" title="SEER / NCI">SR</span><span class="item-main"><span class="item-name">SEER*Rx</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#0ea5e9;" title="SEER / NCI">SR</span><span class="item-main"><span class="item-name">PathCHART</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#0ea5e9;" title="SEER / NCI">SR</span><span class="item-main"><span class="item-name">SEER*RSA</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#0ea5e9;" title="SEER / NCI">SR</span><span class="item-main"><span class="item-name">SEER Inquiry (SINQ)</span><span class="item-badge-row"><span class="item-badge badge-signon">👤 Sign-on</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#7c3aed;" title="NAACCR">NA</span><span class="item-main"><span class="item-name">SSDI &amp; Grade (NAACCR)</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#7c3aed;" title="NAACCR">NA</span><span class="item-main"><span class="item-name">Data Dictionary (NAACCR)</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#b91c1c;" title="NCCN">NN</span><span class="item-main"><span class="item-name">NCCN Guidelines</span><span class="item-badge-row"><span class="item-badge badge-signon">👤 Sign-on</span><span class="no-link-tag">no link yet</span></span></span></div></div></div><div class="category" id="cat-quickref" style="--accent: #003C73; --accent-soft: #F2F4F7;"><div class="category-head"><div class="category-name-wrap"><div class="category-icon" style="color:#003C73;">📋</div><div class="category-name">Quick References &amp; Cheat Sheets</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="category-count">7 links</span></div></div><div class="item-grid"><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Reportability Decision Tree</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Penn Medicine Facility, FINS, Abbreviations v2026</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Find a Doctor | Penn Medicine</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Uniform Notepad Text Guidelines</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Radiation-Oncology CPT Codes</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Satellite Facilities Cheat Sheet</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Secondary Dx Cheat Sheet</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div></div></div><div class="category" id="cat-insurance" style="--accent: #627191; --accent-soft: #F4F5F7;"><div class="category-head"><div class="category-name-wrap"><div class="category-icon" style="color:#627191;">🏥</div><div class="category-name">Insurance &amp; Payer Portals</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="category-count">3 links</span></div></div><div class="item-grid"><div class="item-card no-url"><span class="source-badge" style="background:#2563eb;" title="NaviNet">NV</span><span class="item-main"><span class="item-name">NaviNet</span><span class="item-badge-row"><span class="item-badge badge-signon">👤 Sign-on</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#0891b2;" title="Novitasphere">NO</span><span class="item-main"><span class="item-name">Novitasphere</span><span class="item-badge-row"><span class="item-badge badge-signon">👤 Sign-on</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#65a30d;" title="PEAR Portal">PE</span><span class="item-main"><span class="item-name">PEAR Portal</span><span class="item-badge-row"><span class="item-badge badge-signon">👤 Sign-on</span><span class="no-link-tag">no link yet</span></span></span></div></div></div><div class="category" id="cat-forums" style="--accent: #0055A4; --accent-soft: #F5F9FC;"><div class="category-head"><div class="category-name-wrap"><div class="category-icon" style="color:#0055A4;">💬</div><div class="category-name">Forums &amp; Continuing Education</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="category-count">4 links</span></div></div><div class="item-grid"><div class="item-card no-url"><span class="source-badge" style="background:#7c3aed;" title="NAACCR">NA</span><span class="item-main"><span class="item-name">CAnswer Forum</span><span class="item-badge-row"><span class="item-badge badge-signon">👤 Sign-on</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Penn Learning Portal</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#0ea5e9;" title="SEER / NCI">SR</span><span class="item-main"><span class="item-name">SEER*Educate</span><span class="item-badge-row"><span class="item-badge badge-signon">👤 Sign-on</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#0ea5e9;" title="SEER / NCI">SR</span><span class="item-main"><span class="item-name">SEER Training</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div></div></div><div class="category" id="cat-tips" style="--accent: #4C90C9; --accent-soft: #F0F7FC;"><div class="category-head"><div class="category-name-wrap"><div class="category-icon" style="color:#4C90C9;">💡</div><div class="category-name">Abstracting Tips</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="category-count">5 links</span></div></div><div class="item-grid"><div class="item-card no-url"><span class="source-badge" style="background:#059669;" title="NJSCR">NJ</span><span class="item-main"><span class="item-name">NJSCR 2026 E-Tips</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#059669;" title="NJSCR">NJ</span><span class="item-main"><span class="item-name">NJSCR 2025 E-Tips</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#92400e;" title="Missouri Cancer Registry">MO</span><span class="item-main"><span class="item-name">Missouri Cancer Registry — Show Me Tips</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#7c2d12;" title="Omega">Ω</span><span class="item-main"><span class="item-name">Omega — Tumor Tip of the Week</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#0055A4;" title="Your own tool">★</span><span class="item-main"><span class="item-name">ODS Treatment Pathways</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div></div></div><div class="category" id="cat-sites" style="--accent: #6B0000; --accent-soft: #F5E6E6;"><div class="category-head"><div class="category-name-wrap"><div class="category-icon" style="color:#6B0000;">🫀</div><div class="category-name">Site-Specific Resources</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="category-count">4 links</span></div></div><div class="category-note">The source screenshot was cut off after Breast — add any missing site cards here.</div><div class="item-grid"><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Bladder</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Lung</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Thyroid</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Breast</span><span class="item-badge-row"><span class="item-badge badge-open">🔓 Open</span><span class="no-link-tag">no link yet</span></span></span></div></div></div><div class="category" id="cat-admin" style="--accent: #627191; --accent-soft: #F4F5F7;"><div class="category-head"><div class="category-name-wrap"><div class="category-icon" style="color:#627191;">🧑‍💼</div><div class="category-name">Admin / HR Quick Links</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="category-count">6 links</span></div></div><div class="item-grid"><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Employee and Labor Relations</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">E-Star</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">DZX Time Tracker</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">UPHS Intranet</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Knowledge Link</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Contribution-Report</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div></div></div><div class="category" id="cat-doclib" style="--accent: #011F5B; --accent-soft: #F2F4F7;"><div class="category-head"><div class="category-name-wrap"><div class="category-icon" style="color:#011F5B;">🗂️</div><div class="category-name">Document Library (folders)</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="category-count">13 links</span></div></div><div class="category-note">These are folders inside the Document Library, not individual links — listed here just as a directory of what's filed where.</div><div class="item-grid"><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">CRCF</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">EPIC</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">FAQ's &amp; Things to Remember</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Follow-Up</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">How-To Videos</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#db2777;" title="KACI">K</span><span class="item-main"><span class="item-name">KACI Procedures</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#db2777;" title="KACI">K</span><span class="item-main"><span class="item-name">KACI Release Notes</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Manuals</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Meet the Team</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Quality Measures</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Registry Forms</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Site Specific Resources</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div><div class="item-card no-url"><span class="source-badge" style="background:#011F5B;" title="Penn Medicine">P</span><span class="item-main"><span class="item-name">Presentation.pptx</span><span class="item-badge-row"><span class="item-badge badge-penn">🔒 Penn network</span><span class="no-link-tag">no link yet</span></span></span></div></div></div></div>
+
+<script>
+/* CATEGORIES_START */
+let categories = [
+  {
+    "id": "core",
+    "name": "Core Work Apps",
+    "note": "Daily-use tools, pinned to the top.",
+    "items": [
+      {
+        "name": "KACI",
+        "access": "penn",
+        "url": "https://kaci.neuralframe.com/login",
+        "source": "kaci"
+      },
+      {
+        "name": "CRCF",
+        "access": "penn",
+        "url": "https://www.med.upenn.edu/apps/my_dot_med",
+        "source": "penn"
+      },
+      {
+        "name": "Penn Chart via Citrix",
+        "access": "penn",
+        "url": "https://citrixweb.uphs.upenn.edu/Citrix/PennMedicineWeb/",
+        "source": "penn"
+      },
+      {
+        "name": "ARIA via Citrix",
+        "access": "penn",
+        "url": "https://citrixweb.uphs.upenn.edu/Citrix/PennMedicineWeb/",
+        "source": "aria"
+      },
+      {
+        "name": "Conference & Webinar Catalog",
+        "access": "open",
+        "url": "https://pennmedcareg.github.io/tbt-catalog/Webinar_Conference_Catalog.html",
+        "source": "tool"
+      },
+      {
+        "name": "TBT Meeting Catalog",
+        "access": "open",
+        "url": "https://pennmedcareg.github.io/tbt-catalog/TBT_Meeting_Catalog.html",
+        "source": "tool"
+      }
+    ]
+  },
+  {
+    "id": "manuals",
+    "name": "Coding Manuals & Standards",
+    "items": [
+      {
+        "name": "STORE 2026",
+        "access": "open",
+        "url": "https://www.facs.org/media/iiajly3g/store-manual-2026.pdf",
+        "source": "naaccr"
+      },
+      {
+        "name": "STORE 2025",
+        "access": "open",
+        "url": "https://www.facs.org/media/uf5gxb4i/store-manual-2025.pdf",
+        "source": "naaccr"
+      },
+      {
+        "name": "STORE 2024",
+        "access": "open",
+        "url": "https://www.facs.org/media/bfxlv0eu/store-manual-2024.pdf",
+        "source": "naaccr"
+      },
+      {
+        "name": "2026 SEER Coding Manual",
+        "access": "open",
+        "url": "https://seer.cancer.gov/manuals/2026/SPCSM_2026_MainDoc.pdf",
+        "source": "seer"
+      },
+      {
+        "name": "2025 SEER Coding Manual",
+        "access": "open",
+        "url": "https://seer.cancer.gov/manuals/2026/SPCSM_2026_MainDoc.pdf",
+        "source": "seer"
+      },
+      {
+        "name": "2024 Appendix C",
+        "access": "open",
+        "url": "https://seer.cancer.gov/manuals/2026/SPCSM_2026_MainDoc.pdf",
+        "source": "seer"
+      },
+      {
+        "name": "2026 Appendix C",
+        "access": "open",
+        "url": "https://seer.cancer.gov/manuals/2026/appendixc.html",
+        "source": "seer"
+      },
+      {
+        "name": "2025 Appendix D — Race & Nationality",
+        "access": "open",
+        "url": "",
+        "source": "seer"
+      },
+      {
+        "name": "2026 PCR Manual",
+        "access": "open",
+        "url": "",
+        "source": "pacr"
+      },
+      {
+        "name": "2025 PCR Manual",
+        "access": "open",
+        "url": "",
+        "source": "pacr"
+      },
+      {
+        "name": "2024 PCR Manual",
+        "access": "open",
+        "url": "",
+        "source": "pacr"
+      },
+      {
+        "name": "NJSCR Program Manual",
+        "access": "open",
+        "url": "",
+        "source": "njscr"
+      },
+      {
+        "name": "ICD-O-3",
+        "access": "open",
+        "url": "",
+        "source": "who"
+      },
+      {
+        "name": "Summary Stage 2018",
+        "access": "open",
+        "url": "",
+        "source": "seer"
+      },
+      {
+        "name": "EOD",
+        "access": "open",
+        "url": "",
+        "source": "seer"
+      }
+    ]
+  },
+  {
+    "id": "staging",
+    "name": "Staging References",
+    "items": [
+      {
+        "name": "AJCC Staging Portal",
+        "access": "sub",
+        "url": "",
+        "source": "ajcc"
+      },
+      {
+        "name": "AJCC Cancer Staging | R2 Library",
+        "access": "sub",
+        "url": "",
+        "source": "ajcc"
+      },
+      {
+        "name": "Node Status Not Required — Rare Circumstances",
+        "access": "open",
+        "url": "",
+        "source": "ajcc"
+      },
+      {
+        "name": "8th Ed — Chapter One Summary",
+        "access": "open",
+        "url": "",
+        "source": "ajcc"
+      },
+      {
+        "name": "Timing Is Everything",
+        "access": "open",
+        "url": "",
+        "source": "ajcc"
+      }
+    ]
+  },
+  {
+    "id": "seer",
+    "name": "SEER Tools & Lookups",
+    "items": [
+      {
+        "name": "Solid Tumor Rules",
+        "access": "open",
+        "url": "",
+        "source": "seer"
+      },
+      {
+        "name": "Hem Database",
+        "access": "open",
+        "url": "",
+        "source": "seer"
+      },
+      {
+        "name": "Hem Coding Manual",
+        "access": "open",
+        "url": "",
+        "source": "seer"
+      },
+      {
+        "name": "SEER*Rx",
+        "access": "open",
+        "url": "",
+        "source": "seer"
+      },
+      {
+        "name": "PathCHART",
+        "access": "open",
+        "url": "",
+        "source": "seer"
+      },
+      {
+        "name": "SEER*RSA",
+        "access": "open",
+        "url": "",
+        "source": "seer"
+      },
+      {
+        "name": "SEER Inquiry (SINQ)",
+        "access": "signon",
+        "url": "",
+        "source": "seer"
+      },
+      {
+        "name": "SSDI & Grade (NAACCR)",
+        "access": "open",
+        "url": "",
+        "source": "naaccr"
+      },
+      {
+        "name": "Data Dictionary (NAACCR)",
+        "access": "open",
+        "url": "",
+        "source": "naaccr"
+      },
+      {
+        "name": "NCCN Guidelines",
+        "access": "signon",
+        "url": "",
+        "source": "nccn"
+      }
+    ]
+  },
+  {
+    "id": "quickref",
+    "name": "Quick References & Cheat Sheets",
+    "items": [
+      {
+        "name": "Reportability Decision Tree",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Penn Medicine Facility, FINS, Abbreviations v2026",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Find a Doctor | Penn Medicine",
+        "access": "open",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Uniform Notepad Text Guidelines",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Radiation-Oncology CPT Codes",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Satellite Facilities Cheat Sheet",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Secondary Dx Cheat Sheet",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      }
+    ]
+  },
+  {
+    "id": "insurance",
+    "name": "Insurance & Payer Portals",
+    "items": [
+      {
+        "name": "NaviNet",
+        "access": "signon",
+        "url": "",
+        "source": "navinet"
+      },
+      {
+        "name": "Novitasphere",
+        "access": "signon",
+        "url": "",
+        "source": "novitas"
+      },
+      {
+        "name": "PEAR Portal",
+        "access": "signon",
+        "url": "",
+        "source": "pear"
+      }
+    ]
+  },
+  {
+    "id": "forums",
+    "name": "Forums & Continuing Education",
+    "items": [
+      {
+        "name": "CAnswer Forum",
+        "access": "signon",
+        "url": "",
+        "source": "naaccr"
+      },
+      {
+        "name": "Penn Learning Portal",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "SEER*Educate",
+        "access": "signon",
+        "url": "",
+        "source": "seer"
+      },
+      {
+        "name": "SEER Training",
+        "access": "open",
+        "url": "",
+        "source": "seer"
+      }
+    ]
+  },
+  {
+    "id": "tips",
+    "name": "Abstracting Tips",
+    "items": [
+      {
+        "name": "NJSCR 2026 E-Tips",
+        "access": "open",
+        "url": "",
+        "source": "njscr"
+      },
+      {
+        "name": "NJSCR 2025 E-Tips",
+        "access": "open",
+        "url": "",
+        "source": "njscr"
+      },
+      {
+        "name": "Missouri Cancer Registry — Show Me Tips",
+        "access": "open",
+        "url": "",
+        "source": "missouri"
+      },
+      {
+        "name": "Omega — Tumor Tip of the Week",
+        "access": "open",
+        "url": "",
+        "source": "omega"
+      },
+      {
+        "name": "ODS Treatment Pathways",
+        "access": "open",
+        "url": "https://pennmedcareg.github.io/tbt-catalog/ODS_Treatment_Pathways.html",
+        "source": "tool"
+      }
+    ]
+  },
+  {
+    "id": "sites",
+    "name": "Site-Specific Resources",
+    "note": "The source screenshot was cut off after Breast — add any missing site cards here.",
+    "items": [
+      {
+        "name": "Bladder",
+        "access": "open",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Lung",
+        "access": "open",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Thyroid",
+        "access": "open",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Breast",
+        "access": "open",
+        "url": "",
+        "source": "penn"
+      }
+    ]
+  },
+  {
+    "id": "admin",
+    "name": "Admin / HR Quick Links",
+    "items": [
+      {
+        "name": "Employee and Labor Relations",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "E-Star",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "DZX Time Tracker",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "UPHS Intranet",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Knowledge Link",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Contribution-Report",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      }
+    ]
+  },
+  {
+    "id": "doclib",
+    "name": "Document Library (folders)",
+    "note": "These are folders inside the Document Library, not individual links — listed here just as a directory of what's filed where.",
+    "items": [
+      {
+        "name": "CRCF",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "EPIC",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "FAQ's & Things to Remember",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Follow-Up",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "How-To Videos",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "KACI Procedures",
+        "access": "penn",
+        "url": "",
+        "source": "kaci"
+      },
+      {
+        "name": "KACI Release Notes",
+        "access": "penn",
+        "url": "",
+        "source": "kaci"
+      },
+      {
+        "name": "Manuals",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Meet the Team",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Quality Measures",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Registry Forms",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Site Specific Resources",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Presentation.pptx",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      }
+    ]
+  }
+];
+/* CATEGORIES_END */
+
+let ADMIN_PW = "cgjk1720";
+let adminUnlocked = false;
+let editMode = false;
+let activeFilter = "all";
+
+const ACCESS_LABEL = { open:"🔓 Open", penn:"🔒 Penn network", signon:"👤 Sign-on", sub:"💳 Subscription" };
+const ACCESS_BADGE = { open:"badge-open", penn:"badge-penn", signon:"badge-signon", sub:"badge-sub" };
+
+const CATEGORY_ICON = {
+  core:"🧰", manuals:"📚", staging:"🎯", seer:"🔬", quickref:"📋",
+  insurance:"🏥", forums:"💬", tips:"💡", sites:"🫀", admin:"🧑‍💼", doclib:"🗂️"
+};
+const CATEGORY_COLOR = {
+  core:     ["#0055A4", "#F5F9FC"],
+  manuals:  ["#011F5B", "#F2F4F7"],
+  staging:  ["#990000", "#F5E6E6"],
+  seer:     ["#4C90C9", "#F0F7FC"],
+  quickref: ["#003C73", "#F2F4F7"],
+  insurance:["#627191", "#F4F5F7"],
+  forums:   ["#0055A4", "#F5F9FC"],
+  tips:     ["#4C90C9", "#F0F7FC"],
+  sites:    ["#6B0000", "#F5E6E6"],
+  admin:    ["#627191", "#F4F5F7"],
+  doclib:   ["#011F5B", "#F2F4F7"]
+};
+function categoryAccent(id){ return (CATEGORY_COLOR[id] || ["#0055A4","#F2F4F7"]); }
+function categoryIcon(id){ return CATEGORY_ICON[id] || "📁"; }
+
+// Small "logo" badge per source site/organization — a colored monogram since
+// real third-party logos can't be embedded reliably (no live fetch, trademark use).
+const SOURCE_BADGE = {
+  seer:    { mono:"SR", color:"#0ea5e9", name:"SEER / NCI" },
+  naaccr:  { mono:"NA", color:"#7c3aed", name:"NAACCR" },
+  ajcc:    { mono:"AJ", color:"#d97706", name:"AJCC" },
+  njscr:   { mono:"NJ", color:"#059669", name:"NJSCR" },
+  pacr:    { mono:"PC", color:"#0d9488", name:"PA Cancer Registry" },
+  who:     { mono:"W",  color:"#64748b", name:"WHO / IARC" },
+  penn:    { mono:"P",  color:"#011F5B", name:"Penn Medicine" },
+  kaci:    { mono:"K",  color:"#db2777", name:"KACI" },
+  aria:    { mono:"AR", color:"#9333ea", name:"ARIA" },
+  navinet: { mono:"NV", color:"#2563eb", name:"NaviNet" },
+  novitas: { mono:"NO", color:"#0891b2", name:"Novitasphere" },
+  pear:    { mono:"PE", color:"#65a30d", name:"PEAR Portal" },
+  nccn:    { mono:"NN", color:"#b91c1c", name:"NCCN" },
+  missouri:{ mono:"MO", color:"#92400e", name:"Missouri Cancer Registry" },
+  omega:   { mono:"Ω",  color:"#7c2d12", name:"Omega" },
+  tool:    { mono:"★",  color:"#0055A4", name:"Your own tool" }
+};
+function sourceBadge(key){ return SOURCE_BADGE[key] || null; }
+
+function requirePassword(){
+  if (adminUnlocked) return true;
+  const entered = prompt("Enter the management password:");
+  if (entered === null) return false;
+  if (entered === ADMIN_PW) { adminUnlocked = true; return true; }
+  alert("Incorrect password.");
+  return false;
+}
+
+function changePassword(){
+  if (!requirePassword()) return;
+  const next = prompt("Enter a new management password:");
+  if (!next) return;
+  ADMIN_PW = next;
+  alert("Password updated. Remember to Export & Save so it's kept next time you reopen this file.");
+}
+
+function toggleEditMode(){
+  if (!editMode) {
+    if (!requirePassword()) return;
+  }
+  editMode = !editMode;
+  const btn = document.getElementById('edit-toggle-btn');
+  btn.textContent = editMode ? "✕ Done Editing" : "🔒 Edit Links";
+  btn.classList.toggle('active', editMode);
+  render();
+}
+
+function setFilter(k){
+  activeFilter = k;
+  render();
+}
+
+function addItem(catIdx){
+  const name = prompt("Resource name:");
+  if (!name) return;
+  categories[catIdx].items.push({ name, access: "open", url: "" });
+  render();
+}
+
+function removeItem(catIdx, itemIdx){
+  if (!confirm("Remove this link?")) return;
+  categories[catIdx].items.splice(itemIdx, 1);
+  render();
+}
+
+function addCategory(){
+  const name = prompt("New category name:");
+  if (!name) return;
+  categories.push({ id: "cat" + Date.now(), name, items: [] });
+  render();
+}
+
+function removeCategory(catIdx){
+  if (!confirm('Remove the whole "' + categories[catIdx].name + '" category and everything in it?')) return;
+  categories.splice(catIdx, 1);
+  render();
+}
+
+function renderFilterRow(){
+  const row = document.getElementById('filter-row');
+  const defs = [["all","All"],["open","🔓 Open"],["penn","🔒 Penn network"],["signon","👤 Sign-on"],["sub","💳 Subscription"]];
+  row.innerHTML = defs.map(([k,label]) =>
+    '<button class="filter-pill' + (activeFilter===k ? ' active' : '') + '" data-k="' + k + '" onclick="setFilter(\'' + k + '\')">' + label + '</button>'
+  ).join('');
+}
+
+function totalCounts(){
+  let total = 0;
+  const byAccess = { open:0, penn:0, signon:0, sub:0 };
+  categories.forEach(c => c.items.forEach(it => {
+    total++;
+    if (byAccess[it.access] !== undefined) byAccess[it.access]++;
+  }));
+  return { total, cats: categories.length, byAccess };
+}
+
+function renderQuickNav(){
+  const nav = document.getElementById('quick-nav');
+  nav.innerHTML = categories.map(c =>
+    '<a href="#cat-' + c.id + '">' + categoryIcon(c.id) + ' ' + c.name + '</a>'
+  ).join('');
+}
+
+function render(){
+  renderFilterRow();
+  renderQuickNav();
+  const { total, cats, byAccess } = totalCounts();
+  document.getElementById('meta-line').innerHTML =
+    '<span class="stat-chip"><b>' + total + '</b> resources</span>' +
+    '<span class="stat-chip"><b>' + cats + '</b> categories</span>' +
+    '<span class="stat-chip">🔓 <b>' + byAccess.open + '</b> open</span>' +
+    '<span class="stat-chip">🔒 <b>' + byAccess.penn + '</b> Penn network</span>';
+
+  const search = document.getElementById('search-input').value.trim().toLowerCase();
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+
+  if (editMode) {
+    const banner = document.createElement('div');
+    banner.className = 'edit-banner';
+    banner.textContent = '✏️ Edit mode — fill in the real URL for each link, fix access tags, or add/remove items. Click "Export & Save" when done to download the updated file (search and filters are off while editing so nothing shifts under you).';
+    main.appendChild(banner);
+  }
+
+  let anyVisible = false;
+
+  categories.forEach((cat, ci) => {
+    let items = cat.items;
+    if (!editMode) {
+      items = items.filter(it => {
+        const matchesSearch = !search || it.name.toLowerCase().includes(search) || cat.name.toLowerCase().includes(search);
+        const matchesFilter = activeFilter === 'all' || it.access === activeFilter;
+        return matchesSearch && matchesFilter;
+      });
+      if (items.length === 0) return;
+    }
+    anyVisible = true;
+
+    const [accent, accentSoft] = categoryAccent(cat.id);
+    const section = document.createElement('div');
+    section.className = 'category';
+    section.id = 'cat-' + cat.id;
+    section.style.setProperty('--accent', accent);
+    section.style.setProperty('--accent-soft', accentSoft);
+
+    const head = document.createElement('div');
+    head.className = 'category-head';
+    head.innerHTML =
+      '<div class="category-name-wrap">' +
+        '<div class="category-icon" style="color:' + accent + ';">' + categoryIcon(cat.id) + '</div>' +
+        '<div class="category-name">' + cat.name + '</div>' +
+      '</div>' +
+      '<div style="display:flex;align-items:center;gap:10px;">' +
+      '<span class="category-count">' + items.length + ' link' + (items.length===1?'':'s') + '</span>' +
+      (editMode ? '<button class="btn-danger" onclick="removeCategory(' + ci + ')">Remove category</button>' : '') +
+      '</div>';
+    section.appendChild(head);
+
+    if (cat.note) {
+      const note = document.createElement('div');
+      note.className = 'category-note';
+      note.textContent = cat.note;
+      section.appendChild(note);
+    }
+
+    const grid = document.createElement('div');
+    grid.className = 'item-grid';
+
+    items.forEach((it) => {
+      const realIdx = cat.items.indexOf(it);
+      if (editMode) {
+        const card = document.createElement('div');
+        card.className = 'item-edit';
+        card.innerHTML =
+          '<div class="row">' +
+            '<input type="text" value="' + escapeAttr(it.name) + '" oninput="categories[' + ci + '].items[' + realIdx + '].name=this.value" style="font-weight:600;">' +
+            '<button class="btn-danger" onclick="removeItem(' + ci + ',' + realIdx + ')">✕</button>' +
+          '</div>' +
+          '<input type="text" placeholder="Paste the real URL here…" value="' + escapeAttr(it.url) + '" oninput="categories[' + ci + '].items[' + realIdx + '].url=this.value">' +
+          '<div class="row">' +
+            '<select onchange="categories[' + ci + '].items[' + realIdx + '].access=this.value">' +
+              ['open','penn','signon','sub'].map(a => '<option value="' + a + '"' + (it.access===a?' selected':'') + '>' + ACCESS_LABEL[a] + '</option>').join('') +
+            '</select>' +
+            '<select onchange="categories[' + ci + '].items[' + realIdx + '].source=this.value">' +
+              '<option value="">No logo</option>' +
+              Object.keys(SOURCE_BADGE).map(k => '<option value="' + k + '"' + (it.source===k?' selected':'') + '>' + SOURCE_BADGE[k].name + '</option>').join('') +
+            '</select>' +
+          '</div>';
+        grid.appendChild(card);
+      } else {
+        const card = document.createElement('div');
+        const hasUrl = !!it.url;
+        card.className = 'item-card' + (hasUrl ? '' : ' no-url');
+        const sb = sourceBadge(it.source);
+        card.innerHTML =
+          (sb ? '<span class="source-badge" style="background:' + sb.color + ';" title="' + sb.name + '">' + sb.mono + '</span>' : '') +
+          '<span class="item-main">' +
+            '<span class="item-name">' + escapeHtml(it.name) + '</span>' +
+            '<span class="item-badge-row"><span class="item-badge ' + ACCESS_BADGE[it.access] + '">' + ACCESS_LABEL[it.access] + '</span>' +
+            (hasUrl ? '' : '<span class="no-link-tag">no link yet</span>') + '</span>' +
+          '</span>' +
+          (hasUrl ? '<span class="ext-arrow">↗</span>' : '');
+        if (hasUrl) {
+          card.onclick = () => window.open(it.url, '_blank', 'noopener');
+        } else {
+          card.onclick = () => alert('No URL saved for "' + it.name + '" yet. Click "Edit Links" to add one.');
+        }
+        grid.appendChild(card);
+      }
+    });
+
+    if (editMode) {
+      const addCard = document.createElement('div');
+      addCard.className = 'add-item-card';
+      addCard.textContent = '+ Add link';
+      addCard.onclick = () => addItem(ci);
+      grid.appendChild(addCard);
+    }
+
+    section.appendChild(grid);
+    main.appendChild(section);
+  });
+
+  if (editMode) {
+    const addCatBtn = document.createElement('button');
+    addCatBtn.className = 'add-category-btn';
+    addCatBtn.textContent = '+ Add category';
+    addCatBtn.onclick = addCategory;
+    main.appendChild(addCatBtn);
+  } else if (!anyVisible) {
+    const empty = document.createElement('div');
+    empty.className = 'empty-state';
+    empty.textContent = 'No resources match that search/filter.';
+    main.appendChild(empty);
+  }
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function escapeAttr(s){ return escapeHtml(s); }
+
+function exportCatalog(){
+  const html = document.documentElement.outerHTML;
+  const startMarker = '/* CATEGORIES_START */';
+  const endMarker = '/* CATEGORIES_END */';
+  const startIdx = html.indexOf(startMarker);
+  const endIdx = html.indexOf(endMarker);
+  if (startIdx === -1 || endIdx === -1) { alert('Could not export — markers not found.'); return; }
+  const before = html.slice(0, startIdx + startMarker.length);
+  const after = html.slice(endIdx);
+  const newArrayText = '\nlet categories = ' + JSON.stringify(categories, null, 2) + ';\n';
+  const newHtml = before + newArrayText + after;
+  const blob = new Blob(['<!DOCTYPE html>\n' + newHtml], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Toolbox.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+render();
+</script>
+
+
+
+</body></html>
