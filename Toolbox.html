@@ -263,6 +263,17 @@
   .add-category-btn:hover { background: #fff; border-color: #0055A4; color: #003C73; box-shadow: 0 4px 14px rgba(1,31,91,0.08); }
 
   .empty-state { text-align:center; color:#627191; padding: 50px; font-size: 14px; }
+
+  /* ── QUOTE BANNER: daily inspiration ── */
+  .quote-banner-wrap { background: linear-gradient(135deg, #011F5B 0%, #003C73 100%); padding: 20px 32px; border-top: 1px solid rgba(255,255,255,0.08); }
+  .quote-banner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 16px; }
+  .quote-nav-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #fff; width: 30px; height: 30px; border-radius: 50%; font-size: 17px; line-height: 1; cursor: pointer; flex-shrink: 0; transition: background .15s, transform .15s; }
+  .quote-nav-btn:hover { background: rgba(255,255,255,0.22); transform: scale(1.06); }
+  .quote-content { text-align: center; flex: 1; min-width: 0; }
+  .quote-eyebrow { font-size: 10.5px; letter-spacing: 1.6px; text-transform: uppercase; color: #8FB5E8; font-weight: 700; margin-bottom: 6px; }
+  .quote-text { font-size: 16.5px; font-weight: 600; color: #fff; line-height: 1.5; font-style: italic; transition: opacity .25s ease; min-height: 25px; }
+  .quote-counter { text-align: center; margin-top: 8px; font-size: 11px; color: #8FB5E8; letter-spacing: .3px; }
+  @media (max-width: 640px) { .quote-text { font-size: 14.5px; } .quote-banner { gap: 10px; } }
 </style>
 </head>
 <body>
@@ -309,12 +320,24 @@
   </div>
 </div>
 
+<div class="quote-banner-wrap">
+  <div class="quote-banner">
+    <button class="quote-nav-btn" onclick="prevQuote()" aria-label="Previous quote">&#8249;</button>
+    <div class="quote-content">
+      <div class="quote-eyebrow">&#10022; Today's Reminder</div>
+      <div class="quote-text" id="quote-text"></div>
+    </div>
+    <button class="quote-nav-btn" onclick="nextQuote()" aria-label="Next quote">&#8250;</button>
+  </div>
+  <div class="quote-counter" id="quote-counter"></div>
+</div>
+
 <div class="suite-nav-wrap">
   <div class="suite-nav">
     <div class="suite-nav-label">Your Registry Tools</div>
     <div class="suite-cards">
       <a class="suite-card" href="https://pennmedcareg.github.io/tbt-catalog/TBT_Meeting_Catalog.html" target="_blank" rel="noopener" style="background: linear-gradient(135deg, #4a0e0e 0%, #6B0000 100%);">
-        <span class="suite-card-icon">🗓️</span>
+        <span class="suite-card-icon"><img src="data:image/png;base64,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" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:9px;display:block;"></span>
         <span class="suite-card-text">
           <span class="suite-card-name">TBT Meeting Catalog</span>
           <span class="suite-card-sub">Topics &amp; recaps from every TBT</span>
@@ -322,7 +345,7 @@
         <span class="suite-card-arrow">↗</span>
       </a>
       <a class="suite-card" href="https://pennmedcareg.github.io/tbt-catalog/Webinar_Conference_Catalog.html" target="_blank" rel="noopener" style="background: linear-gradient(135deg, #4d3300 0%, #8a5a00 100%);">
-        <span class="suite-card-icon">🎥</span>
+        <span class="suite-card-icon"><img src="data:image/png;base64,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" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:9px;display:block;"></span>
         <span class="suite-card-text">
           <span class="suite-card-name">Webinar &amp; Conference Catalog</span>
           <span class="suite-card-sub">Conference &amp; webconferencing sessions</span>
@@ -330,10 +353,10 @@
         <span class="suite-card-arrow">↗</span>
       </a>
       <a class="suite-card" href="https://pennmedcareg.github.io/tbt-catalog/ods-treatment-pathways.html" target="_blank" rel="noopener" style="background: linear-gradient(135deg, #0a3d3f 0%, #0d6b70 100%);">
-        <span class="suite-card-icon">🩺</span>
+        <span class="suite-card-icon"><img src="data:image/png;base64,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" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:9px;display:block;"></span>
         <span class="suite-card-text">
           <span class="suite-card-name">ODS Treatment Pathways</span>
-          <span class="suite-card-sub">Independent abstracting aid by site</span>
+          <span class="suite-card-sub">NCCN-based treatment reference</span>
         </span>
         <span class="suite-card-arrow">↗</span>
       </a>
@@ -374,48 +397,6 @@ let categories = [
         "access": "penn",
         "url": "https://citrixweb.uphs.upenn.edu/Citrix/PennMedicineWeb/",
         "source": "aria"
-      }
-    ]
-  },
-  {
-    "id": "admin",
-    "name": "Admin / HR Quick Links",
-    "items": [
-      {
-        "name": "Employee and Labor Relations",
-        "access": "penn",
-        "url": "",
-        "source": "penn"
-      },
-      {
-        "name": "E-Star",
-        "access": "penn",
-        "url": "",
-        "source": "penn"
-      },
-      {
-        "name": "DZX Time Tracker",
-        "access": "penn",
-        "url": "",
-        "source": "penn"
-      },
-      {
-        "name": "UPHS Intranet",
-        "access": "penn",
-        "url": "",
-        "source": "penn"
-      },
-      {
-        "name": "Knowledge Link",
-        "access": "penn",
-        "url": "",
-        "source": "penn"
-      },
-      {
-        "name": "Contribution-Report",
-        "access": "penn",
-        "url": "",
-        "source": "penn"
       }
     ]
   },
@@ -614,6 +595,48 @@ let categories = [
         "access": "signon",
         "url": "",
         "source": "nccn"
+      }
+    ]
+  },
+  {
+    "id": "admin",
+    "name": "Admin / HR Quick Links",
+    "items": [
+      {
+        "name": "Employee and Labor Relations",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "E-Star",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "DZX Time Tracker",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "UPHS Intranet",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Knowledge Link",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
+      },
+      {
+        "name": "Contribution-Report",
+        "access": "penn",
+        "url": "",
+        "source": "penn"
       }
     ]
   },
@@ -1179,6 +1202,396 @@ function exportCatalog(){
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
+
+const DAILY_QUOTES = [
+  "Progress looks like a correction made before it was asked for.",
+  "A second pass on a hard case is how great registries are built.",
+  "Somewhere, a patient benefits from a habit of checking twice.",
+  "A calm response to a hard day is how great registries are built.",
+  "The registry is better because of one more verified code.",
+  "A correction made before it was asked for: that's the work, and the work matters.",
+  "Today, let support offered to a stuck teammate be enough.",
+  "The quiet satisfaction of a clean chart is how great registries are built.",
+  "Somewhere, a patient benefits from curiosity instead of assumption.",
+  "Somewhere, a patient benefits from a boundary held on a rushed deadline.",
+  "The registry is better because of a habit of checking twice.",
+  "The registry is better because of a willingness to double-check.",
+  "Behind every good record is curiosity about why, not only what.",
+  "Today, let patience with a messy chart be enough.",
+  "You don't need a perfect day \u2014 just accuracy chosen over speed.",
+  "Curiosity about why, not only what: that's the work, and the work matters.",
+  "Behind every good record is a willingness to learn something new today.",
+  "Honesty about what you don't know yet: that's the work, and the work matters.",
+  "A sharp eye for small errors is how great registries are built.",
+  "Today, let a correction made before it was asked for be enough.",
+  "You don't need a perfect day \u2014 just a willingness to double-check.",
+  "Today, let grace for a colleague having a hard day be enough.",
+  "Today, let a question asked before a guess be enough.",
+  "Behind every good record is a clear note for the next person.",
+  "Progress looks like steady progress over perfect progress.",
+  "Grace for a colleague having a hard day: that's the work, and the work matters.",
+  "A willingness to learn something new today is how great registries are built.",
+  "Steadiness on a chaotic day: that's the work, and the work matters.",
+  "The registry is better because of the courage to flag what looks wrong.",
+  "Today, let a steady, careful hand be enough.",
+  "A willingness to double-check is how great registries are built.",
+  "The registry is better because of steadiness on a chaotic day.",
+  "Somewhere, a patient benefits from a question that saves someone else time later.",
+  "Today, let a second pass on a hard case be enough.",
+  "The registry is better because of catching small errors early.",
+  "You don't need a perfect day \u2014 just a willingness to ask for help.",
+  "Today, let an extra five minutes of checking be enough.",
+  "Today, let accuracy chosen over speed be enough.",
+  "A fresh pair of eyes on an old problem is how great registries are built.",
+  "You don't need a perfect day \u2014 just a sharp eye for small errors.",
+  "Somewhere, a patient benefits from a habit of leaving things better than you found them.",
+  "Grace for a colleague having a hard day is how great registries are built.",
+  "An extra five minutes of checking is how great registries are built.",
+  "Attention that doesn't fade by 4pm is how great registries are built.",
+  "Behind every good record is a habit of leaving things better than you found them.",
+  "The registry is better because of a correction made before it was asked for.",
+  "Progress looks like a question that saves someone else time later.",
+  "Follow-through on the hard cases is how great registries are built.",
+  "Somewhere, a patient benefits from grace for a colleague having a hard day.",
+  "Behind every good record is a question asked before a guess.",
+  "Patience with a messy chart: that's the work, and the work matters.",
+  "Curiosity instead of assumption: that's the work, and the work matters.",
+  "You don't need a perfect day \u2014 just the courage to flag what looks wrong.",
+  "The registry is better because of curiosity instead of assumption.",
+  "The registry is better because of quiet persistence.",
+  "Behind every good record is grace for a colleague having a hard day.",
+  "The registry is better because of one case done right.",
+  "Today, let respect for the data be enough.",
+  "You don't need a perfect day \u2014 just steadiness on a chaotic day.",
+  "Today, let a willingness to double-check be enough.",
+  "Accuracy chosen over speed: that's the work, and the work matters.",
+  "Progress looks like a habit of checking twice.",
+  "Catching small errors early is how great registries are built.",
+  "Respect for the patient behind the chart is how great registries are built.",
+  "Progress looks like consistency instead of shortcuts.",
+  "One case done right: that's the work, and the work matters.",
+  "A question asked before a guess is how great registries are built.",
+  "Quiet persistence: that's the work, and the work matters.",
+  "The registry is better because of a question asked before a guess.",
+  "Respect for the data is how great registries are built.",
+  "Today, let a record someone can rely on be enough.",
+  "Somewhere, a patient benefits from the courage to flag what looks wrong.",
+  "Behind every good record is respect for the data.",
+  "A willingness to learn something new today: that's the work, and the work matters.",
+  "The registry is better because of the discipline of finishing strong.",
+  "A clear note for the next person is how great registries are built.",
+  "Somewhere, a patient benefits from the quiet satisfaction of a clean chart.",
+  "The registry is better because of honesty about what you don't know yet.",
+  "The registry is better because of grace for a colleague having a hard day.",
+  "The registry is better because of care taken when no one is watching.",
+  "Behind every good record is a steady, careful hand.",
+  "Trust earned one entry at a time is how great registries are built.",
+  "The registry is better because of a boundary held on a rushed deadline.",
+  "Today, let a clear note for the next person be enough.",
+  "Progress looks like a careful second look.",
+  "Somewhere, a patient benefits from your full attention.",
+  "You don't need a perfect day \u2014 just follow-through on the hard cases.",
+  "You don't need a perfect day \u2014 just respect for the data.",
+  "Somewhere, a patient benefits from a calm response to a hard day.",
+  "Today, let a sharp eye for small errors be enough.",
+  "You don't need a perfect day \u2014 just respect for the patient behind the chart.",
+  "Somewhere, a patient benefits from a second pass on a hard case.",
+  "Progress looks like trust earned one entry at a time.",
+  "Behind every good record is one case done right.",
+  "A steady, careful hand: that's the work, and the work matters.",
+  "You don't need a perfect day \u2014 just trust earned one entry at a time.",
+  "Progress looks like support offered to a stuck teammate.",
+  "Progress looks like accuracy chosen over speed.",
+  "The quiet satisfaction of a clean chart: that's the work, and the work matters.",
+  "Progress looks like a steady, careful hand.",
+  "Support offered to a stuck teammate: that's the work, and the work matters.",
+  "Behind every good record is follow-through on the hard cases.",
+  "Somewhere, a patient benefits from training trusted, then checked anyway.",
+  "Behind every good record is steady progress over perfect progress.",
+  "Behind every good record is a habit of checking twice.",
+  "You don't need a perfect day \u2014 just a second pass on a hard case.",
+  "You don't need a perfect day \u2014 just confidence built one correct case at a time.",
+  "A willingness to double-check: that's the work, and the work matters.",
+  "You don't need a perfect day \u2014 just a careful second look.",
+  "You don't need a perfect day \u2014 just a record someone can rely on.",
+  "Consistency instead of shortcuts is how great registries are built.",
+  "Somewhere, a patient benefits from an extra five minutes of checking.",
+  "Progress looks like steadiness on a chaotic day.",
+  "Somewhere, a patient benefits from steadiness on a chaotic day.",
+  "Behind every good record is a question that saves someone else time later.",
+  "Behind every good record is a boundary held on a rushed deadline.",
+  "You don't need a perfect day \u2014 just a clear note for the next person.",
+  "You don't need a perfect day \u2014 just a question asked before a guess.",
+  "Somewhere, a patient benefits from quiet persistence.",
+  "Curiosity about why, not only what is how great registries are built.",
+  "Progress looks like a boundary held on a rushed deadline.",
+  "Behind every good record is care taken when no one is watching.",
+  "Somewhere, a patient benefits from a fresh pair of eyes on an old problem.",
+  "The registry is better because of pride in unglamorous work.",
+  "Somewhere, a patient benefits from a steady, careful hand.",
+  "The courage to flag what looks wrong is how great registries are built.",
+  "Behind every good record is a willingness to double-check.",
+  "Quiet persistence is how great registries are built.",
+  "Trust earned one entry at a time: that's the work, and the work matters.",
+  "Progress looks like care taken when no one is watching.",
+  "You don't need a perfect day \u2014 just pride in unglamorous work.",
+  "A willingness to ask for help is how great registries are built.",
+  "Behind every good record is a sharp eye for small errors.",
+  "Steady progress over perfect progress is how great registries are built.",
+  "Behind every good record is the discipline of finishing strong.",
+  "Progress looks like one case done right.",
+  "A calm response to a hard day: that's the work, and the work matters.",
+  "Somewhere, a patient benefits from a clear note for the next person.",
+  "Catching small errors early: that's the work, and the work matters.",
+  "Today, let consistency instead of shortcuts be enough.",
+  "Somewhere, a patient benefits from support offered to a stuck teammate.",
+  "The registry is better because of support offered to a stuck teammate.",
+  "Behind every good record is attention that doesn't fade by 4pm.",
+  "Consistency instead of shortcuts: that's the work, and the work matters.",
+  "You don't need a perfect day \u2014 just honesty about what you don't know yet.",
+  "Progress looks like grace for a colleague having a hard day.",
+  "Today, let the quiet satisfaction of a clean chart be enough.",
+  "Progress looks like a second pass on a hard case.",
+  "A boundary held on a rushed deadline is how great registries are built.",
+  "You don't need a perfect day \u2014 just patience with a messy chart.",
+  "Somewhere, a patient benefits from steady progress over perfect progress.",
+  "Somewhere, a patient benefits from accuracy chosen over speed.",
+  "You don't need a perfect day \u2014 just curiosity about why, not only what.",
+  "Behind every good record is confidence built one correct case at a time.",
+  "A willingness to ask for help: that's the work, and the work matters.",
+  "Somewhere, a patient benefits from respect for the patient behind the chart.",
+  "You don't need a perfect day \u2014 just a correction made before it was asked for.",
+  "The registry is better because of a second pass on a hard case.",
+  "A habit of leaving things better than you found them is how great registries are built.",
+  "The discipline to slow down is how great registries are built.",
+  "The registry is better because of curiosity about why, not only what.",
+  "A question that saves someone else time later: that's the work, and the work matters.",
+  "The registry is better because of a calm response to a hard day.",
+  "Progress looks like one more verified code.",
+  "Today, let the discipline to slow down be enough.",
+  "Today, let your full attention be enough.",
+  "Behind every good record is one more verified code.",
+  "Somewhere, a patient benefits from one more verified code.",
+  "Behind every good record is an extra five minutes of checking.",
+  "Somewhere, a patient benefits from the discipline of finishing strong.",
+  "Progress looks like honesty about what you don't know yet.",
+  "Progress looks like confidence built one correct case at a time.",
+  "Today, let a careful second look be enough.",
+  "Behind every good record is a fresh pair of eyes on an old problem.",
+  "You don't need a perfect day \u2014 just quiet persistence.",
+  "Behind every good record is trust earned one entry at a time.",
+  "A question that saves someone else time later is how great registries are built.",
+  "Today, let a calm response to a hard day be enough.",
+  "A clear note for the next person: that's the work, and the work matters.",
+  "Somewhere, a patient benefits from a willingness to ask for help.",
+  "A steady, careful hand is how great registries are built.",
+  "Today, let honesty about what you don't know yet be enough.",
+  "Behind every good record is training trusted, then checked anyway.",
+  "Today, let trust earned one entry at a time be enough.",
+  "Progress looks like the discipline of finishing strong.",
+  "The registry is better because of follow-through on the hard cases.",
+  "Behind every good record is accuracy chosen over speed.",
+  "Today, let steadiness on a chaotic day be enough.",
+  "You don't need a perfect day \u2014 just a steady, careful hand.",
+  "Progress looks like quiet persistence.",
+  "Progress looks like attention that doesn't fade by 4pm.",
+  "Progress looks like the discipline to slow down.",
+  "The registry is better because of consistency instead of shortcuts.",
+  "Progress looks like the quiet satisfaction of a clean chart.",
+  "Somewhere, a patient benefits from follow-through on the hard cases.",
+  "Today, let care taken when no one is watching be enough.",
+  "Progress looks like pride in unglamorous work.",
+  "The registry is better because of confidence built one correct case at a time.",
+  "The registry is better because of respect for the patient behind the chart.",
+  "Progress looks like a fresh pair of eyes on an old problem.",
+  "Somewhere, a patient benefits from a willingness to learn something new today.",
+  "The registry is better because of training trusted, then checked anyway.",
+  "A fresh pair of eyes on an old problem: that's the work, and the work matters.",
+  "Confidence built one correct case at a time is how great registries are built.",
+  "The registry is better because of your full attention.",
+  "The registry is better because of the discipline to slow down.",
+  "Somewhere, a patient benefits from patience with a messy chart.",
+  "Somewhere, a patient benefits from catching small errors early.",
+  "Somewhere, a patient benefits from trust earned one entry at a time.",
+  "Behind every good record is a record someone can rely on.",
+  "Today, let one more verified code be enough.",
+  "Steadiness on a chaotic day is how great registries are built.",
+  "Pride in unglamorous work is how great registries are built.",
+  "Behind every good record is steadiness on a chaotic day.",
+  "The registry is better because of an extra five minutes of checking.",
+  "You don't need a perfect day \u2014 just a calm response to a hard day.",
+  "Behind every good record is honesty about what you don't know yet.",
+  "Today, let curiosity instead of assumption be enough.",
+  "You don't need a perfect day \u2014 just the quiet satisfaction of a clean chart.",
+  "The registry is better because of steady progress over perfect progress.",
+  "You don't need a perfect day \u2014 just a question that saves someone else time later.",
+  "You don't need a perfect day \u2014 just support offered to a stuck teammate.",
+  "Today, let the discipline of finishing strong be enough.",
+  "Today, let pride in unglamorous work be enough.",
+  "Today, let training trusted, then checked anyway be enough.",
+  "Progress looks like a calm response to a hard day.",
+  "Somewhere, a patient benefits from consistency instead of shortcuts.",
+  "Respect for the patient behind the chart: that's the work, and the work matters.",
+  "One more verified code: that's the work, and the work matters.",
+  "The discipline of finishing strong is how great registries are built.",
+  "Somewhere, a patient benefits from a correction made before it was asked for.",
+  "The registry is better because of a habit of leaving things better than you found them.",
+  "Progress looks like respect for the data.",
+  "Progress looks like a sharp eye for small errors.",
+  "You don't need a perfect day \u2014 just a fresh pair of eyes on an old problem.",
+  "Somewhere, a patient benefits from the discipline to slow down.",
+  "You don't need a perfect day \u2014 just a habit of checking twice.",
+  "Progress looks like a clear note for the next person.",
+  "You don't need a perfect day \u2014 just a habit of leaving things better than you found them.",
+  "A habit of checking twice is how great registries are built.",
+  "The registry is better because of patience with a messy chart.",
+  "Somewhere, a patient benefits from a sharp eye for small errors.",
+  "Behind every good record is a willingness to ask for help.",
+  "Today, let a habit of leaving things better than you found them be enough.",
+  "Training trusted, then checked anyway: that's the work, and the work matters.",
+  "Follow-through on the hard cases: that's the work, and the work matters.",
+  "You don't need a perfect day \u2014 just a willingness to learn something new today.",
+  "Progress looks like a question asked before a guess.",
+  "Somewhere, a patient benefits from a willingness to double-check.",
+  "Somewhere, a patient benefits from respect for the data.",
+  "Behind every good record is pride in unglamorous work.",
+  "You don't need a perfect day \u2014 just consistency instead of shortcuts.",
+  "Progress looks like a willingness to learn something new today.",
+  "Behind every good record is consistency instead of shortcuts.",
+  "You don't need a perfect day \u2014 just an extra five minutes of checking.",
+  "Somewhere, a patient benefits from attention that doesn't fade by 4pm.",
+  "Confidence built one correct case at a time: that's the work, and the work matters.",
+  "Progress looks like a record someone can rely on.",
+  "Care taken when no one is watching is how great registries are built.",
+  "Support offered to a stuck teammate is how great registries are built.",
+  "The registry is better because of a clear note for the next person.",
+  "Progress looks like your full attention.",
+  "Today, let quiet persistence be enough.",
+  "The registry is better because of a willingness to learn something new today.",
+  "You don't need a perfect day \u2014 just care taken when no one is watching.",
+  "The registry is better because of a steady, careful hand.",
+  "You don't need a perfect day \u2014 just catching small errors early.",
+  "The registry is better because of a willingness to ask for help.",
+  "Behind every good record is a second pass on a hard case.",
+  "Today, let a boundary held on a rushed deadline be enough.",
+  "Progress looks like an extra five minutes of checking.",
+  "The registry is better because of a careful second look.",
+  "One more verified code is how great registries are built.",
+  "Behind every good record is a calm response to a hard day.",
+  "Progress looks like curiosity instead of assumption.",
+  "A boundary held on a rushed deadline: that's the work, and the work matters.",
+  "The registry is better because of a question that saves someone else time later.",
+  "The registry is better because of the quiet satisfaction of a clean chart.",
+  "Steady progress over perfect progress: that's the work, and the work matters.",
+  "Today, let a willingness to learn something new today be enough.",
+  "Today, let a willingness to ask for help be enough.",
+  "You don't need a perfect day \u2014 just one case done right.",
+  "Progress looks like a willingness to ask for help.",
+  "Behind every good record is catching small errors early.",
+  "A habit of leaving things better than you found them: that's the work, and the work matters.",
+  "Training trusted, then checked anyway is how great registries are built.",
+  "Behind every good record is your full attention.",
+  "Progress looks like curiosity about why, not only what.",
+  "Behind every good record is curiosity instead of assumption.",
+  "Behind every good record is support offered to a stuck teammate.",
+  "The registry is better because of respect for the data.",
+  "You don't need a perfect day \u2014 just the discipline of finishing strong.",
+  "The registry is better because of a fresh pair of eyes on an old problem.",
+  "Progress looks like the courage to flag what looks wrong.",
+  "Progress looks like training trusted, then checked anyway.",
+  "A habit of checking twice: that's the work, and the work matters.",
+  "The discipline to slow down: that's the work, and the work matters.",
+  "Today, let a question that saves someone else time later be enough.",
+  "Somewhere, a patient benefits from curiosity about why, not only what.",
+  "Behind every good record is the discipline to slow down.",
+  "Somewhere, a patient benefits from confidence built one correct case at a time.",
+  "The registry is better because of trust earned one entry at a time.",
+  "You don't need a perfect day \u2014 just one more verified code.",
+  "Progress looks like patience with a messy chart.",
+  "Behind every good record is a correction made before it was asked for.",
+  "Progress looks like a willingness to double-check.",
+  "The registry is better because of a record someone can rely on.",
+  "You don't need a perfect day \u2014 just grace for a colleague having a hard day.",
+  "Progress looks like a habit of leaving things better than you found them.",
+  "Progress looks like follow-through on the hard cases.",
+  "Somewhere, a patient benefits from care taken when no one is watching.",
+  "Behind every good record is the courage to flag what looks wrong.",
+  "An extra five minutes of checking: that's the work, and the work matters.",
+  "Today, let curiosity about why, not only what be enough.",
+  "A question asked before a guess: that's the work, and the work matters.",
+  "Curiosity instead of assumption is how great registries are built.",
+  "You don't need a perfect day \u2014 just your full attention.",
+  "Somewhere, a patient benefits from a question asked before a guess.",
+  "Behind every good record is patience with a messy chart.",
+  "Pride in unglamorous work: that's the work, and the work matters.",
+  "Your full attention is how great registries are built.",
+  "Somewhere, a patient benefits from a careful second look.",
+  "A sharp eye for small errors: that's the work, and the work matters.",
+  "The registry is better because of attention that doesn't fade by 4pm.",
+  "A second pass on a hard case: that's the work, and the work matters.",
+  "A correction made before it was asked for is how great registries are built.",
+  "A careful second look: that's the work, and the work matters.",
+  "Accuracy chosen over speed is how great registries are built.",
+  "Behind every good record is respect for the patient behind the chart.",
+  "The registry is better because of a sharp eye for small errors.",
+  "A record someone can rely on is how great registries are built.",
+  "Respect for the data: that's the work, and the work matters.",
+  "Today, let the courage to flag what looks wrong be enough.",
+  "Somewhere, a patient benefits from pride in unglamorous work.",
+  "Today, let a habit of checking twice be enough.",
+  "You don't need a perfect day \u2014 just attention that doesn't fade by 4pm.",
+  "The courage to flag what looks wrong: that's the work, and the work matters.",
+  "Attention that doesn't fade by 4pm: that's the work, and the work matters.",
+  "Today, let one case done right be enough.",
+  "Behind every good record is the quiet satisfaction of a clean chart.",
+  "The discipline of finishing strong: that's the work, and the work matters.",
+  "Behind every good record is a careful second look.",
+  "Somewhere, a patient benefits from a record someone can rely on.",
+  "Honesty about what you don't know yet is how great registries are built.",
+  "Care taken when no one is watching: that's the work, and the work matters.",
+  "Today, let steady progress over perfect progress be enough.",
+  "You don't need a perfect day \u2014 just a boundary held on a rushed deadline.",
+  "Your full attention: that's the work, and the work matters.",
+  "A careful second look is how great registries are built.",
+  "Somewhere, a patient benefits from one case done right.",
+  "Today, let confidence built one correct case at a time be enough.",
+  "You don't need a perfect day \u2014 just steady progress over perfect progress.",
+  "You don't need a perfect day \u2014 just training trusted, then checked anyway.",
+  "Today, let catching small errors early be enough.",
+  "Today, let attention that doesn't fade by 4pm be enough.",
+  "Somewhere, a patient benefits from honesty about what you don't know yet.",
+  "Progress looks like respect for the patient behind the chart.",
+  "Today, let respect for the patient behind the chart be enough.",
+  "A record someone can rely on: that's the work, and the work matters.",
+  "You don't need a perfect day \u2014 just curiosity instead of assumption.",
+  "Patience with a messy chart is how great registries are built.",
+  "Progress looks like catching small errors early.",
+  "Today, let a fresh pair of eyes on an old problem be enough.",
+  "Today, let follow-through on the hard cases be enough.",
+  "Behind every good record is quiet persistence."
+];
+function dayOfYear(){
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  const diff = now - start;
+  return Math.floor(diff / 86400000);
+}
+let quoteIdx = dayOfYear() % DAILY_QUOTES.length;
+
+function renderQuote(){
+  const el = document.getElementById('quote-text');
+  if (!el) return;
+  el.style.opacity = 0;
+  setTimeout(() => {
+    el.textContent = '\u201C' + DAILY_QUOTES[quoteIdx] + '\u201D';
+    el.style.opacity = 1;
+  }, 180);
+  const counter = document.getElementById('quote-counter');
+  if (counter) counter.textContent = 'Day ' + (quoteIdx + 1) + ' of ' + DAILY_QUOTES.length;
+}
+function nextQuote(){ quoteIdx = (quoteIdx + 1) % DAILY_QUOTES.length; renderQuote(); }
+function prevQuote(){ quoteIdx = (quoteIdx - 1 + DAILY_QUOTES.length) % DAILY_QUOTES.length; renderQuote(); }
+renderQuote();
 
 render();
 </script>
