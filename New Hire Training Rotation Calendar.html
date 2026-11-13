@@ -223,7 +223,7 @@ const UKEY="regcal-unlock";
 async function hashPin(pin){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("penn-registry-cal:"+pin));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,"0")).join("")}
 function stores(){const o=[];try{o.push(window.sessionStorage)}catch(e){}try{o.push(window.localStorage)}catch(e){}return o.filter(Boolean)}
 function rememberUnlock(){const v=JSON.stringify({h:S.pinHash,t:Date.now()});stores().forEach(s=>{try{s.setItem(UKEY,v)}catch(e){}})}
-function wasUnlocked(){for(const s of stores()){try{const v=JSON.parse(s.getItem(UKEY)||"null");if(v&&v.h===S.pinHash&&Date.now()-v.t<8*3600e3)return true}catch(e){}}return false}
+function wasUnlocked(){for(const s of stores()){try{const v=JSON.parse(s.getItem(UKEY)||"null");if(v&&v.h===S.pinHash&&Date.now()-v.t<15*60e3)return true}catch(e){}}return false}
 function forgetUnlock(){stores().forEach(s=>{try{s.removeItem(UKEY)}catch(e){}})}
 let unlocked=!!S.pinHash&&wasUnlocked();
 let pinMsg="";
@@ -239,6 +239,11 @@ async function pinSubmit(){const p1=(document.getElementById('pin1')||{}).value|
     S.pinHash=await hashPin(p1);unlocked=true;pinMsg="";rememberUnlock();changed();return}
   if(await hashPin(p1)===S.pinHash){unlocked=true;pinMsg="";rememberUnlock();render()}else{pinMsg="Incorrect PIN.";render()}}
 const VKEY="regcal-view";
+const IDLE=15*60e3;let lastAct=Date.now(),lastStore=0;
+function touch(){lastAct=Date.now();if(unlocked&&S.pinHash&&lastAct-lastStore>30e3){lastStore=lastAct;rememberUnlock()}}
+['click','keydown','input','scroll','mousemove','touchstart'].forEach(ev=>document.addEventListener(ev,touch,{passive:true,capture:true}));
+function idleCheck(){if(unlocked&&S.pinHash&&Date.now()-lastAct>IDLE){forgetUnlock();unlocked=false;modal=null;pinMsg="Locked after 15 minutes of inactivity.";render()}}
+setInterval(idleCheck,20e3);document.addEventListener('visibilitychange',()=>{if(!document.hidden)idleCheck()});
 function saveView(){stores().slice(0,1).forEach(s=>{try{s.setItem(VKEY,JSON.stringify({tab,mi,sp,lp,lm}))}catch(e){}})}
 let tab="calendar";
 const today=iso(new Date());
