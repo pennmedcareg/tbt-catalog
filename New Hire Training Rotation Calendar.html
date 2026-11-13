@@ -69,6 +69,31 @@ h2{font-size:15px;margin:0 0 10px;color:var(--navy)}
 .lock input{font-size:22px;letter-spacing:.35em;text-align:center;width:100%;padding:10px;border:1px solid #cfd5df;border-radius:8px;margin:6px 0}
 .lock .err{color:#b42318;font-size:13px;min-height:20px;margin:4px 0 8px}
 .tabs #lockbtn{margin-left:auto;color:#cfd8ea}
+.ppl button small{opacity:.7;margin-left:4px}
+.osec{margin-top:14px;padding:12px 16px}
+.oi{display:grid;grid-template-columns:1fr 250px;gap:14px;padding:12px 0;border-top:1px solid var(--line)}
+.oi:first-of-type{border-top:0}
+.oi .otitle{font-weight:600;font-size:13.5px}
+.oi .otitle a{font-weight:400;font-size:12px;margin-left:6px;color:#1f5fa8}
+.oi.done .otitle{color:#2f6b1f}.oi.done .otitle:before{content:"✓ ";}
+.oi.na{opacity:.5}
+.odet{margin:4px 0 0 18px;padding:0;font-size:12px;color:var(--mute)}
+.osubs{display:flex;flex-direction:column;gap:3px;margin:6px 0 0 4px;font-size:12.5px}
+.osubs label{display:flex;gap:6px;align-items:flex-start;cursor:pointer}
+.onote{margin-top:6px;width:100%;font-size:12px!important;border-color:#e3e6ec!important}
+.oc{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.oc>div{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.stp{display:inline-flex;gap:6px;align-items:center;font-size:12.5px;cursor:pointer;padding:3px 8px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.stp.on{background:#dff0d8;border-color:#b9dcae;color:#2f6b1f;font-weight:600}
+.odate{font-size:12px!important;padding:2px 4px!important}
+.nab{font-size:11.5px;color:var(--mute);display:flex;gap:4px;align-items:center;cursor:pointer}
+.due{display:inline-block;margin-top:4px;font-size:11.5px;font-weight:600;color:#7a5b00;background:#fff1c2;padding:2px 8px;border-radius:10px}
+.due.late{color:#fff;background:#b42318}
+.mxt td,.mxt th{font-size:12.5px}
+.mxt tr.sech td{background:#f0f2f6;font-weight:600;color:var(--navy)}
+td.mx{text-align:center;white-space:nowrap}td.mx.ok{color:#2f6b1f;font-weight:600}td.mx.rq{color:#7a5b00}td.mx.na{color:#aaa}td.mx.late{color:#b42318;font-weight:600}
+td.mx small{font-weight:400;color:var(--mute)}
+@media (max-width:800px){.oi{grid-template-columns:1fr}}
 .ms{font-size:11px;font-weight:600;color:var(--red);margin-top:4px;display:flex;gap:4px;align-items:center}
 .ms:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--red);flex:none}
 .ppl{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
@@ -244,14 +269,14 @@ function touch(){lastAct=Date.now();if(unlocked&&S.pinHash&&lastAct-lastStore>30
 ['click','keydown','input','scroll','mousemove','touchstart'].forEach(ev=>document.addEventListener(ev,touch,{passive:true,capture:true}));
 function idleCheck(){if(unlocked&&S.pinHash&&Date.now()-lastAct>IDLE){forgetUnlock();unlocked=false;modal=null;pinMsg="Locked after 15 minutes of inactivity.";render()}}
 setInterval(idleCheck,20e3);document.addEventListener('visibilitychange',()=>{if(!document.hidden)idleCheck()});
-function saveView(){stores().slice(0,1).forEach(s=>{try{s.setItem(VKEY,JSON.stringify({tab,mi,sp,lp,lm}))}catch(e){}})}
+function saveView(){stores().slice(0,1).forEach(s=>{try{s.setItem(VKEY,JSON.stringify({tab,mi,sp,lp,lm,op}))}catch(e){}})}
 let tab="calendar";
 const today=iso(new Date());
 let mi=MONTHS.findIndex(([y,m])=>today.startsWith(y+"-"+String(m+1).padStart(2,"0")));if(mi<0)mi=0;
 let modal=null;
 
 function header(){
-  const tabs=[["calendar","Calendar"],["weekly","Weekly Plan & Sites"],["success","6-Month Success Plan"],["log","Productivity Log"],["plan","Rotation Plan"],["setup","Setup"]];
+  const tabs=[["calendar","Calendar"],["weekly","Weekly Plan & Sites"],["success","6-Month Success Plan"],["onboard","Onboarding Checklist"],["log","Productivity Log"],["plan","Rotation Plan"],["setup","Setup"]];
   return `<header style="position:relative"><h1>New Hire Training Rotation Calendar</h1>
   <div class="sub">Penn Medicine Cancer Registry · Nov 2026 – Jun 2027 cohort</div>
   <div class="status" id="status">${esc(status)}</div>
@@ -391,6 +416,86 @@ function logView(){
   <tbody>${rows||'<tr><td colspan="10" class="muted">No scheduled work days in this period.</td></tr>'}</tbody></table></div>
   <h2 style="margin-top:22px">6-month overview</h2><div class="card" style="padding:0;overflow:auto" id="logov">${overview(p)}</div>`;
 }
+// ---- Onboarding checklist (from Management Checklist for New Hires)
+let op=0;
+S.onb=S.onb||{};
+const ISPT=p=>S.starts[p]>"2026-12-01";
+const ONB=[
+ ["Pre-hire & accounts",[
+  {id:"prehire",t:"Email received regarding Pre-Hire Process"},
+  {id:"provision",t:"Email received regarding Candidate Provisioning"},
+  {id:"mypenn",t:"Email received regarding “My Penn Access”"},
+  {id:"pennacct",t:"Forward email regarding Penn Account to New Hire’s personal email address so they can set up their Penn Account and Duo Authentication",d:["Link in email is only valid for 5 business days."]},
+  {id:"pennemail",t:"Forward email regarding Penn Email Account to New Hire’s personal email address"},
+  {id:"kaciuser",t:"Add new user to KACI – confirm initials to be used with employee"}]],
+ ["System access requests",[
+  {id:"pennchart",r:1,t:"Request PennChart Access",link:"https://uphsnet.uphs.upenn.edu/PennChartRequest/User/Login?ReturnUrl=%2fPennChartRequest",d:["Need employee’s Penn ID# from email on Penn Account to search new hire","New Account · Full Access","In Comments: “Please mirror Alyssa Moran (Penn ID 18321080). Abstractor role. Please also activate Medview access within PennChart and on its own.”","Problems with provisioning: pennchartuserprovisioning@uphs.upenn.edu"]},
+  {id:"hdrive",r:1,t:"Request access to H:/ Drive for New Hire",link:"https://uphsnet.uphs.upenn.edu/athenaselfservice/ServiceCatalog/WebForm/67"},
+  {id:"rdrive",r:1,t:"Request access to Shared Cancer Registry Drive (R:// Drive)",link:"https://uphsnet.uphs.upenn.edu/athenaselfservice/ServiceCatalog/WebForm/64"},
+  {id:"citrix",r:1,t:"INDEPENDENT COMPANY EMPLOYEES ONLY: Request access to App_Citrix_DrivesVPN",d:["In ticket: “Requesting App_Citrix_DrivesVPN for Employee Name (Username: xxxxx, Penn ID # xxxxxxxx) so that she/he can map to drives from Penn Portal using own equipment. Thank you.”"]},
+  {id:"crcf",r:1,t:"Request Level I Trainee access to CRCF (Wally Wormley)",d:["Make sure initials match what is in KACI"],due:p=>ISPT(p)?"2027-01-04":"2026-11-30",dueTxt:"first Casefinding week"},
+  {id:"portals",r:1,t:"Request access to insurance portals for Follow-up (NaviNet and the other payer portals the team uses)",d:["Have new hire test each log-in before their first Follow-up day"],due:p=>ISPT(p)?"2026-12-31":"2026-12-28",dueTxt:"first Follow-up day"},
+  {id:"aria",r:1,t:"Request access to ARIA (if needed only)",d:["Fill out ARIA Request form – signed by employee and attached to ticket (both pages of request)"]}]],
+ ["Knowledge Link trainings",[
+  {id:"klassign",t:"Assign required trainings in Knowledge Link and mark each as Required",subs:[["hipaa","Protecting Patient Information – HIPAA (should already be assigned – confirm)"],["pcview","PennChart Clinical View Only"],["pcabs","PennChart Training for Abstractors"]]}]],
+ ["Documents & resources",[
+  {id:"docs",t:"Email New Hire documents needing review (all are in the Cancer Registry Toolbox)",subs:[["d1","Facilities, Abbrev, FINS, Fac Phys. IDs (pdf)"],["d2","Uniform Notepad – UPHS Cancer Registry (word doc)"],["d3","Let’s tell the WHOLE Story (ppt)"],["d4","Node Status Not Required Rare Circumstances (pdf)"],["d5","Copy a Case into another Facility (word doc)"],["d6","CRCF App Procedure (pdf)"],["d7","Not Reportable Code Cheat Sheet with Explanations.2022 (excel)"],["d8","Navigating NaviNet (word doc)"],["d9","Policy and Procedure Follow Up 3.17.22 (pdf)"],["d10","Current Contribution Report (excel)"],["d11","Remote Abstractor Policy"]]},
+  {id:"recommend",t:"Recommend New Hire review the following",subs:[["r1","Most up-to-date STORE Manual"],["r2","Most up-to-date PCR Manual"],["r3","SEER Educate (appropriate modules)"],["r4","Recorded Trainings – Registrar Resource folder › RECORDED Webinars › Trainings"]]}]],
+ ["Home Sourcing Agreement",[
+  {id:"homesrc",t:"Complete Home Sourcing Agreement for New Hire",subs:[["hs1","New hire reviewed and signed/dated agreement"],["hs2","Declaration page / proof of Homeowner’s Insurance received"]]}]],
+ ["Meetings & planning",[
+  {id:"deptorient",t:"Complete Department Orientation Checklist with New Hire"},
+  {id:"marlene",t:"Schedule meeting with Marlene",d:[p=>ISPT(p)?"Wed 12/30/2026":"Date TBD – Fri 11/27 is set aside for reviewing the Tool Box, TBTs and registry resources"]},
+  {id:"successrev",t:"Schedule a meeting to review the 6-Month Success Plan with New Hire"},
+  {id:"calshare",t:"Share the Training Rotation Calendar with New Hire and pick an abstracting site for each Abstracting week",d:[p=>ISPT(p)?"Follow-up Thu 12/31 · then 2-week Casefinding / Abstracting rotation from 1/4/2027":"Casefinding 11/30–12/11 · Abstracting 12/14–12/24 · Follow-up 12/28–12/31 · then 2-week rotation from 1/4/2027"]},
+  {id:"monthly",t:"Schedule Monthly Touch Base meetings with New Hire"}]],
+ ["Team & admin",[
+  {id:"ctr",r:1,t:"Request copy of most recent CTR Certificate"},
+  {id:"bio",t:"Email blank copy of Bio Questionnaire"},
+  {id:"photo",r:1,t:"Request photo of employee for Meet Our Team handbook"},
+  {id:"addrperm",r:1,t:"Request permission to publish home mailing address and phone number to Team Contact Sheet"},
+  {id:"contact",t:"Add to Contact List"},
+  {id:"bday",t:"Add birthday and work anniversary to Outlook Calendar"},
+  {id:"annot",t:"Add as an annotator to KACI (ask what initials to use)"},
+  {id:"kaciforms",t:"Update KACI forms (abstracted by & Tracking Initials)"},
+  {id:"dash",t:"Add to Cancer Registry Dashboard"}]]];
+const ONB_ITEMS=ONB.flatMap(([s,its])=>its);
+function ob(p){S.onb[p]=S.onb[p]||{};return S.onb[p]}
+function oi(p,id){const o=ob(p);o[id]=o[id]||{};return o[id]}
+function itemDone(p,it){const v=(ob(p)[it.id])||{};if(v.na)return null;if(it.subs){return it.subs.every(([k])=>v["s_"+k])&&!!v.c}return !!v.c}
+function onbProgress(p){let done=0,tot=0;ONB_ITEMS.forEach(it=>{const d=itemDone(p,it);if(d===null)return;tot++;if(d)done++});return [done,tot]}
+const shortD=s=>s?fmt(s,{month:'numeric',day:'numeric',year:'2-digit'}):'';
+function stamp(p,id,f,label){const v=(ob(p)[id])||{};const on=!!v[f];
+  return `<label class="stp ${on?'on':''}"><input type="checkbox" data-oc="${p}|${id}|${f}" ${on?'checked':''}> ${label}</label>${on?`<input type="date" class="odate" data-od="${p}|${id}|${f}" value="${v[f]}">`:''}`}
+function onbView(){
+  const ppl=`<div class="ppl">${P.map(i=>{const [d,t]=onbProgress(i);return `<button data-op="${i}" class="${i===op?'on':''}">${esc(S.names[i])} <small>${d}/${t}</small></button>`}).join('')}<button data-op="9" class="${op===9?'on':''}">All three</button></div>`;
+  if(op===9)return ppl+onbMatrix();
+  const p=op, o=ob(p), info=o.info||{}, [dn,tt]=onbProgress(p);
+  const head=`<div class="card"><div class="row" style="justify-content:space-between"><h2 style="margin:0">${esc(S.names[p])} – Onboarding Checklist</h2><span class="muted">Start date ${fmt(S.starts[p],{month:'numeric',day:'numeric',year:'numeric'})} · ${dn} of ${tt} complete</span></div>
+  <div class="prog"><i style="width:${tt?dn/tt*100:0}%"></i></div>
+  <div class="row" style="margin-top:12px">${[["job","Job Code"],["user","Username"],["pennid","Penn ID"]].map(([k,l])=>`<label class="muted" style="display:flex;gap:6px;align-items:center">${l} <input type="text" data-oinfo="${p}|${k}" value="${esc(info[k]||'')}" style="width:140px"></label>`).join('')}</div></div>`;
+  const secs=ONB.map(([sec,its])=>{
+    const rows=its.map(it=>{const v=o[it.id]||{};const na=!!v.na;const done=itemDone(p,it);
+      const due=it.due?it.due(p):null;const late=due&&!done&&!na&&today>due;
+      const det=(it.d||[]).map(x=>typeof x==='function'?x(p):x);
+      return `<div class="oi ${done?'done':''} ${na?'na':''}">
+       <div class="ot"><div class="otitle">${esc(it.t)}${it.link?` <a href="${it.link}" target="_blank" rel="noopener">Open form ↗</a>`:''}</div>
+       ${due?`<div class="due ${late?'late':''}">NEEDED BY ${fmt(due,{weekday:'short',month:'numeric',day:'numeric',year:'numeric'})} – ${it.dueTxt}${late?' · OVERDUE':''}</div>`:''}
+       ${det.length?`<ul class="odet">${det.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}
+       ${it.subs?`<div class="osubs">${it.subs.map(([k,l])=>`<label><input type="checkbox" data-osub="${p}|${it.id}|${k}" ${v["s_"+k]?'checked':''} ${na?'disabled':''}> ${esc(l)}</label>`).join('')}</div>`:''}
+       <input type="text" class="onote" data-onote="${p}|${it.id}" value="${esc(v.n||'')}" placeholder="Notes / ticket #"></div>
+       <div class="oc">${na?'<span class="muted">Not applicable</span>':`${it.r?`<div>${stamp(p,it.id,'r','Requested')}</div>`:''}<div>${stamp(p,it.id,'c',it.r?'Completed / granted':'Completed')}</div>`}
+       <label class="nab"><input type="checkbox" data-ona="${p}|${it.id}" ${na?'checked':''}> N/A</label></div></div>`}).join('');
+    const sd=its.filter(it=>itemDone(p,it)===true).length, st=its.filter(it=>itemDone(p,it)!==null).length;
+    return `<div class="card osec"><div class="row" style="justify-content:space-between"><h2 style="margin:0">${sec}</h2><span class="muted">${sd}/${st}</span></div>${rows}</div>`}).join('');
+  return ppl+head+`<p class="muted" style="margin:10px 0">Checking a box stamps today’s date – change the date if needed. Use N/A for items that don’t apply to this hire.</p>`+secs;
+}
+function onbMatrix(){
+  const cell=(p,it)=>{const v=(ob(p)[it.id])||{};if(v.na)return `<td class="mx na">N/A</td>`;if(itemDone(p,it))return `<td class="mx ok">✓ <small>${shortD(v.c)}</small></td>`;
+    if(v.r)return `<td class="mx rq">Requested <small>${shortD(v.r)}</small></td>`;const due=it.due?it.due(p):null;return `<td class="mx ${due&&today>due?'late':''}">${due?'due '+shortD(due):''}</td>`};
+  return `<div class="card" style="padding:0;overflow:auto"><table class="mxt"><thead><tr><th>Task</th>${P.map(p=>`<th>${esc(S.names[p])}</th>`).join('')}</tr></thead><tbody>
+  ${ONB.map(([sec,its])=>`<tr class="sech"><td colspan="4">${sec}</td></tr>`+its.map(it=>`<tr><td>${esc(it.t)}</td>${P.map(p=>cell(p,it)).join('')}</tr>`).join('')).join('')}</tbody></table></div>`;
+}
 let sp=0;
 function successView(){
   const p=sp, cd=curDay(p);
@@ -439,17 +544,18 @@ function successView(){
 function render(){
   if(!unlocked){document.getElementById('app').innerHTML=lockView();setTimeout(()=>{const i=document.getElementById('pin1');if(i)i.focus()},0);return}
   saveView();
-  const body=tab==="calendar"?calendarView():tab==="weekly"?weeklyView():tab==="success"?successView():tab==="log"?logView():tab==="plan"?planView():setupView();
+  const body=tab==="calendar"?calendarView():tab==="weekly"?weeklyView():tab==="success"?successView():tab==="log"?logView():tab==="onboard"?onbView():tab==="plan"?planView():setupView();
   document.getElementById('app').innerHTML=header()+`<main>${body}</main>`+modalView();
 }
 document.addEventListener('click',e=>{
-  const t=e.target.closest('[data-tab],[data-m],[data-sp],[data-lp],[data-lm],#copylog,[data-day],#closem,#modalbg,#lockbtn,#chgpin,#addhol,#addsite,[data-hx],[data-sx],#copytsv');
+  const t=e.target.closest('[data-tab],[data-m],[data-sp],[data-lp],[data-lm],#copylog,[data-day],#closem,#modalbg,#lockbtn,#chgpin,[data-op],#addhol,#addsite,[data-hx],[data-sx],#copytsv');
   if(!t)return;
   if(t.dataset.tab){tab=t.dataset.tab;render()}
   else if(t.dataset.m){mi=+t.dataset.m;render()}
   else if(t.dataset.sp!==undefined){sp=+t.dataset.sp;render()}
   else if(t.dataset.lp!==undefined){lp=+t.dataset.lp;lm=null;render()}
   else if(t.dataset.lm!==undefined){lm=+t.dataset.lm;render()}
+  else if(t.dataset.op!==undefined){op=+t.dataset.op;render()}
   else if(t.id==="lockbtn"){forgetUnlock();unlocked=false;render()}
   else if(t.id==="chgpin"){const a=document.getElementById('np1').value,b=document.getElementById('np2').value,n=document.getElementById('pinnote');
     if(a.length<4){n.textContent='Use at least 4 digits.';return}if(a!==b){n.textContent="PINs don't match.";return}
@@ -474,6 +580,12 @@ document.addEventListener('change',e=>{
   const t=e.target, ds=t.dataset;
   if(ds.wa){const [p,w]=ds.wa.split('|');setIn(S.weekAct,p,w,t.value);changed()}
   else if(ds.ws){const [p,w]=ds.ws.split('|');setIn(S.sites,p,w,t.value);changed()}
+  else if(ds.oc){const [p,id,f]=ds.oc.split('|');const v=oi(p,id);if(t.checked)v[f]=today;else delete v[f];changed()}
+  else if(ds.od){const [p,id,f]=ds.od.split('|');if(t.value){oi(p,id)[f]=t.value;changed()}}
+  else if(ds.osub){const [p,id,k]=ds.osub.split('|');const v=oi(p,id);if(t.checked)v["s_"+k]=1;else delete v["s_"+k];changed()}
+  else if(ds.ona){const [p,id]=ds.ona.split('|');const v=oi(p,id);if(t.checked)v.na=1;else delete v.na;changed()}
+  else if(ds.onote){const [p,id]=ds.onote.split('|');const v=oi(p,id);const x=t.value.trim();if(x)v.n=x;else delete v.n;changed(true)}
+  else if(ds.oinfo){const [p,k]=ds.oinfo.split('|');const o=ob(p);o.info=o.info||{};o.info[k]=t.value.trim();changed(true)}
   else if(ds.lg){const [p,d,f]=ds.lg.split('|');S.log[p]=S.log[p]||{};S.log[p][d]=S.log[p][d]||{};const v=t.value.trim();if(v==="")delete S.log[p][d][f];else S.log[p][d][f]=v;
     const e=entry(p,d),c=pnum(e.c),mi=pnum(e.m);const mc=document.getElementById('mpc-'+p+'-'+d);if(mc)mc.textContent=(c&&mi!==null)?r1(mi/c):'';const pc=document.getElementById('pa-'+p+'-'+d);if(pc){const o=pnum(e.ok),q=pnum(e.q);pc.textContent=(q&&o!==null)?r1(o/q*100)+'%':'';pc.classList.toggle('bad',!!(q&&o>q))}
     const ls=document.getElementById('logsum');if(ls)ls.innerHTML=sumCards(+p,lm);const lo=document.getElementById('logov');if(lo)lo.innerHTML=overview(+p);changed(true)}
@@ -490,7 +602,7 @@ document.addEventListener('change',e=>{
 });
 document.addEventListener('keydown',e=>{if(e.key==="Escape"&&modal){modal=null;render()}});
 document.addEventListener('submit',e=>{if(e.target.id==='pinform'){e.preventDefault();pinSubmit()}});
-for(const s of stores().slice(0,1)){try{const v=JSON.parse(s.getItem(VKEY)||'null');if(v){tab=v.tab||tab;mi=v.mi??mi;sp=v.sp??sp;lp=v.lp??lp;lm=v.lm??lm}}catch(e){}}
+for(const s of stores().slice(0,1)){try{const v=JSON.parse(s.getItem(VKEY)||'null');if(v){tab=v.tab||tab;mi=v.mi??mi;sp=v.sp??sp;lp=v.lp??lp;lm=v.lm??lm;op=v.op??op}}catch(e){}}
 render();
 })();
 </script>
